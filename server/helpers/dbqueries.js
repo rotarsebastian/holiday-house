@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const User = require(__dirname + '/../models/User');
 
 const makeRequest = async(form, userID, addressID) => {
     try {

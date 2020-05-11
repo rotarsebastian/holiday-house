@@ -1,9 +1,9 @@
 const { Model } = require('objection');
 const Property = require(__dirname + '/./Property.js');
 
-class Address extends Model {
+class PropertyFacilities extends Model {
     static get tableName() {
-        return 'addresses';
+        return 'users';
     }
 
     static get relationMappings() {
@@ -12,13 +12,12 @@ class Address extends Model {
                 relation: Model.BelongsToOneRelation,
                 modelClass: Property,
                 join: {
-                    from: 'addresses.property_id',
+                    from: 'facilities.property_id',
                     to: 'properties.id'
                 }
             }
         }
     };
-
 }
 
-module.exports = Address;
+module.exports = PropertyFacilities;

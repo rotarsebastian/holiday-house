@@ -88,7 +88,7 @@ router.get('/reset', async(req, res) => {
         else return res.redirect(`${clientEndpoint}/changepass?key=${key}`);
 });
 
-// RESET USER PASSWORD
+// ====================== RESET USER PASSWORD ======================
 router.post('/resetpass', async(req, res) => {
     if(!Array.isArray(req.body)) return { status: 0, message: 'Invalid format!', code: 404 };
 
@@ -136,7 +136,7 @@ router.post('/resetpass', async(req, res) => {
     }
 });
 
-// RECOVER CREDENTIALS OR RESEND ACTIVATION EMAIL
+// ====================== RECOVER CREDENTIALS OR RESEND ACTIVATION EMAIL ======================
 router.post('/recover', async(req, res) => {
     if(!Array.isArray(req.body)) return { status: 0, message: 'Invalid format!', code: 404 };
 
@@ -185,7 +185,7 @@ router.post('/recover', async(req, res) => {
     } 
 });
 
-// EDIT USER PROFILE
+// ====================== EDIT USER PROFILE ======================
 router.post('/edit', isAuthenticated, async(req, res) => {
     try {
         if(!Array.isArray(req.body)) return { status: 0, message: 'Invalid format!', code: 404 };
@@ -204,7 +204,7 @@ router.post('/edit', isAuthenticated, async(req, res) => {
 });
 
 
-// LOGIN USER
+// ====================== LOGIN USER ======================
 router.post('/login', async(req, res) => {
     if(!Array.isArray(req.body)) return { status: 0, message: 'Invalid format!', code: 404 };
 
@@ -242,7 +242,7 @@ router.post('/login', async(req, res) => {
     } 
 });
 
-// VERIFY AND ACTIVATE ACCOUNT
+// ====================== VERIFY AND ACTIVATE ACCOUNT ======================
 router.get('/activate-email', async(req, res) => {
     const { key } = req.query;
     const newKey = uuid();
@@ -263,7 +263,7 @@ router.get('/activate-email', async(req, res) => {
     } return res.redirect(`${clientEndpoint}/login?expired=true`);
 });
 
-// REGISTER USER
+// ====================== REGISTER USER ======================
 router.post('/register', async(req, res) => {
     if(!Array.isArray(req.body)) return { status: 0, message: 'Invalid format!', code: 404 };
 

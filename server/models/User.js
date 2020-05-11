@@ -1,5 +1,5 @@
 const { Model } = require('objection');
-const Address = require(__dirname + '/./Address.js');
+const Property = require(__dirname + '/./Property.js');
 
 class User extends Model {
     static get tableName() {
@@ -8,12 +8,12 @@ class User extends Model {
 
     static get relationMappings() {
         return {
-            user_address: {
-                relation: Model.HasOneRelation,
-                modelClass: Address,
+            properties: {
+                relation: Model.HasManyRelation,
+                modelClass: Property,
                 join: {
                     from: 'users.id',
-                    to: 'addresses.user_id'
+                    to: 'properties.user_id'
                 }
             }
         }
