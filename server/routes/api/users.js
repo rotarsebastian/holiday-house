@@ -15,7 +15,7 @@ const emailExistence = require('email-existence');
 const { gmailRequestData } = require(__dirname + '/../../config/gmailConfig');
 
 // ====================== CLIENT ENDPOINT ======================
-const clientEndpoint = 'https://rotarsebastian.github.io';
+const clientEndpoint = 'http://localhost:3000';
 
 // ====================== SETUP MAILER ======================
 const createTransportObject = {
