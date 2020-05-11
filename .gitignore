@@ -1,0 +1,9 @@
+client/node_modules
+client/public
+client/package-lock.json
+
+server/node_modules
+server/package-lock.json
+server/config/dbConfig.js
+server/config/gmailConfig.js
+server/config/otherConfigs.js
