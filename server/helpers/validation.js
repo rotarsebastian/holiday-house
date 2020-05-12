@@ -21,7 +21,7 @@ const validateInput = (type, value) => {
             return /^[0-9]{4}$/.test(value);
         default:
             console.log(`Validation failed! No validation for ${type}!`);
-        break;
+        return false;
     }
 }
 
@@ -38,9 +38,11 @@ const validateFormType = (validFormElements, type) => {
             return JSON.stringify(validFormElements) === JSON.stringify([ 'email' ]);
         case 'resetpass':
             return JSON.stringify(validFormElements) === JSON.stringify([ 'password', 'password' ]);
+        case 'edit':
+            return true;
         default:
             console.log(`Check failed! ${type} elements are not valid!`);
-        break;
+        return false;
     }
 }
 
@@ -82,12 +84,6 @@ const checkFormStructure = (form, options) => {
     if(options && options === 'resetpass') {
         if(form.length !== 3 || rightElemNo !== 2 || !form[2].hasOwnProperty('key')) return { status: 0, message: 'Invalid array elements!', code: 404 };
     } 
-
-    // ====================== ONLY FOR EDIT USER ======================
-    else if(options && options === 'edit') {
-        const rightElemNoEdit = form.filter(e => e.hasOwnProperty('type') && e.hasOwnProperty('val') && (Object.keys(e).length === 2 || Object.keys(e).length === 3)).length;
-        if(form.length !== rightElemNoEdit) return { status: 0, message: 'Invalid array elements!', code: 404 };
-    }
 
     // ====================== CHECKING IF ALL FORM ELEMENTS ARE VALID ======================
     else if(form.length !== rightElemNo) return { status: 0, message: 'Invalid array elements!', code: 404 };

@@ -12,60 +12,66 @@ const nodemailer = require('nodemailer');
 const moment = require('moment');
 const xoauth2 = require('xoauth2');
 const emailExistence = require('email-existence');
-const { gmailRequestData } = require(__dirname + '/../../config/gmailConfig');
+const { gmail } = require(__dirname + '/../../config/gmailConfig');
 const { clientEndpoint } = require(__dirname + '/../../config/otherConfigs');
 
 // ====================== SETUP MAILER ======================
-const createTransportObject = {
+const transportObject = {
     host: 'smtp.gmail.com',
     port: 465,
     secure: true,
     auth: {
         type: 'OAuth2',
-        user: process.env.MAIL_SENDER || gmailRequestData.senderEmail,
-        clientId: process.env.MAIL_CLIENT || gmailRequestData.client_id,
-        clientSecret: process.env.MAIL_SECRET || gmailRequestData.client_secret,
-        refreshToken: process.env.MAIL_REFRESH || gmailRequestData.refresh_token,
+        user: process.env.MAIL_SENDER || gmail.senderEmail,
+        clientId: process.env.MAIL_CLIENT || gmail.client_id,
+        clientSecret: process.env.MAIL_SECRET || gmail.client_secret,
+        refreshToken: process.env.MAIL_REFRESH || gmail.refresh_token,
     }
 }
-let transporter = nodemailer.createTransport(createTransportObject);
+let transporter = nodemailer.createTransport(transportObject);
 
 // ====================== EDIT USER PROFILE ======================
 router.post('/edit', isAuthenticated, async(req, res) => {
     try {
-        if(!Array.isArray(req.body)) return { status: 0, message: 'Invalid format!', code: 404 };
-        const form = [ ...req.body ];
-        const checkResponse = checkFormStructure(form, 'edit');
-        if(checkResponse.status === 0) return res.send(checkResponse);
-        const result = validateForm(form);
-        if(result.status === 0) return res.send({ status: 0, invalids: result.invalidInputs, code: 11 });
-        const { addressid: addressID } = req.query;
-        const userID = req.session.user.id;
-        const updateResult = addressID ? await makeRequest(form, userID, addressID) : await makeRequest(form, userID);
-        res.status(200).send(updateResult);
+        // ====================== HANNDLE INITIAL CHECK ======================
+        const initialCheckRes = handleInitialFormCheck(req.body, 'edit', 3);
+        if(initialCheckRes.status !== 1) return res.json(initialCheckRes);
+
+        const updateResult = await makeRequest([ ...req.body ], req.session.user.id);
+        res.json(updateResult);
     } catch(err) {
-        return res.send({ status: 0, msg: 'Error updating user profile!'});
+        return res.json({ status: 0, msg: 'Error updating user profile!'});
     }
 });
 
 // ====================== LOGOUT ======================
 router.post('/logout', isAuthenticated, (req,res) => {
+
+    // ====================== DESTROY THE USER SESSION ======================
     req.session.destroy(err => {
-        if(err) return res.send({ status: 0, message: 'Error while trying to logout user!', code: 404 });
+        if(err) return res.json({ status: 0, message: 'Error while trying to logout user!', code: 404 });
+
+        // ====================== CLEAR USER COOKIE ======================
         res.clearCookie('user_sid');
-        res.status(200).send({ status: 1, msg: 'User is logged out!'});
+
+        // ====================== SEND RESPONSE TO CLIENT ======================
+        res.status(200).json({ status: 1, msg: 'User is logged out!'});
     });
 });
 
 // ====================== CHECK IF USER HAS A SESSION ======================
 router.post('/checkauth', isAuthenticated, async(req, res) => {
-    const { withOptions } = req.body;
     try {
-        const [fullUser] = await User.query().where({ id: req.session.user.id }).limit(1);
-        if(withOptions && withOptions === 'profile') return res.status(200).send({ status: 1, msg: 'User authorized!', data: await getProFileData(fullUser.id) });
-            else return res.status(200).send({ status: 1, msg: 'User authorized!', username: fullUser.username, userID: fullUser.id });
+        // ====================== FIND LOGGED USER ======================
+        const loggedUser = await User.query().select('email', 'first_name', 'last_name').findById(req.session.user.id);
+        if(!loggedUser) return res.json({ status: 0, msg: 'User not authorized!'});
+
+        // ====================== SEND BACK LOGGED USER ======================
+        res.status(200).json({ status: 1, msg: 'User authorized!', user: loggedUser });
+    
+    // ====================== HANDLE ERROR ======================
     } catch(err) {
-        return res.send({ status: 0, msg: 'User not authorized!'});
+        return res.json({ status: 0, msg: 'User not authorized!'});
     }
 });
 
@@ -237,7 +243,7 @@ router.post('/login', async(req, res) => {
 
             // ====================== ALL OK - CREATING A SESSION FOR USER ======================
             else {
-                req.session.user = { email: user.email, id: user.id };
+                req.session.user = { id: user.id };
                 return res.status(200).json({ status: 1, message: 'User logged in', email: user.email, userID: user.id, code: 200 });
             }
         });

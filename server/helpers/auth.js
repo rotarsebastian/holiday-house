@@ -16,7 +16,7 @@ const handleInitialFormCheck = (body, formType, formLength, options) => {
 
     // ====================== CHECK IF IS THE RIGHT LENGTH ======================
     const form = [ ...body ];
-    if(form.length !== formLength) return { status: 0, message: 'Invalid format - wrong array length!', code: 404 };
+    if(form.length !== formLength && formType !== 'edit') return { status: 0, message: 'Invalid format - wrong array length!', code: 404 };
 
     // ====================== CHECK IF OBJECTS INSIDE THE ARRAY ARE THE RIGHT FORMAT ======================
     const checkResponse = options ? checkFormStructure(form, options) : checkFormStructure(form);

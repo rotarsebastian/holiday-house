@@ -1,8 +1,8 @@
-const { gmailRequestData } = require(__dirname + '/../config/gmailConfig');
+const { gmail } = require(__dirname + '/../config/gmailConfig');
 const { usersEndpoint } = require(__dirname + '/../config/otherConfigs');
 
 const rawEmail = {
-    from: `Holiday House <${process.env.MAIL_SENDER || gmailRequestData.senderEmail}>`,
+    from: `Holiday House <${process.env.MAIL_SENDER || gmail.senderEmail}>`,
     to: 'receiver.email@gmail.com',
     subject: '',
     text: ''
