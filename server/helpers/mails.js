@@ -10,7 +10,7 @@ const rawEmail = {
 
 const constructActivationEmail = user => {
     const { email, activate_or_reset_pass_key, first_name } = user;
-    const path = `${process.env.SERVER_ENDPOINT || usersEndpoint}/activate-email?key=${activate_or_reset_pass_key}`;
+    const path = `${process.env.SERVER_ENDPOINT || usersEndpoint}/activate?key=${activate_or_reset_pass_key}`;
     let newEmail = { ...rawEmail };
     newEmail.to = email;
     newEmail.subject = 'Welcome to Holiday House! - Activate your account';

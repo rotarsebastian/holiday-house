@@ -34,6 +34,10 @@ const validateFormType = (validFormElements, type) => {
             return JSON.stringify(validFormElements) === JSON.stringify([ 'first_name', 'last_name', 'birthdate', 'email', 'password', 'password' ]);
         case 'login':
             return JSON.stringify(validFormElements) === JSON.stringify([ 'email', 'password' ]);
+        case 'recover':
+            return JSON.stringify(validFormElements) === JSON.stringify([ 'email' ]);
+        case 'resetpass':
+            return JSON.stringify(validFormElements) === JSON.stringify([ 'password', 'password' ]);
         default:
             console.log(`Check failed! ${type} elements are not valid!`);
         break;
@@ -65,7 +69,7 @@ const validateForm = (form, formType) => {
 }
 
 // ====================== CHECKS IF ALL THE ELEMENTS IN THE FORM HAVE THE RIGHT FORMAT ======================
-const checkFormStructure = (form, option) => {
+const checkFormStructure = (form, options) => {
 
     // ====================== CHECK ARRAY VALIDITY ======================
     if(form === undefined) return { status: 0, message: 'Invalid request!', code: 404 };
@@ -75,12 +79,12 @@ const checkFormStructure = (form, option) => {
     const rightElemNo = form.filter(e => e.hasOwnProperty('type') && e.hasOwnProperty('val') && Object.keys(e).length === 2).length;
 
     // ====================== ONLY FOR RESET PASS ======================
-    if(option && option === 'resetpass') {
+    if(options && options === 'resetpass') {
         if(form.length !== 3 || rightElemNo !== 2 || !form[2].hasOwnProperty('key')) return { status: 0, message: 'Invalid array elements!', code: 404 };
     } 
 
     // ====================== ONLY FOR EDIT USER ======================
-    else if(option && option === 'edit') {
+    else if(options && options === 'edit') {
         const rightElemNoEdit = form.filter(e => e.hasOwnProperty('type') && e.hasOwnProperty('val') && (Object.keys(e).length === 2 || Object.keys(e).length === 3)).length;
         if(form.length !== rightElemNoEdit) return { status: 0, message: 'Invalid array elements!', code: 404 };
     }

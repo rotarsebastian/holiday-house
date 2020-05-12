@@ -3,13 +3,13 @@ const { validateForm, checkFormStructure } = require(__dirname + '/validation');
 const isAuthenticated = (req, res, next) => {
     try {
       if (req.session.user) next();
-        else return res.send({ status: 0, msg: 'User not authorized!'});
+        else return res.json({ status: 0, msg: 'User not authorized!'});
     } catch (err) {
-        return res.send({ status: 0, msg: 'User not authorized!'});
+        return res.json({ status: 0, msg: 'User not authorized!'});
     }
 }
 
-const handleInitialFormCheck = (body, formType, formLength) => {
+const handleInitialFormCheck = (body, formType, formLength, options) => {
 
     // ====================== CHECK IF IS ARRAY ======================
     if(!Array.isArray(body)) return { status: 0, message: 'Invalid format - not an array!', code: 404 };
@@ -19,11 +19,13 @@ const handleInitialFormCheck = (body, formType, formLength) => {
     if(form.length !== formLength) return { status: 0, message: 'Invalid format - wrong array length!', code: 404 };
 
     // ====================== CHECK IF OBJECTS INSIDE THE ARRAY ARE THE RIGHT FORMAT ======================
-    const checkResponse = checkFormStructure(form);
+    const checkResponse = options ? checkFormStructure(form, options) : checkFormStructure(form);
     if(checkResponse.status === 0) return checkResponse;
 
     // ====================== VALIDATE FORM ELEMENTS AND TYPE ======================
-    const result = validateForm(form, formType);
+    let result;
+    if(options && options === 'resetpass') result = validateForm([form[0], form[1]], formType);
+        else result = validateForm(form, formType);
     if(result.status === 0) return { status: 0, invalids: result.invalidInputs, msg: result.msg, code: 404 };
 
     // ====================== EVERYTHING OK ======================

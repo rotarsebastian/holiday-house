@@ -7,11 +7,8 @@ const Knex = require('knex');
 const knexFile = require(__dirname + '/knexfile');
 const session = require('express-session');
 const KnexStore = require('connect-session-knex')(session);
-const { sessionKey, serverPORT } = require(__dirname + '/config/otherConfigs');
+const { sessionKey, serverPORT, clientEndpoint } = require(__dirname + '/config/otherConfigs');
 const routes = require(__dirname + '/routes/routes'); 
-
-// ====================== CLIENT ENDPOINT ======================
-const clientEndpoint = 'http://localhost:3000';
 
 // ====================== MIDDLEWARE ======================
 app.use(express.urlencoded({ extended: false })); // parse application/x-www-form-urlencoded
@@ -45,7 +42,7 @@ app.use(
       cookie: {
         expires: 120000 * 600000
       },
-      store: store
+      store
     })
 );
 
