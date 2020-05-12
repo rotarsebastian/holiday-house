@@ -37,6 +37,7 @@ router.post('/edit', isAuthenticated, async(req, res) => {
         const initialCheckRes = handleInitialFormCheck(req.body, 'edit', 3);
         if(initialCheckRes.status !== 1) return res.json(initialCheckRes);
 
+        // ====================== MAKE REQUEST TO EDIT USER PROFILE ======================
         const updateResult = await makeRequest([ ...req.body ], req.session.user.id);
         res.json(updateResult);
     } catch(err) {
