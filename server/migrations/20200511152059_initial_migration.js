@@ -3,11 +3,11 @@ exports.up = function(knex) {
     return knex.schema
         .createTable('users', table => {
             table.increments('id')
-            table.string('email').unique().notNullable()
             table.string('first_name').notNullable()
             table.string('last_name').notNullable()
+            table.string('birthdate').notNullable()
+            table.string('email').unique().notNullable()
             table.string('password').notNullable()
-            table.string('birthday').notNullable()
             table.datetime('reset_pass_time')
             table.string('activate_or_reset_pass_key').notNullable()
             table.boolean('verified').notNullable().defaultTo(false)

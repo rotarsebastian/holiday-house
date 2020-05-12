@@ -4,20 +4,20 @@ exports.seed = knex => {
     { 
       first_name: 'Antonel', 
       last_name: 'Costescu', 
-      email: 'rotar.seby1@gmail.com', 
+      email: 'antonel.costescu@gmail.com', 
       password: '$2b$10$rmiFymi5sFuvhKHGrWXJNuYv/udozDLiz6AV08Ubh/7eYg7A4dp2a', 
       activate_or_reset_pass_key: '75442486-0878-440c-9db1-a7006c25a39f', 
       verified: 1,
-      birthday: '16/01/1996'
+      birthdate: '16/01/1996'
     },
     { 
       first_name: 'Johnny', 
       last_name: 'Bravo', 
       password: '$2b$10$rmiFymi5sFuvhKHGrWXJNuYv/udozDLiz6AV08Ubh/7eYg7A4dp2a', 
-      email: 'kea.sebastian@gmail.com',
+      email: 'joo.bravo@gmail.com',
       activate_or_reset_pass_key: '75442486-0878-441c-9db1-a7006c25a39f', 
       verified: 1,
-      birthday: '25/06/1990'
+      birthdate: '25/06/1990'
     },
   ];
 
