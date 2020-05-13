@@ -24,6 +24,7 @@ exports.seed = knex => {
   const properties = [
     { 
       title: 'Beautiful 3 rooms studio', 
+      description: 'description for - Beautiful 3 rooms studio',
       available_start: '2020-04-11 23:16:44', 
       available_end: '2021-04-11 23:16:44', 
       price: 399, 
@@ -32,10 +33,28 @@ exports.seed = knex => {
       rooms: 3,
       beds: 3,
       bathrooms: 2,
+      address: '{"address":"Mjolnerparken 108, 1. 3","city":"Copenhagen","country":"Denmark","postal_code":"2300"}',
+      photos: '["https://path-img-1", "https://path-img-2", "https://path-img-3"]',
+      user_id: 1
+    },
+    { 
+      title: 'Room in 2 room apartment', 
+      description: 'description for - Room in 2 room apartment',
+      available_start: '2020-04-11 23:16:44', 
+      available_end: '2021-04-11 23:16:44', 
+      price: 799, 
+      capacity: 8, 
+      type: 'Entire place', 
+      rooms: 6,
+      beds: 6,
+      bathrooms: 3,
+      address: '{"address":"Amagerbrogade 172, 1. 3","city":"Copenhagen","country":"Denmark","postal_code":"2300"}',
+      photos: '["https://path-img-1", "https://path-img-2", "https://path-img-3"]',
       user_id: 1
     },
     { 
       title: 'Penthouse in the heart of Copenhagen', 
+      description: 'description for - Penthouse in the heart of Copenhagen',
       available_start: '2020-07-11 23:16:44', 
       available_end: '2021-07-11 23:16:44', 
       capacity: 2, 
@@ -44,24 +63,9 @@ exports.seed = knex => {
       rooms: 1,
       beds: 2,
       bathrooms: 1,
+      address: '{"address":"15 Avenue Road","city":"New York","country":"USA","postal_code":"2200"}',
+      photos: '["https://path-img-1", "https://path-img-2", "https://path-img-3"]',
       user_id: 2
-    },
-  ];
-
-  const addresses = [
-    { 
-      address: 'Mjolnerparken 108, 1. 3', 
-      city: 'Copenhagen', 
-      country: 'Denmark', 
-      postal_code: '2300',
-      property_id: 1
-    },
-    { 
-      address: '15 Avenue Road', 
-      city: 'New York', 
-      country: 'USA', 
-      postal_code: '2200',
-      property_id: 2
     },
   ];
 
@@ -76,13 +80,31 @@ exports.seed = knex => {
     },
   ];
 
+  // const addresses = [
+  //   { 
+  //     address: 'Mjolnerparken 108, 1. 3', 
+  //     city: 'Copenhagen', 
+  //     country: 'Denmark', 
+  //     postal_code: '2300',
+  //     property_id: 1
+  //   },
+  //   { 
+  //     address: '15 Avenue Road', 
+  //     city: 'New York', 
+  //     country: 'USA', 
+  //     postal_code: '2200',
+  //     property_id: 2
+  //   },
+  // ];
+
+
   // ====================== DELETE CURRENT ENTRIES AND ADD NEW DATA ======================
   return knex('facilities').del()
-    .then(() => knex('addresses').del())
+    // .then(() => knex('addresses').del())
     .then(() => knex('properties').del())
     .then(() => knex('users').del())
     .then(() => knex('users').insert(users))
     .then(res => knex('properties').insert(properties))
-    .then(res => knex('addresses').insert(addresses))
+    // .then(res => knex('addresses').insert(addresses))
     .then(res => knex('facilities').insert(facilities))
 };

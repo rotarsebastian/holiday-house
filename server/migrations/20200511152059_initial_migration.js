@@ -2,7 +2,7 @@
 exports.up = function(knex) {
     return knex.schema
         .createTable('users', table => {
-            table.increments('id')
+            table.increments('id').primary()
             table.string('first_name').notNullable()
             table.string('last_name').notNullable()
             table.string('birthdate').notNullable()
@@ -15,8 +15,9 @@ exports.up = function(knex) {
         })
         
         .createTable('properties', table => {
-            table.increments('id')
+            table.increments('id').primary()
             table.string('title').notNullable()
+            table.string('description').notNullable()
             table.datetime('available_start').notNullable()
             table.datetime('available_end').notNullable()
             table.integer('price').notNullable()
@@ -25,31 +26,34 @@ exports.up = function(knex) {
             table.integer('rooms').notNullable()
             table.integer('beds').notNullable()
             table.integer('bathrooms').notNullable()
+            table.json('address').notNullable()
+            table.json('photos').notNullable()
             table.integer('user_id').unsigned().notNullable()
             table.foreign('user_id').references('id').inTable('users').onDelete('CASCADE').onUpdate('CASCADE')
+            table.timestamp('created_at').defaultTo(knex.fn.now()) 
         })
 
         .createTable('facilities', table => {
-            table.increments('id')
+            table.increments('id').primary()
             table.string('facilities_list').notNullable()
             table.integer('property_id').unsigned().notNullable()
             table.foreign('property_id').references('id').inTable('properties').onDelete('CASCADE').onUpdate('CASCADE')
         })
 
-        .createTable('addresses', table => {
-            table.increments('id')
-            table.string('address').notNullable()
-            table.string('city').notNullable()
-            table.string('country').notNullable()
-            table.string('postal_code').notNullable()
-            table.integer('property_id').unsigned().notNullable()
-            table.foreign('property_id').references('id').inTable('properties').onDelete('CASCADE').onUpdate('CASCADE')
-        })
+        // .createTable('addresses', table => {
+        //     table.increments('id').primary()
+        //     table.string('address').notNullable()
+        //     table.string('city').notNullable()
+        //     table.string('country').notNullable()
+        //     table.string('postal_code').notNullable()
+        //     table.integer('property_id').unsigned().notNullable()
+        //     table.foreign('property_id').references('id').inTable('properties').onDelete('CASCADE').onUpdate('CASCADE')
+        // })
 };
 
 exports.down = function(knex) {
     return knex.schema
-        .dropTableIfExists('addresses')
+        // .dropTableIfExists('addresses')
         .dropTableIfExists('facilities')
         .dropTableIfExists('properties')
         .dropTableIfExists('users');

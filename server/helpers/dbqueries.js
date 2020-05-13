@@ -1,5 +1,6 @@
 const User = require(__dirname + '/../models/User');
 
+// ====================== EDIT USER ======================
 const makeRequest = async(form, id) => {
     try {
         // ====================== CREATE NEW UPDATE OBJ ======================
@@ -32,6 +33,7 @@ const makeRequest = async(form, id) => {
     }
 }
 
+// ====================== GET USER PROPERTIES ======================
 const getProFileData = async(userID) => {
     try {
         const [ { password, activate_or_reset_pass_key, created_at, email, ...rest } ] = await User.query().where({ id: userID }).withGraphFetched('user_address');
