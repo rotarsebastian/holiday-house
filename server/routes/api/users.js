@@ -275,11 +275,11 @@ router.post('/register', (req, res) => {
             if(existingUser && existingUser.email.toLowerCase() === email.toLowerCase()) return res.json({ status: 0, message: 'Email is already taken!', code: 2 }); 
 
             // ====================== CREATE A NEW USER ======================
-            emailExistence.check(email, async(isExistingErr, isExistent) => {
+            // emailExistence.check(email, async(isExistingErr, isExistent) => {
 
                 // ====================== CHECK IF EMAIL EXISTS ======================
-                if(isExistingErr) return res.json({ status: 0, message: 'Error trying to check if email exists', code: 404 });
-                if(!isExistent) return res.json({ status: 0, message: 'Your email address is not valid!', code: 3 });
+                // if(isExistingErr) return res.json({ status: 0, message: 'Error trying to check if email exists', code: 404 });
+                // if(!isExistent) return res.json({ status: 0, message: 'Your email address is not valid!', code: 3 });
 
                 // ====================== INSERT THE NEW USER ======================
                 const newUser = { 
@@ -299,7 +299,7 @@ router.post('/register', (req, res) => {
                     if(err) return res.json({ status: 0, message: 'Error while trying to send email!', code: 404 });
                         else return res.status(200).json({ status: 1, message: `SUCCESS: User ${createdUser.email} is now created!`, code: 200 });
                 });
-            });
+            // });
         // ====================== HANDLE ERROR ======================
         } catch(err) {
             return res.json({ status: 0, message: 'Error while trying to register user!', code: 404 });
