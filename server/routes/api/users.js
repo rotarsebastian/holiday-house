@@ -1,7 +1,6 @@
 // ====================== IMPORTS ======================
 const router = require('express').Router();
 const User = require(__dirname + '/../../models/User');
-const { validateForm, checkFormStructure } = require(__dirname + '/../../helpers/validation');
 const { isAuthenticated, handleInitialFormCheck } = require(__dirname + '/../../helpers/auth');
 const { constructActivationEmail, constructForgotCredentialsEmail } = require(__dirname + '/../../helpers/mails');
 const { makeRequest, getProFileData } = require(__dirname + '/../../helpers/dbqueries');
