@@ -30,6 +30,7 @@ const validateFormType = (validFormElements, type) => {
     
     // ====================== CHECK FOR THE SAME FORM ELEMENTS TYPES AND ORDER ======================
     switch (type) {
+        // ====================== USER VALIDATION ======================
         case 'register':
             return JSON.stringify(validFormElements) === JSON.stringify([ 'first_name', 'last_name', 'birthdate', 'email', 'password', 'password' ]);
         case 'login':
@@ -40,6 +41,7 @@ const validateFormType = (validFormElements, type) => {
             return JSON.stringify(validFormElements) === JSON.stringify([ 'password', 'password' ]);
         case 'edit':
             return true;
+        // ====================== PROPERTY VALIDATION ======================
         default:
             console.log(`Check failed! ${type} elements are not valid!`);
         return false;
