@@ -1,5 +1,4 @@
 client/node_modules
-client/public
 client/package-lock.json
 
 server/node_modules
