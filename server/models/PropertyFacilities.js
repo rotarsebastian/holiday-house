@@ -3,7 +3,7 @@ const Property = require(__dirname + '/./Property.js');
 
 class PropertyFacilities extends Model {
     static get tableName() {
-        return 'users';
+        return 'facilities';
     }
 
     static get relationMappings() {

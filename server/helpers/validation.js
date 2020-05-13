@@ -2,7 +2,7 @@
 const validateInput = (type, value) => {
     switch (type) {
         case 'password':
-            return value.length >= 6 && value.length <= 50;
+            return value.length >= 6 && value.length <= 80;
         case 'email':
             return /@.+\.[A-Za-z]{2,}$/.test(value);
         case 'first_name':
