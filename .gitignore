@@ -6,3 +6,4 @@ server/package-lock.json
 server/config/dbConfig.js
 server/config/gmailConfig.js
 server/config/otherConfigs.js
+server/queries.js

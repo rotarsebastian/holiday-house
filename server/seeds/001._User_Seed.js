@@ -23,10 +23,40 @@ exports.seed = knex => {
 
   const properties = [
     { 
+      title: 'Beautiful 4 rooms studio', 
+      description: 'description for - Beautiful 4 rooms studio',
+      available_start: '2019-04-11 23:16:44', 
+      available_end: '2022-04-11 23:16:44', 
+      price: 999, 
+      capacity: 4, 
+      type: 'Entire place', 
+      rooms: 3,
+      beds: 3,
+      bathrooms: 2,
+      address: '{"address":"Mjolnerparken 108, 1. 3","city":"Copenhagen","country":"Denmark","postal_code":"2300"}',
+      photos: '["https://path-img-1", "https://path-img-2", "https://path-img-3"]',
+      user_id: 1
+    },
+    { 
+      title: 'Beautiful 5 rooms studio', 
+      description: 'description for - Beautiful 5 rooms studio',
+      available_start: '2019-06-11 23:16:44', 
+      available_end: '2019-07-11 23:16:44', 
+      price: 399, 
+      capacity: 4, 
+      type: 'Entire place', 
+      rooms: 3,
+      beds: 3,
+      bathrooms: 2,
+      address: '{"address":"Mjolnerparken 108, 1. 3","city":"Copenhagen","country":"Denmark","postal_code":"2300"}',
+      photos: '["https://path-img-1", "https://path-img-2", "https://path-img-3"]',
+      user_id: 1
+    },
+    { 
       title: 'Beautiful 3 rooms studio', 
       description: 'description for - Beautiful 3 rooms studio',
-      available_start: '2020-04-11 23:16:44', 
-      available_end: '2021-04-11 23:16:44', 
+      available_start: '2020-06-11 23:16:44', 
+      available_end: '2020-07-11 23:16:44', 
       price: 399, 
       capacity: 4, 
       type: 'Entire place', 

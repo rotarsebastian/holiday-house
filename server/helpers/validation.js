@@ -1,6 +1,16 @@
+const isJSON = str => {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
 // ====================== VALIDATION FOR EACH INPUT ======================
 const validateInput = (type, value) => {
     switch (type) {
+        // ====================== USER VALIDATION ======================
         case 'password':
             return value.length >= 6 && value.length <= 80;
         case 'email':
@@ -10,15 +20,33 @@ const validateInput = (type, value) => {
         case 'last_name':
             return value.length >= 2 && value.length <= 50 && /^[\p{L} .'-]+$/u.test(value);
         case 'birthdate':
-            return /(^(((0[1-9]|1[0-9]|2[0-8])[\/](0[1-9]|1[012]))|((29|30|31)[\/](0[13578]|1[02]))|((29|30)[\/](0[4,6,9]|11)))[\/](19|[2-9][0-9])\d\d$)|(^29[\/]02[\/](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)/.test(value)
-        case 'country':
-            return value.length >= 4 && value.length <= 56 && /^[a-zA-Z\s]*$/.test(value);
-        case 'city':
-            return value.length >= 2 && value.length <= 50 && /^[a-zA-Z\s]*$/.test(value);
+            return /(^(((0[1-9]|1[0-9]|2[0-8])[\/](0[1-9]|1[012]))|((29|30|31)[\/](0[13578]|1[02]))|((29|30)[\/](0[4,6,9]|11)))[\/](19|[2-9][0-9])\d\d$)|(^29[\/]02[\/](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)/.test(value);
+
+        // ====================== PROPERTY VALIDATION ======================
+        case 'title':
+            return value.length >= 4 && value.length <= 60;
+        case 'description':
+            return value.length >= 4 && value.length <= 550;
+        case 'type':
+            return value.length >= 4 && value.length <= 60;
+        case 'available_start':
+            return value.length === 19;
+        case 'available_end':
+            return value.length === 19;
+        case 'price':
+            return Number.isInteger(value);
+        case 'capacity':
+            return Number.isInteger(value);
+        case 'rooms':
+            return Number.isInteger(value);
+        case 'beds':
+            return Number.isInteger(value);
+        case 'bathrooms':
+            return Number.isInteger(value);
         case 'address':
-            return value.length >= 6 && value.length <= 100;
-        case 'postal_code':
-            return /^[0-9]{4}$/.test(value);
+            return typeof value === 'string' && isJSON(value)
+        case 'photos':
+            return typeof value === 'string' && isJSON(value)
         default:
             console.log(`Validation failed! No validation for ${type}!`);
         return false;
@@ -41,7 +69,10 @@ const validateFormType = (validFormElements, type) => {
             return JSON.stringify(validFormElements) === JSON.stringify([ 'password', 'password' ]);
         case 'edit':
             return true;
+  
         // ====================== PROPERTY VALIDATION ======================
+        case 'addProperty':
+            return JSON.stringify(validFormElements) === JSON.stringify([ 'title', 'description', 'available_start', 'available_end', 'price', 'capacity', 'type', 'rooms', 'beds', 'bathrooms', 'address', 'photos' ]);
         default:
             console.log(`Check failed! ${type} elements are not valid!`);
         return false;
