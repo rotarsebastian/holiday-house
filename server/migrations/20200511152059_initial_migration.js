@@ -5,7 +5,7 @@ exports.up = function(knex) {
             table.increments('id').primary()
             table.string('first_name').notNullable()
             table.string('last_name').notNullable()
-            table.string('birthdate').notNullable()
+            table.date('birthdate').notNullable()
             table.string('email').unique().notNullable()
             table.string('password').notNullable()
             table.datetime('reset_pass_time')

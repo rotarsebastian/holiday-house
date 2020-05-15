@@ -8,7 +8,7 @@ exports.seed = knex => {
       password: '$2b$10$rmiFymi5sFuvhKHGrWXJNuYv/udozDLiz6AV08Ubh/7eYg7A4dp2a', 
       activate_or_reset_pass_key: '75442486-0878-440c-9db1-a7006c25a39f', 
       verified: 1,
-      birthdate: '16/01/1996'
+      birthdate: '1996-01-16'
     },
     { 
       first_name: 'Johnny', 
@@ -17,7 +17,7 @@ exports.seed = knex => {
       email: 'joo.bravo@gmail.com',
       activate_or_reset_pass_key: '75442486-0878-441c-9db1-a7006c25a39f', 
       verified: 1,
-      birthdate: '25/06/1990'
+      birthdate: '1990-06-25'
     },
   ];
 
@@ -34,7 +34,7 @@ exports.seed = knex => {
       beds: 3,
       bathrooms: 2,
       address: '{"property_address":"Mjolnerparken 108, 1. 3","city":"Copenhagen","country":"Denmark","postal_code":"2300"}',
-      photos: '["https://path-img-1", "https://path-img-2", "https://path-img-3"]',
+      photos: '["https://holidayhouse1.s3.amazonaws.com/1589535202293", "https://holidayhouse1.s3.amazonaws.com/1589535202296", "https://holidayhouse1.s3.amazonaws.com/1589535202323"]',
       user_id: 1
     },
     { 
@@ -49,7 +49,7 @@ exports.seed = knex => {
       beds: 3,
       bathrooms: 2,
       address: '{"property_address":"Mjolnerparken 108, 1. 3","city":"Copenhagen","country":"Denmark","postal_code":"2300"}',
-      photos: '["https://path-img-1", "https://path-img-2", "https://path-img-3"]',
+      photos: '["https://holidayhouse1.s3.amazonaws.com/1589535202293", "https://holidayhouse1.s3.amazonaws.com/1589535202296", "https://holidayhouse1.s3.amazonaws.com/1589535202323"]',
       user_id: 1
     },
     { 
@@ -64,7 +64,7 @@ exports.seed = knex => {
       beds: 3,
       bathrooms: 2,
       address: '{"property_address":"Mjolnerparken 108, 1. 3","city":"Copenhagen","country":"Denmark","postal_code":"2300"}',
-      photos: '["https://path-img-1", "https://path-img-2", "https://path-img-3"]',
+      photos: '["https://holidayhouse1.s3.amazonaws.com/1589535202293", "https://holidayhouse1.s3.amazonaws.com/1589535202296", "https://holidayhouse1.s3.amazonaws.com/1589535202323"]',
       user_id: 1
     },
     { 
@@ -79,7 +79,7 @@ exports.seed = knex => {
       beds: 6,
       bathrooms: 3,
       address: '{"property_address":"Amagerbrogade 172, 1. 3","city":"Copenhagen","country":"Denmark","postal_code":"2300"}',
-      photos: '["https://path-img-1", "https://path-img-2", "https://path-img-3"]',
+      photos: '["https://holidayhouse1.s3.amazonaws.com/1589535202293", "https://holidayhouse1.s3.amazonaws.com/1589535202296", "https://holidayhouse1.s3.amazonaws.com/1589535202323"]',
       user_id: 1
     },
     { 
@@ -94,7 +94,7 @@ exports.seed = knex => {
       beds: 2,
       bathrooms: 1,
       address: '{"property_address":"15 Avenue Road","city":"New York","country":"USA","postal_code":"2200"}',
-      photos: '["https://path-img-1", "https://path-img-2", "https://path-img-3"]',
+      photos: '["https://holidayhouse1.s3.amazonaws.com/1589535202293", "https://holidayhouse1.s3.amazonaws.com/1589535202296", "https://holidayhouse1.s3.amazonaws.com/1589535202323"]',
       user_id: 2
     },
   ];

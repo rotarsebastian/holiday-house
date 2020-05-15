@@ -6,7 +6,7 @@ class Property extends Model {
     static get tableName() {
         return 'properties';
     }
-
+    // ====================== ADD SCHEMA ======================
     static get jsonSchema() {
         return {
           type: 'object',
@@ -36,7 +36,7 @@ class Property extends Model {
             },
 
             price: { type: 'number' },
-            capacity: { type: 'number' },
+            capacity: { type: 'integer' },
             rooms: { type: 'integer' },
             beds: { type: 'integer' },
             bathrooms: { type: 'integer' },
@@ -45,8 +45,9 @@ class Property extends Model {
 
           }
         }
-      }
+    }
 
+    // ====================== ADD RELATIONS ======================
     static get relationMappings() {
         return {
             owner: {

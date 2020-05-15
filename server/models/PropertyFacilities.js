@@ -5,7 +5,8 @@ class PropertyFacilities extends Model {
     static get tableName() {
         return 'facilities';
     }
-
+    
+    // ====================== ADD RELATIONS ======================
     static get relationMappings() {
         return {
             property: {
@@ -20,6 +21,6 @@ class PropertyFacilities extends Model {
     };
 }
 
-// A PROPERTY CAN EXIST WITHOUT FACILITIES - SO WE CREATE THIS IF PEOPLE WANT TO ADD FACILITIES TO THEIR PLACE
+// A PROPERTY CAN EXIST WITHOUT FACILITIES - SO WE CREATE THIS IF PEOPLE WANT TO ADD FACILITIES FOR THEIR PLACE
 
 module.exports = PropertyFacilities;

@@ -6,7 +6,7 @@ class User extends Model {
         return 'users';
     }
 
-    // ====================== ADD SCHEMAS ======================
+    // ====================== ADD SCHEMA ======================
     static get jsonSchema() {
         return {
           type: 'object',
@@ -22,7 +22,7 @@ class User extends Model {
                 type: 'string', 
                 minLength: 10, 
                 maxLength: 10,
-                pattern: '[0-9]{2}[\/]{1}[0-9]{2}[\/]{1}[0-9]{4}'
+                pattern: '[0-9]{4}-{1}[0-9]{2}-{1}[0-9]{2}$'
             },
     
             email: {
@@ -37,7 +37,8 @@ class User extends Model {
           }
         };
     }
-
+    
+    // ====================== ADD RELATIONS ======================
     static get relationMappings() {
         return {
             properties: {
