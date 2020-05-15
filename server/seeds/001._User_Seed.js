@@ -68,8 +68,8 @@ exports.seed = knex => {
       user_id: 1
     },
     { 
-      title: 'Room in 2 room apartment', 
-      description: 'description for - Room in 2 room apartment',
+      title: 'Room in 6 room apartment', 
+      description: 'description for - Room in 6 room apartment',
       available_start: '2020-04-11', 
       available_end: '2021-04-11', 
       price: 799, 
@@ -110,31 +110,30 @@ exports.seed = knex => {
     },
   ];
 
-  // const addresses = [
-  //   { 
-  //     address: 'Mjolnerparken 108, 1. 3', 
-  //     city: 'Copenhagen', 
-  //     country: 'Denmark', 
-  //     postal_code: '2300',
-  //     property_id: 1
-  //   },
-  //   { 
-  //     address: '15 Avenue Road', 
-  //     city: 'New York', 
-  //     country: 'USA', 
-  //     postal_code: '2200',
-  //     property_id: 2
-  //   },
-  // ];
-
+  const reservations = [
+    { 
+      from_date: '2020-07-11', 
+      to_date: '2020-08-11', 
+      persons_count: 3, 
+      reserved_by: 1,
+      property_id: 1
+    },
+    { 
+      from_date: '2020-08-21', 
+      to_date: '2020-08-29', 
+      persons_count: 6, 
+      reserved_by: 2,
+      property_id: 4
+    },
+  ];
 
   // ====================== DELETE CURRENT ENTRIES AND ADD NEW DATA ======================
-  return knex('facilities').del()
-    // .then(() => knex('addresses').del())
+  return knex('reservations').del()
+    .then(() => knex('facilities').del())
     .then(() => knex('properties').del())
     .then(() => knex('users').del())
     .then(() => knex('users').insert(users))
     .then(res => knex('properties').insert(properties))
-    // .then(res => knex('addresses').insert(addresses))
     .then(res => knex('facilities').insert(facilities))
+    .then(res => knex('reservations').insert(reservations))
 };

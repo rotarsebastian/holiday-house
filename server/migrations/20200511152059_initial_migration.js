@@ -40,20 +40,21 @@ exports.up = function(knex) {
             table.foreign('property_id').references('id').inTable('properties').onDelete('CASCADE').onUpdate('CASCADE')
         })
 
-        // .createTable('addresses', table => {
-        //     table.increments('id').primary()
-        //     table.string('address').notNullable()
-        //     table.string('city').notNullable()
-        //     table.string('country').notNullable()
-        //     table.string('postal_code').notNullable()
-        //     table.integer('property_id').unsigned().notNullable()
-        //     table.foreign('property_id').references('id').inTable('properties').onDelete('CASCADE').onUpdate('CASCADE')
-        // })
+        .createTable('reservations', table => {
+            table.increments('id').primary()
+            table.date('from_date').notNullable()
+            table.date('to_date').notNullable()
+            table.integer('persons_count').notNullable()
+            table.integer('reserved_by').unsigned().notNullable()
+            table.foreign('reserved_by').references('id').inTable('users').onDelete('CASCADE').onUpdate('CASCADE')
+            table.integer('property_id').unsigned().notNullable()
+            table.foreign('property_id').references('id').inTable('properties').onDelete('CASCADE').onUpdate('CASCADE')
+        })
 };
 
 exports.down = function(knex) {
     return knex.schema
-        // .dropTableIfExists('addresses')
+        .dropTableIfExists('reservations')
         .dropTableIfExists('facilities')
         .dropTableIfExists('properties')
         .dropTableIfExists('users');

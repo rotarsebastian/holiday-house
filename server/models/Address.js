@@ -1,26 +1,35 @@
-// const { Model } = require('objection');
-// const Property = require(__dirname + '/./Property.js');
+const { Model } = require('objection');
+const Property = require(__dirname + '/./Property.js');
+const User = require(__dirname + '/./User.js');
 
-// class Address extends Model {
-//     static get tableName() {
-//         return 'addresses';
-//     }
+class Reservation extends Model {
+    static get tableName() {
+        return 'reservations';
+    }
 
-//     static get relationMappings() {
-//         return {
-//             property: {
-//                 relation: Model.BelongsToOneRelation,
-//                 modelClass: Property,
-//                 join: {
-//                     from: 'addresses.property_id',
-//                     to: 'properties.id'
-//                 }
-//             }
-//         }
-//     };
+    static get relationMappings() {
+        return {
+            reservation_property: {
+                relation: Model.BelongsToOneRelation,
+                modelClass: Property,
+                join: {
+                    from: 'reservations.property_id',
+                    to: 'properties.id'
+                }
+            },
 
-// }
+            reserved_for: {
+                relation: Model.BelongsToOneRelation,
+                modelClass: User,
+                join: {
+                    from: 'reservations.reserved_by',
+                    to: 'users.id'
+                }
+            }
+        }
+    };
 
-// module.exports = Address;
+}
 
-// ====================== NOT USING THIS - USE IT IF SOMETHING IS CHANGED ======================
+module.exports = Reservation;
+
