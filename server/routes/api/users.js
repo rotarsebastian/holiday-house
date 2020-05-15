@@ -4,7 +4,7 @@ const User = require(__dirname + '/../../models/User');
 const { isAuthenticated } = require(__dirname + '/../../helpers/auth');
 const { handleInitialFormCheck } = require(__dirname + '/../../helpers/requestCheck');
 const { constructActivationEmail, constructForgotCredentialsEmail } = require(__dirname + '/../../helpers/mails');
-const { makeRequest } = require(__dirname + '/../../helpers/dbqueries');
+const { editUser } = require(__dirname + '/../../helpers/dbqueries');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const { uuid, isUuid } = require('uuidv4');
@@ -38,7 +38,7 @@ router.post('/edit', isAuthenticated, async(req, res) => {
         if(initialCheckRes.status !== 1) return res.json(initialCheckRes);
 
         // ====================== MAKE REQUEST TO EDIT USER PROFILE ======================
-        const updateResult = await makeRequest([ ...req.body ], req.session.user.id);
+        const updateResult = await editUser([ ...req.body ], req.session.user.id);
         res.json(updateResult);
     } catch(err) {
         return res.json({ status: 0, msg: 'Error updating user profile!'});

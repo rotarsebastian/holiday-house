@@ -1,7 +1,8 @@
 const User = require(__dirname + '/../models/User');
+const Property = require(__dirname + '/../models/Property');
 
 // ====================== EDIT USER ======================
-const makeRequest = async(form, id) => {
+const editUser = async(form, id) => {
     try {
         // ====================== CREATE NEW UPDATE OBJ ======================
         let requestObj = {};
@@ -35,13 +36,47 @@ const makeRequest = async(form, id) => {
 
 // ====================== GET USER PROPERTIES ======================
 const getProFileData = async(userID) => {
+    // try {
+    //     const [ { password, activate_or_reset_pass_key, created_at, email, ...rest } ] = await User.query().where({ id: userID }).withGraphFetched('user_address');
+    //     if(rest === undefined) return {};
+    //     return rest;
+    // } catch(e) {
+    //     return {};
+    // }
+}
+
+// ====================== EDIT PROPERTY ======================
+const editProperty = async(form, id, images, facilitiesID) => {
     try {
-        const [ { password, activate_or_reset_pass_key, created_at, email, ...rest } ] = await User.query().where({ id: userID }).withGraphFetched('user_address');
-        if(rest === undefined) return {};
-        return rest;
+        // ====================== CREATE NEW EDIT OBJ ======================
+        let requestObj = { id: parseInt(id) };
+        if(form.findIndex(e => e.type === 'facilities') > -1) requestObj.facilities = {};
+        if(facilitiesID && requestObj.hasOwnProperty('facilities')) requestObj.facilities.id = parseInt(facilitiesID);
+    
+        // ====================== CONSTRUCT REQUEST OBJECT ======================
+        form.map(prop => { 
+            if(prop.type === 'facilities') requestObj.facilities.facilities_list = prop.val;
+                else requestObj[prop.type] = prop.val;
+        });
+
+        // ====================== CHECK IF NEW IMAGES ======================
+        if(images && images.length > 0) {
+            const photos = [ ...JSON.parse(requestObj.photos) ];
+            images.map(img => photos.push(img.location));
+            requestObj.photos = JSON.stringify(photos); // ADD IT AS JSON INSIDE THE REQUEST OBJECT
+        }
+ 
+        // ====================== MAKE THE REQUEST ======================
+        const dbResponse = await Property.query().upsertGraph(requestObj);
+        if(typeof dbResponse !== 'object') return { status: 0, message: 'DB Error! Please try again', code: 404 };
+
+        // ====================== SUCCESS ======================
+        return { status: 1, message: 'Your property has been updated!', data: dbResponse, code: 200 };
+    
+    // ====================== HANDLE ERROR ======================  
     } catch(e) {
-        return {};
+        return { status: 0, message: 'Error configuring request!', code: 404 };
     }
 }
 
-module.exports = { makeRequest, getProFileData };
+module.exports = { editUser, getProFileData, editProperty };

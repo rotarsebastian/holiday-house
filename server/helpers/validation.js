@@ -47,6 +47,8 @@ const validateInput = (type, value) => {
             return typeof value === 'string' && isJSON(value)
         case 'facilities':
             return typeof value === 'string' && isJSON(value)
+        case 'photos':
+            return typeof value === 'string' && isJSON(value)
         case 'country':
             return value.length >= 4 && value.length <= 56 && /^[a-zA-Z\s]*$/.test(value);
         case 'city':
