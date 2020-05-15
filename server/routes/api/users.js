@@ -33,7 +33,7 @@ let transporter = nodemailer.createTransport(transportObject);
 // ====================== EDIT USER PROFILE ======================
 router.post('/edit', isAuthenticated, async(req, res) => {
     try {
-        // ====================== HANNDLE INITIAL CHECK ======================
+        // ====================== HANDLE INITIAL CHECK ======================
         const initialCheckRes = handleInitialFormCheck(req.body, 'edit', 3);
         if(initialCheckRes.status !== 1) return res.json(initialCheckRes);
 
@@ -79,7 +79,7 @@ router.post('/checkauth', isAuthenticated, async(req, res) => {
 // ====================== RESET USER PASSWORD ======================
 router.post('/resetpass', async(req, res) => {
 
-    // ====================== HANNDLE INITIAL CHECK ======================
+    // ====================== HANDLE INITIAL CHECK ======================
     const initialCheckRes = handleInitialFormCheck(req.body, 'resetpass', 3, 'resetpass');
     if(initialCheckRes.status !== 1) return res.json(initialCheckRes);
 
@@ -124,7 +124,7 @@ router.post('/resetpass', async(req, res) => {
 // ====================== RECOVER CREDENTIALS OR RESEND ACTIVATION EMAIL ======================
 router.post('/recover', async(req, res) => {
 
-    // ====================== HANNDLE INITIAL CHECK ======================
+    // ====================== HANDLE INITIAL CHECK ======================
     const initialCheckRes = handleInitialFormCheck(req.body, 'recover', 1);
     if(initialCheckRes.status !== 1) return res.json(initialCheckRes);
 
@@ -222,7 +222,7 @@ router.get('/activate', async(req, res) => {
 // ====================== LOGIN USER ======================
 router.post('/login', async(req, res) => {
 
-    // ====================== HANNDLE INITIAL CHECK ======================
+    // ====================== HANDLE INITIAL CHECK ======================
     const initialCheckRes = handleInitialFormCheck(req.body, 'login', 2);
     if(initialCheckRes.status !== 1) return res.json(initialCheckRes);
 
@@ -257,7 +257,7 @@ router.post('/login', async(req, res) => {
 // ====================== REGISTER USER ======================
 router.post('/register', (req, res) => {
 
-    // ====================== HANNDLE INITIAL CHECK ======================
+    // ====================== HANDLE INITIAL CHECK ======================
     const initialCheckRes = handleInitialFormCheck(req.body, 'register', 6);
     if(initialCheckRes.status !== 1) return res.json(initialCheckRes);
 

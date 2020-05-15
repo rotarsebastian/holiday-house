@@ -6,6 +6,9 @@ const User = require(__dirname + '/../../models/User');
 const Property = require(__dirname + '/../../models/Property');
 const { raw } = require('objection');
 const { fn } = require('objection');
+const upload = require(__dirname + '/../../helpers/imageUpload');
+
+const multipleUpload = upload.array('image', 10);
 
 // ====================== GET PROPERTIES ======================
 router.get('/', isAuthenticated, async(req, res) => {
@@ -31,19 +34,46 @@ router.get('/', isAuthenticated, async(req, res) => {
 // ====================== CREATE A PROPERTY ======================
 router.post('/', isAuthenticated, (req, res) => {
     try {
-        // ====================== HANNDLE INITIAL CHECK ======================
-        const initialCheckRes = handleInitialFormCheck(req.body, 'addProperty', 12);
-        if(initialCheckRes.status !== 1) return res.json(initialCheckRes);
+        // ====================== UPLOAD IMGS TO S3 ======================
+        multipleUpload(req, res, async(err) => {
+            if(err) return res.status(422).send({ errors: [{ title: 'Image Upload Error', detail: err.message }]});
 
-        // ====================== EXTRACT FORM ELEMENTS ======================
-        const [ 
-            { val: title }, { val: description }, { val: available_start }, { val: available_end }, 
-            { val: price }, { val: capacity }, { val: type }, { val: rooms }, { val: beds },
-            { val: bathrooms }, { val: address }, { val: photos }     
-        ] = [ ...req.body ];
+            //  ====================== HANDLE INITIAL CHECK FOR STRING DATA ======================
+            const initialCheckRes = handleInitialFormCheck(JSON.parse(req.body.data), 'addProperty', 12);
+            if(initialCheckRes.status !== 1) return res.json(initialCheckRes);
 
-        res.json({msg: 'ok'});
-        
+            // ====================== CREATE NEW PROPERTY ======================
+            let newProperty = {};
+            const data = JSON.parse(req.body.data);
+
+            // ====================== ADD PROPERTY DETAILS AND CHECK IF IT HAS FACILITIES ======================
+            // THE REASON WHY WE CREATE AN ARRAY AND THEN AN OBJECT IS BECAUSE THIS IS HOW INSERTGRAPH WORKS
+            // WE ARE INSERTING INTO 2 DIFFERENT TABLES (PROPERTY, FACILITIES) 
+            // PROPERTY HAS A 'HasOneRelation' FOR FACILITIES TABLE
+            // FACILITIES HAS ONLY ONE COLUMN CALLED 'facilities_list' IN WHICH WE STORE ALL THE FACILITIES FOR ONE PROPERY AS JSON
+            if(data.findIndex(e => e.type === 'facilities') > -1) newProperty.facilities = [];
+
+            data.map(e => {
+                if(e.type !== 'facilities') newProperty[e.type] = e.val; // REGULAR COLUMN
+
+                // ADD TO THE FACILITIES ARRAY (THIS IS ONLY FOR MAKING THE RIGHT FORMAT REQUEST)
+                else newProperty.facilities.push({ facilities_list: e.val }); 
+            });
+            
+            // ====================== CREATE A NEW ARRAY FOR IMAGES PATHS ======================
+            const photos = [];
+            req.files.map(img => photos.push(img.location));
+            newProperty.photos = JSON.stringify(photos); // ADD IT AS JSON INSIDE THE DB
+
+            // ====================== ADD THE USER WHICH CREATED THE PROPERTY ======================
+            newProperty.user_id = req.session.user.id;
+
+            // ====================== INSERT THE NEW PROPERTY TO THE DB ======================
+            const createdProperty = await Property.query().insertGraph(newProperty);
+            if(!createdProperty) return res.json({ status: 0, message: 'Error while inserting user!', code: 404 });
+            
+            return res.json({ status: 1, property: newProperty });
+        });
     } catch(e) {
         return res.json({ status: 0, msg: 'Error creating new property!'});
     }

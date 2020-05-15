@@ -26,13 +26,13 @@ class Property extends Model {
                 type: 'string', 
                 minLength: 10, 
                 maxLength: 10,
-                pattern: '[0-9]{2}[\/]{1}[0-9]{2}[\/]{1}[0-9]{4}'
+                pattern: '[0-9]{4}-{1}[0-9]{2}-{1}[0-9]{2}$'
             },
             available_end: { 
                 type: 'string', 
                 minLength: 10, 
                 maxLength: 10,
-                pattern: '[0-9]{2}[\/]{1}[0-9]{2}[\/]{1}[0-9]{4}'
+                pattern: '[0-9]{4}-{1}[0-9]{2}-{1}[0-9]{2}$'
             },
 
             price: { type: 'number' },
@@ -41,15 +41,7 @@ class Property extends Model {
             beds: { type: 'integer' },
             bathrooms: { type: 'integer' },
     
-            address: {
-              type: 'object',
-              properties: {
-                city: { type: 'string' },
-                address: { type: 'string' },
-                country: { type: 'string' },
-                postal_code: { type: 'string' }
-              }
-            },
+            address: { type: 'string' },
 
           }
         }

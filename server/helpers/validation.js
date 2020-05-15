@@ -30,9 +30,9 @@ const validateInput = (type, value) => {
         case 'type':
             return value.length >= 4 && value.length <= 60;
         case 'available_start':
-            return value.length === 19;
+            return value.length === 10 && /^\d{4}-((0\d)|(1[012]))-(([012]\d)|3[01])$/.test(value);
         case 'available_end':
-            return value.length === 19;
+            return value.length === 10 && /^\d{4}-((0\d)|(1[012]))-(([012]\d)|3[01])$/.test(value);
         case 'price':
             return Number.isInteger(value);
         case 'capacity':
@@ -45,8 +45,16 @@ const validateInput = (type, value) => {
             return Number.isInteger(value);
         case 'address':
             return typeof value === 'string' && isJSON(value)
-        case 'photos':
+        case 'facilities':
             return typeof value === 'string' && isJSON(value)
+        case 'country':
+            return value.length >= 4 && value.length <= 56 && /^[a-zA-Z\s]*$/.test(value);
+        case 'city':
+            return value.length >= 2 && value.length <= 50 && /^[a-zA-Z\s]*$/.test(value);
+        case 'property_address':
+            return value.length >= 6 && value.length <= 100;
+        case 'postal_code':
+            return /^[0-9]{4}$/.test(value);
         default:
             console.log(`Validation failed! No validation for ${type}!`);
         return false;
@@ -72,7 +80,7 @@ const validateFormType = (validFormElements, type) => {
   
         // ====================== PROPERTY VALIDATION ======================
         case 'addProperty':
-            return JSON.stringify(validFormElements) === JSON.stringify([ 'title', 'description', 'available_start', 'available_end', 'price', 'capacity', 'type', 'rooms', 'beds', 'bathrooms', 'address', 'photos' ]);
+            return JSON.stringify(validFormElements) === JSON.stringify([ 'title', 'description', 'available_start', 'available_end', 'price', 'capacity', 'type', 'rooms', 'beds', 'bathrooms', 'property_address', 'city', 'country', 'postal_code', 'facilities' ]);
         default:
             console.log(`Check failed! ${type} elements are not valid!`);
         return false;
@@ -93,7 +101,24 @@ const validateForm = (form, formType) => {
         } 
 
         // ====================== PUSH VALID ELEMENTS TO VALID ELEMENTS ARRAY ======================
-        else validFormElements.push(input.type)
+        else {
+            if(input.type === 'address') {
+                const [ addressObj ] = JSON.parse(input.val);
+                
+                for (let prop in addressObj) {
+                    if (Object.prototype.hasOwnProperty.call(addressObj, prop)) {
+                        if(!validateInput(prop, addressObj[prop])) {
+                            formIsValid = false;
+                            console.log(`${prop} with value ${addressObj[prop]} is not valid`);
+                            invalidInputs.push(prop);
+                            msg = 'Invalid inputs';
+                        } 
+                        else validFormElements.push(prop);
+                    }
+                }
+            }
+            else validFormElements.push(input.type);
+        }
     });
 
     // ====================== IF ALL THE ELEMENTS ARE VALID CHECK THE FORM STRUCTURE ======================
