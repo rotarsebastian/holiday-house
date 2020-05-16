@@ -2,15 +2,17 @@
 const router = require('express').Router();
 const { isAuthenticated } = require(__dirname + '/../../helpers/auth');
 const { handleInitialFormCheck } = require(__dirname + '/../../helpers/requestCheck');
+const { isJSON } = require(__dirname + '/../../helpers/validation');
 const User = require(__dirname + '/../../models/User');
+const formidable = require('formidable');
 const Property = require(__dirname + '/../../models/Property');
 const PropertyFacilities = require(__dirname + '/../../models/PropertyFacilities');
 const { editProperty } = require(__dirname + '/../../helpers/dbqueries');
 const { raw } = require('objection');
 const { fn } = require('objection');
-const upload = require(__dirname + '/../../helpers/imageUpload');
+const { upload, removeImages } = require(__dirname + '/../../helpers/handleImages');
 
-const multipleUpload = upload.array('image', 10);
+const multipleUpload = upload.array('image', 10); // MAXIMUM 10 IMAGES AT ONCE
 
 // ====================== GET PROPERTIES ======================
 router.get('/', isAuthenticated, async(req, res) => {
@@ -41,6 +43,17 @@ router.delete('/:id', isAuthenticated, async(req, res) => {
         const { id } = req.params;
         if(!id) return res.json({ status: 0, message: 'Missing id!', code: 404 });
 
+        // ====================== GET THE PROPERTY PHOTOS ======================
+        const property = await Property.query().select('photos', 'user_id').findById(id);
+        if(!property) return res.json({ status: 0, message: 'Property does not exists!', code: 404 });
+
+        // ====================== CHECK IF IT IS THE RIGHT USER ======================
+        if(property.user_id !== req.session.user.id) return res.json({ status: 0, message: 'Unauthorized!', code: 404 });
+
+        // ====================== DELETE IMAGES FROM AWS ======================
+        const awsRes = await removeImages(JSON.parse(property.photos));
+        if(awsRes.status === 0) return awsRes;
+
         // ====================== DELETE PROPERTY ======================
         const dbRes = await Property.query().deleteById(id);
 
@@ -62,6 +75,8 @@ router.post('/', isAuthenticated, (req, res) => {
         // ====================== UPLOAD IMGS TO S3 ======================
         multipleUpload(req, res, async(err) => {
             if(err) return res.status(422).send({ errors: [{ title: 'Image Upload Error', detail: err.message }]});
+
+            if(typeof req.body.data !== 'string' || !isJSON(req.body.data)) return res.json({ status: 0, message: 'Invalid request!', code: 404 });
 
             //  ====================== HANDLE INITIAL CHECK FOR STRING DATA ======================
             const initialCheckRes = handleInitialFormCheck(JSON.parse(req.body.data), 'addProperty', 12);
@@ -88,7 +103,7 @@ router.post('/', isAuthenticated, (req, res) => {
             // ====================== CREATE A NEW ARRAY FOR IMAGES PATHS ======================
             if(req.files.length < 1) return res.json({ status: 0, message: 'Missing images!', code: 404 });
             const photos = [];
-            req.files.map(img => photos.push(img.location));
+            req.files.map(img => photos.push(img.location.slice(-18)));
             newProperty.photos = JSON.stringify(photos); // ADD IT AS JSON INSIDE THE DB
 
             // ====================== ADD THE USER WHICH CREATED THE PROPERTY ======================
@@ -106,22 +121,25 @@ router.post('/', isAuthenticated, (req, res) => {
 });
 
 // ====================== EDIT A PROPERTY ======================
-router.patch('/:id/', isAuthenticated, async(req, res) => {
-    
+router.patch('/:id', isAuthenticated, async(req, res) => {
     try {
-        // ====================== GET THE PROPERTY ID ======================
         multipleUpload(req, res, async(err) => {
-            // // ====================== HANDLE INITIAL CHECK FOR STRING DATA ======================
-            const initialCheckRes = handleInitialFormCheck(JSON.parse(req.body.data), 'edit', 1);
-            if(initialCheckRes.status !== 1) return res.json(initialCheckRes);
-
             // ====================== GET PROPERTY ID ======================
             const { id } = req.params;
             if(!id) return res.json({ status: 0, message: 'Missing id!', code: 404 });
 
+            if(typeof req.body.data !== 'string' || !isJSON(req.body.data)) return res.json({ status: 0, message: 'Invalid request!', code: 404 });
+            
+            // ====================== HANDLE INITIAL CHECK FOR STRING DATA ======================
+            const initialCheckRes = handleInitialFormCheck(JSON.parse(req.body.data), 'edit', 1);
+            if(initialCheckRes.status !== 1) return res.json(initialCheckRes);
+            
             // ====================== PROPERTY DOES NOT EXIST ======================
-            const property = await Property.query().select('id').findById(id);
+            const property = await Property.query().select('id', 'photos', 'user_id').findById(id);
             if(!property) return res.json({ status: 0, message: 'Property does not exists!', code: 404 });
+
+            // ====================== CHECK IF IT IS THE RIGHT USER ======================
+            if(property.user_id !== req.session.user.id) return res.json({ status: 0, message: 'Unauthorized!', code: 404 });
 
             // ====================== GET EDITED DATA ======================
             const editData = JSON.parse(req.body.data);
@@ -130,13 +148,12 @@ router.patch('/:id/', isAuthenticated, async(req, res) => {
             let updateResult;
             const withFacilities = editData.findIndex(e => e.type === 'facilities');
             if(withFacilities !== -1) {
-                const [ { id: facilitiesID } ] = await PropertyFacilities.query().select('id').where({ property_id: property.id }).limit(1);
-                updateResult = await editProperty(editData, id, req.files, facilitiesID);
-            } else updateResult = await editProperty(editData, id, req.files);
+                const [ { id: facilitiesID } ] = await PropertyFacilities.query().select('id').where({ property_id: id }).limit(1);
+                updateResult = await editProperty(editData, id, property.photos, req.files, facilitiesID);
+            } else updateResult = await editProperty(editData, id, property.photos, req.files);
 
             return res.json(updateResult);
         })
-
     } catch (err) {
         return res.json({ status: 0, message: 'Error editing property!'});
     }

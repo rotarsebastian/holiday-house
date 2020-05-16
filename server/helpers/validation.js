@@ -152,4 +152,4 @@ const checkFormStructure = (form, options) => {
     return { status: 1 };
 }
 
-module.exports = { checkFormStructure, validateForm }
+module.exports = { checkFormStructure, validateForm, isJSON }

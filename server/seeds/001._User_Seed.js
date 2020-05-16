@@ -34,7 +34,7 @@ exports.seed = knex => {
       beds: 3,
       bathrooms: 2,
       address: '{"property_address":"Mjolnerparken 108, 1. 3","city":"Copenhagen","country":"Denmark","postal_code":"2300"}',
-      photos: '["https://holidayhouse1.s3.amazonaws.com/1589535202293", "https://holidayhouse1.s3.amazonaws.com/1589535202296", "https://holidayhouse1.s3.amazonaws.com/1589535202323"]',
+      photos: '["1589624902059.jpeg", "1589622466049.jpeg"]',
       user_id: 1
     },
     { 
@@ -49,7 +49,7 @@ exports.seed = knex => {
       beds: 3,
       bathrooms: 2,
       address: '{"property_address":"Mjolnerparken 108, 1. 3","city":"Copenhagen","country":"Denmark","postal_code":"2300"}',
-      photos: '["https://holidayhouse1.s3.amazonaws.com/1589535202293", "https://holidayhouse1.s3.amazonaws.com/1589535202296", "https://holidayhouse1.s3.amazonaws.com/1589535202323"]',
+      photos: '["1589624902059.jpeg", "1589622466049.jpeg"]',
       user_id: 1
     },
     { 
@@ -64,7 +64,7 @@ exports.seed = knex => {
       beds: 3,
       bathrooms: 2,
       address: '{"property_address":"Mjolnerparken 108, 1. 3","city":"Copenhagen","country":"Denmark","postal_code":"2300"}',
-      photos: '["https://holidayhouse1.s3.amazonaws.com/1589535202293", "https://holidayhouse1.s3.amazonaws.com/1589535202296", "https://holidayhouse1.s3.amazonaws.com/1589535202323"]',
+      photos: '["1589624902059.jpeg", "1589622466049.jpeg"]',
       user_id: 1
     },
     { 
@@ -79,7 +79,7 @@ exports.seed = knex => {
       beds: 6,
       bathrooms: 3,
       address: '{"property_address":"Amagerbrogade 172, 1. 3","city":"Copenhagen","country":"Denmark","postal_code":"2300"}',
-      photos: '["https://holidayhouse1.s3.amazonaws.com/1589535202293", "https://holidayhouse1.s3.amazonaws.com/1589535202296", "https://holidayhouse1.s3.amazonaws.com/1589535202323"]',
+      photos: '["1589624902059.jpeg", "1589622466049.jpeg"]',
       user_id: 1
     },
     { 
@@ -94,7 +94,7 @@ exports.seed = knex => {
       beds: 2,
       bathrooms: 1,
       address: '{"property_address":"15 Avenue Road","city":"New York","country":"USA","postal_code":"2200"}',
-      photos: '["https://holidayhouse1.s3.amazonaws.com/1589535202293", "https://holidayhouse1.s3.amazonaws.com/1589535202296", "https://holidayhouse1.s3.amazonaws.com/1589535202323"]',
+      photos: '["1589624902059.jpeg", "1589622466049.jpeg"]',
       user_id: 2
     },
   ];

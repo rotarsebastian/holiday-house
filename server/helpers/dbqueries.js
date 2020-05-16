@@ -1,5 +1,6 @@
 const User = require(__dirname + '/../models/User');
 const Property = require(__dirname + '/../models/Property');
+const { removeImages } = require(__dirname + '/handleImages');
 
 // ====================== EDIT USER ======================
 const editUser = async(form, id) => {
@@ -46,7 +47,7 @@ const getProFileData = async(userID) => {
 }
 
 // ====================== EDIT PROPERTY ======================
-const editProperty = async(form, id, images, facilitiesID) => {
+const editProperty = async(form, id, oldPhotos, newPhotos, facilitiesID) => {
     try {
         // ====================== CREATE NEW EDIT OBJ ======================
         let requestObj = { id: parseInt(id) };
@@ -59,10 +60,26 @@ const editProperty = async(form, id, images, facilitiesID) => {
                 else requestObj[prop.type] = prop.val;
         });
 
+        // ====================== CONSTRUCT REMOVED IMAGES ======================
+        const requestPhotos = JSON.parse(requestObj.photos);
+        const keptImages = [];
+
+        const removedPhotos = JSON.parse(oldPhotos).filter(img => { 
+            if(requestPhotos.indexOf(img) < 0) return img;
+                else keptImages.push(img);
+        });
+
+        // ====================== REMOVE IMAGES FROM S3 ======================
+        const awsRes = await removeImages(removedPhotos);
+        if(awsRes.status === 0) return awsRes;
+
+        // ====================== PUT BACK THE KEPT IMAGES ======================s
+        requestObj.photos = JSON.stringify(keptImages);
+
         // ====================== CHECK IF NEW IMAGES ======================
-        if(images && images.length > 0) {
+        if(newPhotos && newPhotos.length > 0) {
             const photos = [ ...JSON.parse(requestObj.photos) ];
-            images.map(img => photos.push(img.location));
+            newPhotos.map(img => photos.push(img.location.slice(-18)));
             requestObj.photos = JSON.stringify(photos); // ADD IT AS JSON INSIDE THE REQUEST OBJECT
         }
  
