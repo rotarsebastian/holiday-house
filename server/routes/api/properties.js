@@ -4,11 +4,10 @@ const { isAuthenticated } = require(__dirname + '/../../helpers/auth');
 const { handleInitialFormCheck } = require(__dirname + '/../../helpers/requestCheck');
 const { isJSON } = require(__dirname + '/../../helpers/validation');
 const User = require(__dirname + '/../../models/User');
-const formidable = require('formidable');
 const Property = require(__dirname + '/../../models/Property');
 const PropertyFacilities = require(__dirname + '/../../models/PropertyFacilities');
 const { editProperty } = require(__dirname + '/../../helpers/dbqueries');
-const { raw } = require('objection');
+// const { raw } = require('objection');
 const { fn } = require('objection');
 const { upload, removeImages } = require(__dirname + '/../../helpers/handleImages');
 
@@ -74,13 +73,23 @@ router.post('/', isAuthenticated, (req, res) => {
     try {
         // ====================== UPLOAD IMGS TO S3 ======================
         multipleUpload(req, res, async(err) => {
-            if(err) return res.status(422).send({ errors: [{ title: 'Image Upload Error', detail: err.message }]});
+            if(err) return res.status(422).json({ errors: [{ title: 'Image Upload Error', detail: err.message }]});
 
-            if(typeof req.body.data !== 'string' || !isJSON(req.body.data)) return res.json({ status: 0, message: 'Invalid request!', code: 404 });
+            // ====================== IMAGES REMOVE IN CASE OF ERROR ======================
+            const errorRemoveImgs = [];
+            if(req.files.length > 0) req.files.forEach(img => errorRemoveImgs.push(img.location.slice(-41)));
+
+            if(typeof req.body.data !== 'string' || !isJSON(req.body.data)) {
+                if(errorRemoveImgs.length > 0) removeImages(errorRemoveImgs);
+                return res.json({ status: 0, message: 'Invalid request!', code: 404 });
+            }
 
             //  ====================== HANDLE INITIAL CHECK FOR STRING DATA ======================
             const initialCheckRes = handleInitialFormCheck(JSON.parse(req.body.data), 'addProperty', 12);
-            if(initialCheckRes.status !== 1) return res.json(initialCheckRes);
+            if(initialCheckRes.status !== 1) {
+                if(errorRemoveImgs.length > 0) removeImages(errorRemoveImgs);
+                return res.json(initialCheckRes);
+            }
 
             // ====================== CREATE NEW PROPERTY ======================
             let newProperty = {};
@@ -103,7 +112,7 @@ router.post('/', isAuthenticated, (req, res) => {
             // ====================== CREATE A NEW ARRAY FOR IMAGES PATHS ======================
             if(req.files.length < 1) return res.json({ status: 0, message: 'Missing images!', code: 404 });
             const photos = [];
-            req.files.map(img => photos.push(img.location.slice(-18)));
+            req.files.map(img => photos.push(img.location.slice(-41)));
             newProperty.photos = JSON.stringify(photos); // ADD IT AS JSON INSIDE THE DB
 
             // ====================== ADD THE USER WHICH CREATED THE PROPERTY ======================
@@ -124,22 +133,43 @@ router.post('/', isAuthenticated, (req, res) => {
 router.patch('/:id', isAuthenticated, async(req, res) => {
     try {
         multipleUpload(req, res, async(err) => {
+            if(err) return res.status(422).json({ errors: [{ title: 'Image Upload Error', detail: err.message }]});
+
+            // ====================== IMAGES REMOVE IN CASE OF ERROR ======================
+            const errorRemoveImgs = [];
+            if(req.files.length > 0) req.files.forEach(img => errorRemoveImgs.push(img.location.slice(-41)));
+            
             // ====================== GET PROPERTY ID ======================
             const { id } = req.params;
-            if(!id) return res.json({ status: 0, message: 'Missing id!', code: 404 });
+            if(!id) {
+                if(errorRemoveImgs.length > 0) removeImages(errorRemoveImgs);
+                return res.json({ status: 0, message: 'Missing id!', code: 404 });
+            }
 
-            if(typeof req.body.data !== 'string' || !isJSON(req.body.data)) return res.json({ status: 0, message: 'Invalid request!', code: 404 });
+            if(typeof req.body.data !== 'string' || !isJSON(req.body.data)) {
+                if(errorRemoveImgs.length > 0) removeImages(errorRemoveImgs);
+                return res.json({ status: 0, message: 'Invalid request!', code: 404 });
+            }
             
             // ====================== HANDLE INITIAL CHECK FOR STRING DATA ======================
             const initialCheckRes = handleInitialFormCheck(JSON.parse(req.body.data), 'edit', 1);
-            if(initialCheckRes.status !== 1) return res.json(initialCheckRes);
+            if(initialCheckRes.status !== 1) {
+                if(errorRemoveImgs.length > 0) removeImages(errorRemoveImgs);
+                return res.json(initialCheckRes);
+            }
             
             // ====================== PROPERTY DOES NOT EXIST ======================
             const property = await Property.query().select('id', 'photos', 'user_id').findById(id);
-            if(!property) return res.json({ status: 0, message: 'Property does not exists!', code: 404 });
+            if(!property) {
+                if(errorRemoveImgs.length > 0) removeImages(errorRemoveImgs);
+                return res.json({ status: 0, message: 'Property does not exists!', code: 404 });
+            }
 
             // ====================== CHECK IF IT IS THE RIGHT USER ======================
-            if(property.user_id !== req.session.user.id) return res.json({ status: 0, message: 'Unauthorized!', code: 404 });
+            if(property.user_id !== req.session.user.id) {
+                if(errorRemoveImgs.length > 0) removeImages(errorRemoveImgs);
+                return res.json({ status: 0, message: 'Unauthorized!', code: 404 });
+            }
 
             // ====================== GET EDITED DATA ======================
             const editData = JSON.parse(req.body.data);

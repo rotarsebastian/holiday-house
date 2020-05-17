@@ -2,9 +2,7 @@ const aws = require('aws-sdk');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
 const { AWS_Access_Key, AWS_Secret_Key } = require(__dirname + '/../config/otherConfigs');
-const { isJSON } = require(__dirname + '/validation');
-const { handleInitialFormCheck } = require(__dirname + '/requestCheck');
-const Property = require(__dirname + '/../models/Property');
+const { uuid } = require('uuidv4');
 
 aws.config.update({
     secretAccessKey: process.env.secretAWS || AWS_Secret_Key,
@@ -18,7 +16,7 @@ const fileFilter = (req, file, cb) => {
     if (file.mimetype.toLowerCase() === 'image/jpeg' || file.mimetype.toLowerCase() === 'image/png' || file.mimetype.toLowerCase() === 'image/jpg') {
         return cb(null, true);
     } else {
-        return cb(new Error('Invalid file type, only JPEG and PNG is allowed!'), false);
+        return cb(new Error('Invalid file type, only JPEG, JPG and PNG is allowed!'), false);
     }
 }
  
@@ -32,7 +30,7 @@ const upload = multer({
             cb(null, { fieldName: 'TESTING_METADATA' });
         },
         key: function (req, file, cb) {
-            cb(null, Date.now().toString() + '.jpeg')
+            cb(null, uuid() + '.jpeg')
         }
     })
 });
@@ -43,9 +41,7 @@ const removeImages = async(removedImages) => {
     try {
         const imgsToRemove = [];
         
-        removedImages.forEach(img => imgsToRemove.push({ Key: img.slice(-18) }));
-
-        s3.up
+        removedImages.forEach(img => imgsToRemove.push({ Key: img.slice(-41) }));
     
         const s3Res = await s3.deleteObjects({
             Bucket: 'holidayhouse1',

@@ -79,7 +79,7 @@ const editProperty = async(form, id, oldPhotos, newPhotos, facilitiesID) => {
         // ====================== CHECK IF NEW IMAGES ======================
         if(newPhotos && newPhotos.length > 0) {
             const photos = [ ...JSON.parse(requestObj.photos) ];
-            newPhotos.map(img => photos.push(img.location.slice(-18)));
+            newPhotos.map(img => photos.push(img.location.slice(-41)));
             requestObj.photos = JSON.stringify(photos); // ADD IT AS JSON INSIDE THE REQUEST OBJECT
         }
  
