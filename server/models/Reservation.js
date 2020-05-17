@@ -41,6 +41,7 @@ class Reservation extends Model {
             reservation_property: {
                 relation: Model.BelongsToOneRelation,
                 modelClass: Property,
+                filter: query => query.select('properties.title'),
                 join: {
                     from: 'reservations.property_id',
                     to: 'properties.id'
@@ -57,7 +58,6 @@ class Reservation extends Model {
             }
         }
     };
-
 }
 
 module.exports = Reservation;

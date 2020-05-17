@@ -57,6 +57,14 @@ const validateInput = (type, value) => {
             return value.length >= 6 && value.length <= 100;
         case 'postal_code':
             return /^[0-9]{4}$/.test(value);
+
+        // ====================== RESERVATION VALIDATION ======================
+        case 'from_date':
+            return value.length === 10 && /^\d{4}-((0\d)|(1[012]))-(([012]\d)|3[01])$/.test(value);
+        case 'to_date':
+            return value.length === 10 && /^\d{4}-((0\d)|(1[012]))-(([012]\d)|3[01])$/.test(value);
+        case 'persons_count':
+            return Number.isInteger(value);
         default:
             console.log(`Validation failed! No validation for ${type}!`);
         return false;
@@ -83,6 +91,10 @@ const validateFormType = (validFormElements, type) => {
         // ====================== PROPERTY VALIDATION ======================
         case 'addProperty':
             return JSON.stringify(validFormElements) === JSON.stringify([ 'title', 'description', 'available_start', 'available_end', 'price', 'capacity', 'type', 'rooms', 'beds', 'bathrooms', 'property_address', 'city', 'country', 'postal_code', 'facilities' ]);
+        
+        // ====================== RESERVATION VALIDATION ======================
+        case 'addReservation':
+            return JSON.stringify(validFormElements) === JSON.stringify([ 'from_date', 'to_date', 'persons_count' ]);
         default:
             console.log(`Check failed! ${type} elements are not valid!`);
         return false;

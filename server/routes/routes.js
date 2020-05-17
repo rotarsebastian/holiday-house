@@ -21,9 +21,11 @@ app.use('/users/activate', rateLimit({ windowMs: 20 * 1000, max: 1 }));
 // ====================== ROUTES ======================
 const usersRoute = require(__dirname + '/./api/users');
 const propertiesRoute = require(__dirname + '/./api/properties');
+const reservationsRoute = require(__dirname + '/./api/reservations');
 
 // ====================== ADD ROUTES ======================
 app.use('/users', usersRoute);
 app.use('/properties', propertiesRoute);
+app.use('/reservations', reservationsRoute);
 
 module.exports = app;

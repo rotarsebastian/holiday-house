@@ -1,5 +1,6 @@
 const { Model } = require('objection');
 const User = require(__dirname + '/./User.js');
+const Reservation = require(__dirname + '/./Reservation.js');
 const PropertyFacilities = require(__dirname + '/./PropertyFacilities.js');
 
 class Property extends Model {
@@ -66,6 +67,15 @@ class Property extends Model {
                 join: {
                     from: 'properties.id',
                     to: 'facilities.property_id'
+                }
+            },
+
+            reservations: {
+                relation: Model.HasManyRelation,
+                modelClass: Reservation,
+                join: {
+                    from: 'properties.id',
+                    to: 'reservations.property_id'
                 }
             }
         }

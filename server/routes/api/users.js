@@ -31,7 +31,7 @@ const transportObject = {
 let transporter = nodemailer.createTransport(transportObject);
 
 // ====================== EDIT USER PROFILE ======================
-router.post('/edit', isAuthenticated, async(req, res) => {
+router.patch('/', isAuthenticated, async(req, res) => {
     try {
         // ====================== HANDLE INITIAL CHECK ======================
         const initialCheckRes = handleInitialFormCheck(req.body, 'edit', 3);
