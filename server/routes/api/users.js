@@ -30,6 +30,27 @@ const transportObject = {
 }
 let transporter = nodemailer.createTransport(transportObject);
 
+// ====================== DELETE A USER ======================
+router.delete('/', isAuthenticated, async(req, res) => {
+    try {
+        const user = await User.query().deleteById(req.session.user.id);
+        if (!user) return res.json({ status: 0, message: 'Error deleting the user!'});
+
+        req.session.destroy(err => {
+            if(err) return res.json({ status: 0, message: 'Error while trying to logout user!', code: 404 });
+    
+            // ====================== CLEAR USER COOKIE ======================
+            res.clearCookie('user_sid');
+    
+            // ====================== EVERYTHING OK ======================
+            return res.json({ status: 1, message: 'User deleted successfully!'});
+        });
+
+    } catch (err) {
+        return res.json({ status: 0, message: 'Error deleting the user!'});
+    }
+});
+
 // ====================== EDIT USER PROFILE ======================
 router.patch('/', isAuthenticated, async(req, res) => {
     try {

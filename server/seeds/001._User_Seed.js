@@ -123,7 +123,7 @@ exports.seed = knex => {
       to_date: '2020-08-29', 
       persons_count: 6, 
       reserved_by: 2,
-      property_id: 4
+      property_id: 5
     },
   ];
 
