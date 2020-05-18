@@ -1,0 +1,35 @@
+
+.modalContainer {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   background-color: white;
+   width: 100%;
+   max-width: 568px;
+   border-radius: 12px;
+   height: 300px;
+   margin: auto;
+   position: absolute;
+   top: 0; left: 0; bottom: 0; right: 0;
+}
+
+.loginForm {
+   width: 500px;
+   margin-top: 50px;
+}
+
+.titleContainer {
+   width: 100%;
+   display: flex; /*added this*/
+   justify-content: center;
+   border-bottom: 1.4px solid rgb(230, 230, 230);
+   margin-top: -60px;
+}
+
+.loginTitle {
+   padding: 15px 0px 15px 0px;
+   
+}
+
+
