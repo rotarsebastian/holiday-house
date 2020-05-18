@@ -36,12 +36,20 @@ router.get('/:id', isAuthenticated, async(req, res) => {
 // ====================== GET USER RESERVATIONS ======================
 router.get('/', isAuthenticated, async(req, res) => {
     try {
+        // ====================== GET THE OFFSET ======================
+        const { offset } = req.query;
+        if(!offset) return res.json({ status: 0, message: 'Invalid request'});
+
+        if(!Number.isInteger(Number(offset))) return res.json({ status: 0, message: 'Offset should be a number', code: 404 });
+
         // ====================== GET THE RESERVATIONS ======================
         const user = User.query().where({ id: req.session.user.id });
         const reservations = await User.relatedQuery('reservations')
             .for(user)
             .select('id', 'from_date', 'to_date', 'persons_count', 'property_id')
-            .orderBy('from_date');
+            .orderBy('from_date')
+            .limit(10)
+            .offset(offset)
 
         // ====================== EVERYTHING OK ======================s
         return res.json({ status: 1, message: 'Reservation retrieved successfully!', data: reservations });

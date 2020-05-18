@@ -39,16 +39,24 @@ router.get('/user/:id', isAuthenticated, async(req, res) => {
         const { id } = req.params;
         if(!id) return res.json({ status: 0, message: 'Missing id!', code: 404 });
 
+        // ====================== GET THE OFFSET ======================
+        const { offset } = req.query;
+        if(!offset) return res.json({ status: 0, message: 'Invalid request'});
+
+        if(!Number.isInteger(Number(offset))) return res.json({ status: 0, message: 'Offset should be a number', code: 404 });
+
         // ====================== CHECK FOR FILTERS ======================
         const { active } = req.query;
 
         // ====================== GET PROPERTIES ======================
         const user = User.query().where({ id });
-        const properties = active && Number(active) === 1 ?  await User.relatedQuery('properties').for(user).select()
+        const properties = active && Number(active) === 1 ? await User.relatedQuery('properties').for(user).select()
             .where('available_start', '<' , fn.now())
             .andWhere('available_end', '>' , fn.now())
+            .limit(10)
+            .offset(offset)
             :
-            await User.relatedQuery('properties').for(user).select()
+            await User.relatedQuery('properties').for(user).select().limit(10).offset(offset)
 
         // ====================== EVERYTHING OK ======================s
         return res.json({ status: 1, message: 'Properties retrieved successfully!', data: properties });
@@ -112,7 +120,7 @@ router.delete('/:id', isAuthenticated, async(req, res) => {
         if(property.user_id !== req.session.user.id) return res.json({ status: 0, message: 'Unauthorized!', code: 404 });
 
         // ====================== DELETE IMAGES FROM AWS ======================
-        const awsRes = await removeImages(JSON.parse(property.photos));
+        const awsRes = await removeImages(property.photos);
         if(awsRes.status === 0) return awsRes;
 
         // ====================== DELETE PROPERTY ======================

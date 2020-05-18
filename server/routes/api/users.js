@@ -31,7 +31,7 @@ const transportObject = {
 let transporter = nodemailer.createTransport(transportObject);
 
 // ====================== GET A SPECIFIC USER ======================
-router.get('/:id', isAuthenticated, async(req, res) => {
+router.get('/user/:id', isAuthenticated, async(req, res) => {
     try {
         // ====================== GET THE USER ID ======================
         const { id } = req.params;
@@ -238,6 +238,7 @@ router.get('/activate', async(req, res) => {
 
     // ====================== GET THE KEY FROM THE QUERY STRING AND CHECK IT ======================
     const { key } = req.query;
+    console.log(key)
     if(!key) return res.redirect(`${clientEndpoint}/login?expired=true`);
     if(!isUuid(key)) return res.redirect(`${clientEndpoint}/login?expired=true`);
 
