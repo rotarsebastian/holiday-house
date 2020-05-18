@@ -1,15 +1,67 @@
-import React from 'react'
-// import styles from "./Login.module.css"
+import React from 'react';
+import {NavLink} from 'react-router-dom'
+import customStyles from './Login.module.css';
 import TextField from '@material-ui/core/TextField';
-import customStyles from './Login.module.css'
 import Modal from '@material-ui/core/Modal';
-import {styled} from '@material-ui/core/styles'
+import Button from '@material-ui/core/Button';
+import {withStyles} from '@material-ui/core/styles';
 
-const LoginTextField = styled(TextField)({
-   width: '100%',
-   
+const EmailTextField = withStyles({
+  root: {
+      width: '100%',
+      marginTop: '10px',
+      '& label.Mui-focused': {
+         color: '#E4215B',
+       },
+     '& .MuiOutlinedInput-root': {
+       '&.Mui-focused fieldset': {
+         borderColor: '#E4215B',
+       },
+       '& label.Mui-focused': {
+         color: 'black',
+       },
+     },
+   },
+})(TextField);
 
-})
+const PasswordTextField = withStyles({
+   root: {
+      width: '100%',
+      marginTop: '10px',
+      '& label.Mui-focused': {
+         color: '#E4215B',
+       },
+     '& .MuiOutlinedInput-root': {
+       '&.Mui-focused fieldset': {
+         border: '2px solid #E4215B',
+       },
+       '& label.Mui-focused': {
+         color: 'black',
+       },
+     },
+   },
+ })(TextField);
+
+const LoginButton = withStyles({
+   root: {
+      width: '100%',
+      height: '56px',
+      marginTop: '20px',
+      marginBottom: '20px',
+      color: 'white',
+      fontWeight: 'bold',
+      fontSize: '17px',
+      backgroundColor: '#E4215B',
+      boxShadow: 'none',
+      '&:hover': {
+         boxShadow: 'none',
+         backgroundColor: '#f02551'
+      },
+      textTransform: 'none'
+   }
+})(Button);
+
+
 
 const LoginModal = () => {
 
@@ -22,7 +74,6 @@ const LoginModal = () => {
    const handleClose = () => {
       setOpen(false);
    };
-
 
    return (
       <div>
@@ -38,30 +89,32 @@ const LoginModal = () => {
          <div className={customStyles.modalContainer}>
             <div className={customStyles.titleContainer}>
                <div className={customStyles.loginTitle}>
-                  <p>Login</p>
+                  <p>Log in</p>
                </div>
             </div>
             <form className={customStyles.loginForm} noValidate autoComplete="off">
-               
                   <div>
-                  <LoginTextField id="outlined-email-input" label="Email" type="email" 
-                  autoComplete="current-email" variant="outlined"/>
+                     <EmailTextField id="outlined-email-input" label="Email" type="email" 
+                     autoComplete="current-email" variant="outlined"/>
                   </div>
                   <div>
-                  <LoginTextField id="outlined-password-input" label="Password" type="password" 
-                  autoComplete="current-password" variant="outlined"/>
+                     <PasswordTextField id="outlined-password-input" label="Password" type="password" 
+                     autoComplete="current-password" variant="outlined"/>
                   </div>
                   <div>
-                     <button>Log in</button>
+                     <LoginButton variant="contained">Log in</LoginButton>
                   </div>
-             
+                  <div className="modalBottom">
+                     <div><NavLink to="/login">Forgotten password?</NavLink></div> 
+                     <div>Don't have an account? <NavLink to="/login">Sign up</NavLink></div> 
+                  </div>
             </form>
          </div>
          </Modal>
       </div>
-   )
-}
+   );
+};
       
    
 
-   export default LoginModal
+   export default LoginModal;
