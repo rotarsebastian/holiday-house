@@ -1,10 +1,43 @@
 /* GENERIC CSS - FOR THE WHOLE APP */
+/* @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap'); */
+
+@font-face {
+  font-family: 'Quicksand Regular';
+  src: url('../app/assets/fonts/Quicksand-Regular.ttf'); 
+}
+
+@font-face {
+  font-family: 'Quicksand Medium';
+  src: url('../app/assets/fonts/Quicksand-Medium.ttf'); 
+}
+
+@font-face {
+  font-family: 'Quicksand Light';
+  src: url('../app/assets/fonts/Quicksand-Light.ttf'); 
+}
+
+@font-face {
+  font-family: 'Quicksand Bold';
+  src: url('../app/assets/fonts/Quicksand-Bold.ttf'); 
+}
+
+@font-face {
+  font-family: 'Quicksand SemiBold';
+  src: url('../app/assets/fonts/Quicksand-SemiBold.ttf'); 
+}
+
 * {
   padding: 0;
   margin: 0;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  font-family: 'Quicksand Medium', 'sans-serif';
+}
+
+
+#root {
+  padding: 1.5rem 2.5rem;
 }
 
 body {

@@ -1,11 +1,20 @@
 import React from 'react';
 import classes from './App.module.css';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Header from './components/Header/Header';
+import Home from './pages/Home/Home';
+import AddProperty from './pages/AddProperty/AddProperty';
 
 const App = () => {
   return (
     <div className={classes.App}>
-      <h1>Hello HolidayHouse!</h1>
-      <img src="https://holidayhouse1.s3.amazonaws.com/default.jpeg" alt='s3-img' />
+      <Router basename='/'> 
+        <Header />
+        <Switch>
+          <Route exact path='/' component={props => <Home {...props} />} />
+          <Route path='/addproperty' component={props => <AddProperty {...props} />} />
+        </Switch>
+      </Router>
     </div>
   );
 }

@@ -1,0 +1,62 @@
+.HeaderContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 2.5rem;
+}
+
+.HeaderContainer .Logo {
+    width: 7.25rem;
+}
+
+.HeaderContainer .NavbarRight {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* width: 31%; */
+}
+
+.HeaderContainer .NavbarRight a {
+    text-decoration: none;
+}
+
+.HeaderContainer .NavbarRight .Button, .SignupButton, .ProfileButton {
+    color: var(--black);
+    font-family: 'Quicksand Bold', 'sans-serif';
+    cursor: pointer;
+    padding: .75rem 1rem;
+    border-radius: 5rem;
+    transition: .3s;
+    margin: 0 -.15rem;
+    font-size: .95rem;
+}
+
+.HeaderContainer .NavbarRight .SignupButton, .ProfileButton {
+    border: 1px solid rgb(235, 235, 235);
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.18);
+    margin-left: .5rem;
+    margin-right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: .5rem 1rem;
+    transition: .3s;
+}
+
+.HeaderContainer .NavbarRight .SignupButton img, .ProfileButton img {
+    width: 1.5rem;
+    margin-left: .3rem;
+    transition: .3s;
+}
+
+.HeaderContainer .NavbarRight .SignupButton:hover, .ProfileButton:hover {
+    box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.14);
+}
+
+.HeaderContainer .NavbarRight .SignupButton:hover img, .ProfileButton:hover img {
+    filter: brightness(1.1);
+}
+
+.HeaderContainer .NavbarRight .Button:hover {
+    background-color: var(--hover-black);
+}
