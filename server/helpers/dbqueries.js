@@ -37,7 +37,7 @@ const editUser = async(form, id) => {
 }
 
 // ====================== GET USER PROPERTIES ======================
-const getPropertiesWithFilters = async(city, from, to, guests, type, minPrice, maxPrice) => {
+const getPropertiesWithFilters = async(offset, city, from, to, guests, type, minPrice, maxPrice) => {
     let properties;
     let min = minPrice ? minPrice : 0;
     let max = maxPrice ? maxPrice : 999999;
@@ -50,6 +50,8 @@ const getPropertiesWithFilters = async(city, from, to, guests, type, minPrice, m
             .andWhere('capacity', '>=' , guests)
             .andWhere('price', '>=' , min)
             .andWhere('price', '<=' , max)
+            .limit(10)
+            .offset(offset)
     } else {
         properties = await Property.query()
             .select('title', 'beds', 'bathrooms', 'rooms', 'type', 'capacity', 'price', 'photos')
@@ -60,7 +62,8 @@ const getPropertiesWithFilters = async(city, from, to, guests, type, minPrice, m
             .andWhere('price', '>=' , min)
             .andWhere('price', '<=' , max)
             .andWhere(raw('LOWER("type") = ?', type.toLowerCase()))
-            
+            .limit(10)
+            .offset(offset)      
     }
     return properties;
 }

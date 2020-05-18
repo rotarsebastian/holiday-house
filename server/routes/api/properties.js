@@ -61,8 +61,11 @@ router.get('/user/:id', isAuthenticated, async(req, res) => {
 // ====================== GET PROPERTIES ======================
 router.get('/', isAuthenticated, async(req, res) => {
     try {
-        const { city, from, to, guests, type, minprice, maxprice } = req.query;
-        if(!city || !from || !to || !guests) return res.json({ status: 0, message: 'Invalid request'});
+        const { offset, city, from, to, guests, type, minprice, maxprice } = req.query;
+        if(!offset || !city || !from || !to || !guests) return res.json({ status: 0, message: 'Invalid request'});
+
+        if(!Number.isInteger(Number(guests))) return res.json({ status: 0, message: 'Guests should be a number', code: 404 });
+        if(!Number.isInteger(Number(offset))) return res.json({ status: 0, message: 'Offset should be a number', code: 404 });
 
         if(minprice && !maxprice) return res.json({ status: 0, message: 'Max price missing!'});
         if(!minprice && maxprice) return res.json({ status: 0, message: 'Min price missing!'});
@@ -80,11 +83,10 @@ router.get('/', isAuthenticated, async(req, res) => {
         if(!isFromDateValid || !isToDateValid) return res.json({ status: 0, message: `Your start date should be at least from ${today_date} and your end date should be at least until ${tomorrow_date}!`, code: 404 });
         if(isSameDate) return res.json({ status: 0, message: 'Your start date cannot be the same with your end date!', code: 404 });
 
-        if(!Number.isInteger(Number(guests))) return res.json({ status: 0, message: 'Guests should be a number', code: 404 });
         if(minprice && (!Number.isInteger(Number(minprice)) || Number(minprice) < 0)) return res.json({ status: 0, message: 'Min price should be a number', code: 404 });
         if(maxprice && (!Number.isInteger(Number(maxprice)) || Number(maxprice) > 999999)) return res.json({ status: 0, message: 'Max price should be a number', code: 404 });
 
-        const properties = await getPropertiesWithFilters(city, from, to, guests, type, minprice, maxprice);
+        const properties = await getPropertiesWithFilters(offset, city, from, to, guests, type, minprice, maxprice);
 
         if(!properties) res.json({ status: 0, message: 'Error getting properties from the db!'});
         return res.json({properties});
