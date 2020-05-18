@@ -6,30 +6,90 @@ const { isJSON } = require(__dirname + '/../../helpers/validation');
 const User = require(__dirname + '/../../models/User');
 const Property = require(__dirname + '/../../models/Property');
 const PropertyFacilities = require(__dirname + '/../../models/PropertyFacilities');
-const { editProperty } = require(__dirname + '/../../helpers/dbqueries');
-// const { raw } = require('objection');
+const { editProperty, getPropertiesWithFilters } = require(__dirname + '/../../helpers/dbqueries');
 const { fn } = require('objection');
 const { upload, removeImages } = require(__dirname + '/../../helpers/handleImages');
+const moment = require('moment');
 
 const multipleUpload = upload.array('image', 10); // MAXIMUM 10 IMAGES AT ONCE
+
+// ====================== GET A SPECIFIC PROPERTY ======================
+router.get('/:id', async(req, res) => {
+    try {
+        // ====================== GET THE PROPERTY ID ======================
+        const { id } = req.params;
+        if(!id) return res.json({ status: 0, message: 'Missing id!', code: 404 });
+
+        // ====================== GET THE PROPERTY ======================
+        const property = await Property.query().select().where({ id });
+        if(property.length === 0) return res.json({ status: 0, message: 'Property does not exists!', code: 404 });
+        
+        // ====================== EVERYTHING OK ======================s
+        return res.json({ status: 1, message: 'Property retrieved successfully!', data: property[0] });
+
+    } catch (err) {
+        return res.json({ status: 0, message: 'Error getting property!'});
+    }
+});
+
+// ====================== GET USER PROPERTIES ======================
+router.get('/user/:id', isAuthenticated, async(req, res) => {
+    try {
+        // ====================== GET THE PROPERTY ID ======================
+        const { id } = req.params;
+        if(!id) return res.json({ status: 0, message: 'Missing id!', code: 404 });
+
+        // ====================== CHECK FOR FILTERS ======================
+        const { active } = req.query;
+
+        // ====================== GET PROPERTIES ======================
+        const user = User.query().where({ id });
+        const properties = active && Number(active) === 1 ?  await User.relatedQuery('properties').for(user).select()
+            .where('available_start', '<' , fn.now())
+            .andWhere('available_end', '>' , fn.now())
+            :
+            await User.relatedQuery('properties').for(user).select()
+
+        // ====================== EVERYTHING OK ======================s
+        return res.json({ status: 1, message: 'Properties retrieved successfully!', data: properties });
+
+    } catch (err) {
+        return res.json({ status: 0, message: 'Error getting properties!'});
+    }
+});
 
 // ====================== GET PROPERTIES ======================
 router.get('/', isAuthenticated, async(req, res) => {
     try {
-        // ====================== GET USER PROPERTIES ======================
-        const user = User.query().where({ id: req.session.user.id });
-        const properties = await User.relatedQuery('properties')
-            .for(user)
-            .select('*')
-            // .select('title', 'description', 'address')
-            .where('available_start', '<' , fn.now())
-            .where('available_end', '>' , fn.now())
-            // .where(raw(`date_part('year', "createDate") = date_part('year', ?)`, new Date))
-            .orderBy('price');
+        const { city, from, to, guests, type, minprice, maxprice } = req.query;
+        if(!city || !from || !to || !guests) return res.json({ status: 0, message: 'Invalid request'});
+
+        if(minprice && !maxprice) return res.json({ status: 0, message: 'Max price missing!'});
+        if(!minprice && maxprice) return res.json({ status: 0, message: 'Min price missing!'});
+
+        if(city.length > 85 || !/^[\p{L} .'-]+$/u.test(city)) return res.json({ status: 0, message: 'City name invalid'});
+        if(type && (type.length > 60 || !/^[\p{L} .'-]+$/u.test(type))) return res.json({ status: 0, message: 'House type is invalid'});
+
+        // ====================== CHECK IF IS DATES ARE VALID ======================
+        const today_date = moment().format('YYYY-MM-DD');
+        const tomorrow_date = moment().add(1, 'days').format('YYYY-MM-DD');
+        const isFromDateValid = moment(from).isSameOrAfter(today_date, 'day'); // CAN START MINIMUM TODAY
+        const isToDateValid = moment(to).isAfter(today_date, 'day'); // CAN END MINIMUM TOMORROW
+        const isSameDate = moment(to).isSame(from, 'day'); // CANNOT BE SAME DATE - 1 NIGHT MINIMUM
+
+        if(!isFromDateValid || !isToDateValid) return res.json({ status: 0, message: `Your start date should be at least from ${today_date} and your end date should be at least until ${tomorrow_date}!`, code: 404 });
+        if(isSameDate) return res.json({ status: 0, message: 'Your start date cannot be the same with your end date!', code: 404 });
+
+        if(!Number.isInteger(Number(guests))) return res.json({ status: 0, message: 'Guests should be a number', code: 404 });
+        if(minprice && (!Number.isInteger(Number(minprice)) || Number(minprice) < 0)) return res.json({ status: 0, message: 'Min price should be a number', code: 404 });
+        if(maxprice && (!Number.isInteger(Number(maxprice)) || Number(maxprice) > 999999)) return res.json({ status: 0, message: 'Max price should be a number', code: 404 });
+
+        const properties = await getPropertiesWithFilters(city, from, to, guests, type, minprice, maxprice);
 
         if(!properties) res.json({ status: 0, message: 'Error getting properties from the db!'});
-        return res.json(properties);
+        return res.json({properties});
     } catch(e) {
+        console.log(e);
         return res.json({ status: 0, message: 'Error returning properties!'});
     }
 });
@@ -103,10 +163,10 @@ router.post('/', isAuthenticated, (req, res) => {
             if(data.findIndex(e => e.type === 'facilities') > -1) newProperty.facilities = [];
 
             data.map(e => {
-                if(e.type !== 'facilities') newProperty[e.type] = e.val; // REGULAR COLUMN
-
+                if(e.type !== 'facilities' && e.type !== 'address') newProperty[e.type] = e.val; // REGULAR COLUMN
+                else if (e.type === 'address') newProperty[e.type] = e.val.toLowerCase();
                 // ADD TO THE FACILITIES ARRAY (THIS IS ONLY FOR MAKING THE RIGHT FORMAT REQUEST)
-                else newProperty.facilities.push({ facilities_list: e.val }); 
+                else if (e.type === 'facilities') newProperty.facilities.push({ facilities_list: e.val }); 
             });
             
             // ====================== CREATE A NEW ARRAY FOR IMAGES PATHS ======================
@@ -178,8 +238,11 @@ router.patch('/:id', isAuthenticated, async(req, res) => {
             let updateResult;
             const withFacilities = editData.findIndex(e => e.type === 'facilities');
             if(withFacilities !== -1) {
-                const [ { id: facilitiesID } ] = await PropertyFacilities.query().select('id').where({ property_id: id }).limit(1);
-                updateResult = await editProperty(editData, id, property.photos, req.files, facilitiesID);
+                const facility = await PropertyFacilities.query().select('id').where({ property_id: id }).limit(1);
+                if(facility && facility.length > 0) {
+                    const [ { id: facilitiesID } ] = facility;
+                    updateResult = await editProperty(editData, id, property.photos, req.files, facilitiesID);
+                } else updateResult = await editProperty(editData, id, property.photos, req.files);
             } else updateResult = await editProperty(editData, id, property.photos, req.files);
 
             return res.json(updateResult);

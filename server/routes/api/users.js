@@ -30,6 +30,25 @@ const transportObject = {
 }
 let transporter = nodemailer.createTransport(transportObject);
 
+// ====================== GET A SPECIFIC USER ======================
+router.get('/:id', isAuthenticated, async(req, res) => {
+    try {
+        // ====================== GET THE USER ID ======================
+        const { id } = req.params;
+        if(!id) return res.json({ status: 0, message: 'Missing id!', code: 404 });
+
+        // ====================== GET THE USER ======================
+        const user = await User.query().select('first_name', 'last_name').where({ id });
+        if(user.length === 0) return res.json({ status: 0, message: 'User does not exists!', code: 404 });
+        
+        // ====================== EVERYTHING OK ======================s
+        return res.json({ status: 1, message: 'User retrieved successfully!', data: user[0] });
+
+    } catch (err) {
+        return res.json({ status: 0, message: 'Error getting user!'});
+    }
+});
+
 // ====================== DELETE A USER ======================
 router.delete('/', isAuthenticated, async(req, res) => {
     try {
@@ -82,7 +101,7 @@ router.post('/logout', isAuthenticated, (req,res) => {
 });
 
 // ====================== CHECK IF USER HAS A SESSION ======================
-router.post('/checkauth', isAuthenticated, async(req, res) => {
+router.get('/checkauth', isAuthenticated, async(req, res) => {
     try {
         // ====================== FIND LOGGED USER ======================
         const loggedUser = await User.query().select('email', 'first_name', 'last_name').findById(req.session.user.id);
@@ -121,7 +140,7 @@ router.post('/resetpass', async(req, res) => {
     // ====================== CHECK IF THE KEY IS STILL VALID ======================
     const timeNow = moment().unix(); // NOW
     const userLimitTime = moment(foundUser.reset_pass_time).unix(); // USER TIME TO EXPIRE
-    const difference = parseInt(userLimitTime) - parseInt(timeNow); // DIFFERENCE FROM NOW TO USER TIME
+    const difference = Number(userLimitTime) - Number(timeNow); // DIFFERENCE FROM NOW TO USER TIME
 
     // ====================== IF DIFFERENCE IS NOT POSITIVE - TIME HAS EXPIRED ======================
     if(difference <= 0 ) return res.json({ status: 0, message: 'Your link has expired!', code: 155 });
@@ -205,7 +224,7 @@ router.get('/reset', async(req, res) => {
     // ====================== CHECK IF THE KEY IS STILL VALID ======================
     const timeNow = moment().unix(); // NOW
     const userLimitTime = moment(foundUser.reset_pass_time).unix(); // USER TIME TO EXPIRE
-    const difference = parseInt(userLimitTime) - parseInt(timeNow); // DIFFERENCE FROM NOW TO USER TIME
+    const difference = Number(userLimitTime) - Number(timeNow); // DIFFERENCE FROM NOW TO USER TIME
 
     // ====================== IF DIFFERENCE IS NOT POSITIVE - TIME HAS EXPIRED ======================
     if(difference <= 0 ) return res.redirect(`${clientEndpoint}/login?expired=true`);

@@ -33,7 +33,7 @@ exports.seed = knex => {
       rooms: 3,
       beds: 3,
       bathrooms: 2,
-      address: '{"property_address":"Mjolnerparken 108, 1. 3","city":"Copenhagen","country":"Denmark","postal_code":"2300"}',
+      address: '{"property_address":"mjolnerparken 108, 1. 3","city":"berlin","country":"denmark","postal_code":"2300"}',
       photos: '["1589624902059.jpeg", "1589622466049.jpeg"]',
       user_id: 1
     },
@@ -48,7 +48,7 @@ exports.seed = knex => {
       rooms: 3,
       beds: 3,
       bathrooms: 2,
-      address: '{"property_address":"Mjolnerparken 108, 1. 3","city":"Copenhagen","country":"Denmark","postal_code":"2300"}',
+      address: '{"property_address":"mjolnerparken 108, 1. 3","city":"berlin","country":"denmark","postal_code":"2300"}',
       photos: '["1589624902059.jpeg", "1589622466049.jpeg"]',
       user_id: 1
     },
@@ -59,11 +59,11 @@ exports.seed = knex => {
       available_end: '2020-07-11', 
       price: 399, 
       capacity: 4, 
-      type: 'Entire place', 
+      type: 'Studio', 
       rooms: 3,
       beds: 3,
       bathrooms: 2,
-      address: '{"property_address":"Mjolnerparken 108, 1. 3","city":"Copenhagen","country":"Denmark","postal_code":"2300"}',
+      address: '{"property_address":"mjolnerparken 108, 1. 3","city":"berlin","country":"denmark","postal_code":"2300"}',
       photos: '["1589624902059.jpeg", "1589622466049.jpeg"]',
       user_id: 1
     },
@@ -78,7 +78,7 @@ exports.seed = knex => {
       rooms: 6,
       beds: 6,
       bathrooms: 3,
-      address: '{"property_address":"Amagerbrogade 172, 1. 3","city":"Copenhagen","country":"Denmark","postal_code":"2300"}',
+      address: '{"property_address":"amagerbrogade 172, 1. 3","city":"copenhagen","country":"denmark","postal_code":"2300"}',
       photos: '["1589624902059.jpeg", "1589622466049.jpeg"]',
       user_id: 1
     },
@@ -93,7 +93,7 @@ exports.seed = knex => {
       rooms: 1,
       beds: 2,
       bathrooms: 1,
-      address: '{"property_address":"15 Avenue Road","city":"New York","country":"USA","postal_code":"2200"}',
+      address: '{"property_address":"15 avenue road","city":"new york","country":"usa","postal_code":"2200"}',
       photos: '["1589624902059.jpeg", "1589622466049.jpeg"]',
       user_id: 2
     },

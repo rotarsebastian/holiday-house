@@ -1,6 +1,7 @@
 const User = require(__dirname + '/../models/User');
 const Property = require(__dirname + '/../models/Property');
 const { removeImages } = require(__dirname + '/handleImages');
+const { ref, raw } = require('objection');
 
 // ====================== EDIT USER ======================
 const editUser = async(form, id) => {
@@ -18,7 +19,7 @@ const editUser = async(form, id) => {
         // ====================== CHECK IF THE EMAIL IS NOT TAKEN ALREADY ======================
         if(requestObj.hasOwnProperty('email')) {
             const [ userExisting ] = await User.query().where({ email: requestObj.email }).limit(1);
-            if(userExisting !== undefined && userExisting.id !== parseInt(id)) return { status: 0, message: 'This email is already taken!', code: 87 };
+            if(userExisting !== undefined && userExisting.id !== Number(id)) return { status: 0, message: 'This email is already taken!', code: 87 };
         }
     
         // ====================== MAKING REQUEST TO UPDATE IN THE DB ======================
@@ -36,35 +37,54 @@ const editUser = async(form, id) => {
 }
 
 // ====================== GET USER PROPERTIES ======================
-const getProFileData = async(userID) => {
-    // try {
-    //     const [ { password, activate_or_reset_pass_key, created_at, email, ...rest } ] = await User.query().where({ id: userID }).withGraphFetched('user_address');
-    //     if(rest === undefined) return {};
-    //     return rest;
-    // } catch(e) {
-    //     return {};
-    // }
+const getPropertiesWithFilters = async(city, from, to, guests, type, minPrice, maxPrice) => {
+    let properties;
+    let min = minPrice ? minPrice : 0;
+    let max = maxPrice ? maxPrice : 999999;
+    if(!type) {
+        properties = await Property.query()
+            .select('title', 'beds', 'bathrooms', 'rooms', 'type', 'capacity', 'price', 'photos')
+            .where(ref('address:city').castText(), '=', city.toLowerCase())
+            .andWhere('available_start', '<=' , from)
+            .andWhere('available_end', '>=' , to)
+            .andWhere('capacity', '>=' , guests)
+            .andWhere('price', '>=' , min)
+            .andWhere('price', '<=' , max)
+    } else {
+        properties = await Property.query()
+            .select('title', 'beds', 'bathrooms', 'rooms', 'type', 'capacity', 'price', 'photos')
+            .where(ref('address:city').castText(), '=', city.toLowerCase())
+            .andWhere('available_start', '<=' , from)
+            .andWhere('available_end', '>=' , to)
+            .andWhere('capacity', '>=' , guests)
+            .andWhere('price', '>=' , min)
+            .andWhere('price', '<=' , max)
+            .andWhere(raw('LOWER("type") = ?', type.toLowerCase()))
+            
+    }
+    return properties;
 }
 
 // ====================== EDIT PROPERTY ======================
 const editProperty = async(form, id, oldPhotos, newPhotos, facilitiesID) => {
     try {
         // ====================== CREATE NEW EDIT OBJ ======================
-        let requestObj = { id: parseInt(id) };
+        let requestObj = { id: Number(id) };
         if(form.findIndex(e => e.type === 'facilities') > -1) requestObj.facilities = {};
-        if(facilitiesID && requestObj.hasOwnProperty('facilities')) requestObj.facilities.id = parseInt(facilitiesID);
+        if(facilitiesID && requestObj.hasOwnProperty('facilities')) requestObj.facilities.id = Number(facilitiesID);
     
         // ====================== CONSTRUCT REQUEST OBJECT ======================
         form.map(prop => { 
             if(prop.type === 'facilities') requestObj.facilities.facilities_list = prop.val;
-                else requestObj[prop.type] = prop.val;
+                else if(prop.type === 'address') requestObj[prop.type] = prop.val.toLowerCase();
+                    else requestObj[prop.type] = prop.val;
         });
 
         // ====================== CONSTRUCT REMOVED IMAGES ======================
         const requestPhotos = JSON.parse(requestObj.photos);
         const keptImages = [];
 
-        const removedPhotos = JSON.parse(oldPhotos).filter(img => { 
+        const removedPhotos = oldPhotos.filter(img => { 
             if(requestPhotos.indexOf(img) < 0) return img;
                 else keptImages.push(img);
         });
@@ -92,8 +112,9 @@ const editProperty = async(form, id, oldPhotos, newPhotos, facilitiesID) => {
     
     // ====================== HANDLE ERROR ======================  
     } catch(e) {
+        console.log(e)
         return { status: 0, message: 'Error configuring request!', code: 404 };
     }
 }
 
-module.exports = { editUser, getProFileData, editProperty };
+module.exports = { editUser, editProperty, getPropertiesWithFilters };

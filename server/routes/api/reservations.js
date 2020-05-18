@@ -15,9 +15,12 @@ router.get('/:id', isAuthenticated, async(req, res) => {
         if(!id) return res.json({ status: 0, message: 'Missing id!', code: 404 });
 
         // ====================== GET THE RESERVATION ======================
-        const reservation = await Reservation.query().select('id', 'from_date', 'to_date', 'persons_count', 'property_id').where({ id });
+        const reservation = await Reservation.query().select('id', 'from_date', 'to_date', 'persons_count', 'property_id', 'reserved_by').where({ id });
         const property = await Property.query().select('id', 'title', 'photos').where({ id: reservation[0].property_id });
         if(reservation.length === 0) return res.json({ status: 0, message: 'Reservation does not exists!', code: 404 });
+
+        // ====================== CHECK IF IT IS THE RIGHT USER ======================
+        if(reservation[0].reserved_by !== req.session.user.id) return res.json({ status: 0, message: 'Unauthorized!', code: 404 });
         
         // ====================== CONSTRUCT DATA ======================
         const reservationObj = { ...reservation[0], property_title: property[0].title, property_photos: property[0].photos };

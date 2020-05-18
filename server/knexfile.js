@@ -4,7 +4,7 @@ const { knexSnakeCaseMappers } = require('objection');
 module.exports = {
 
   development: {
-    client: 'mysql',
+    client: 'pg',
     connection: {
       user: process.env.DB_USER || username,
       password: process.env.DB_USER_PASS || password,

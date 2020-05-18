@@ -42,7 +42,15 @@ class Property extends Model {
             beds: { type: 'integer' },
             bathrooms: { type: 'integer' },
     
-            address: { type: 'string' },
+            address: { 
+                // type: 'object',
+                // properties: {
+                //     country: { type: 'string' },
+                //     city: { type: 'string' },
+                //     postal_code: { type: 'string' },
+                //     property_address: { type: 'string' }
+                // }
+            },
 
           }
         }
