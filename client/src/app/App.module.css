@@ -4,7 +4,9 @@
   --white-ish: rgb(223, 223, 223);
   --enabled-color: #ffb446;
   --error-color: #ff9800;
-  --border-radius: 4px;
+  --color-title: #E4215B;
+  --radius: .9rem;
+  --box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.14);
 }
 
 /* img {
