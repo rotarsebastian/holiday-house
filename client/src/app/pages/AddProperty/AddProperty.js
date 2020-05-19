@@ -10,7 +10,7 @@ const AddProperty = props => {
     const [ lng, setLng ] = useState(12.5937767);    
     const [ lat, setLat ] = useState(55.657091699999995);    
     const [ zoom, setZoom ] = useState(15);    
-    const [ currentMarker, setCurrentMarker ] = useState([]);    
+    const [ currentMarker ] = useState([]);    
     const [ currentMarkerCoords, setCurrentMarkerCoords ] = useState([]);    
     const [ isLoading, setIsLoading ] = useState(true);
     const mapContainer = useRef(null);
@@ -32,64 +32,66 @@ const AddProperty = props => {
             } else addMap();
         };
 
+        const addMap = (longitude, latitude) => {
+            const map = new mapboxgl.Map({
+                container: mapContainer.current,
+                style: 'mapbox://styles/mapbox/streets-v11',
+                center: [longitude, latitude],
+                zoom: zoom,
+                attributionControl: false,
+            });
+    
+            map.on('load', () => {
+                const layersToRemove = ['country-label', 'state-label', 'settlement-label'];
+                layersToRemove.forEach(layer => map.removeLayer(layer));
+                map.addControl(new mapboxgl.GeolocateControl({
+                    positionOptions: {
+                        enableHighAccuracy: true
+                    },
+                    trackUserLocation: true
+                }));
+    
+                const marker = new mapboxgl.Marker()
+                    .setLngLat([ longitude, latitude ])
+                    .addTo(map)
+    
+                currentMarker.push(marker);
+                setCurrentMarkerCoords([longitude, latitude]);
+    
+                setMap(map);
+                map.resize();
+                setIsLoading(false);
+            });
+        
+            map.on('move', () => {
+                setLng(map.getCenter().lng.toFixed(4));
+                setLat(map.getCenter().lat.toFixed(4));
+                setZoom(map.getZoom().toFixed(2));
+            });
+    
+            map.on('click', e => addMarker(e, map));
+        }
+
+        const addMarker = (e, map) => {
+            clearMarker();
+    
+            const marker = new mapboxgl.Marker()
+                .setLngLat([ e.lngLat.lng, e.lngLat.lat ])
+                .addTo(map)
+    
+            currentMarker.push(marker);
+            setCurrentMarkerCoords([ e.lngLat.lng, e.lngLat.lat ]);
+        }
+    
+        const clearMarker = () => currentMarker.forEach(marker => marker.remove())
+
         if (!map) initializeMap({ setMap, mapContainer });
 
-    }, [map, lat, lng, zoom]);
-
-    const addMap = (longitude, latitude) => {
-        const map = new mapboxgl.Map({
-            container: mapContainer.current,
-            style: 'mapbox://styles/mapbox/streets-v11',
-            center: [longitude, latitude],
-            zoom: zoom,
-            attributionControl: false,
-        });
-
-        map.on('load', () => {
-            const layersToRemove = ['country-label', 'state-label', 'settlement-label'];
-            layersToRemove.forEach(layer => map.removeLayer(layer));
-            map.addControl(new mapboxgl.GeolocateControl({
-                positionOptions: {
-                    enableHighAccuracy: true
-                },
-                trackUserLocation: true
-            }));
-
-            const marker = new mapboxgl.Marker()
-                .setLngLat([ longitude, latitude ])
-                .addTo(map)
-
-            currentMarker.push(marker);
-            setCurrentMarkerCoords([longitude, latitude]);
-
-            setMap(map);
-            map.resize();
-            setIsLoading(false);
-        });
-    
-        map.on('move', () => {
-            setLng(map.getCenter().lng.toFixed(4));
-            setLat(map.getCenter().lat.toFixed(4));
-            setZoom(map.getZoom().toFixed(2));
-        });
-
-        map.on('click', e => addMarker(e, map));
-    }
-
-    const addMarker = (e, map) => {
-        clearMarker();
-
-        const marker = new mapboxgl.Marker()
-            .setLngLat([ e.lngLat.lng, e.lngLat.lat ])
-            .addTo(map)
-
-        currentMarker.push(marker);
-        setCurrentMarkerCoords([ e.lngLat.lng, e.lngLat.lat ]);
-    }
-
-    const clearMarker = () => currentMarker.forEach(marker => marker.remove())
+    }, [map, lat, lng, zoom, currentMarker]);
 
     const showMap = isLoading ? '0' : '1';
+
+    console.log(currentMarkerCoords)
 
     return (
         <React.Fragment>

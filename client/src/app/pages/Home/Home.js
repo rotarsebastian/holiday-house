@@ -10,7 +10,7 @@ const Home = props => {
     const [ lng, setLng ] = useState(9.8694);    
     const [ lat, setLat ] = useState(52.3082);    
     const [ zoom, setZoom ] = useState(3.5);    
-    const [ currentMarkers, setCurrentMarkers ] = useState([]);    
+    const [ currentMarkers ] = useState([]);    
     const [ isLoading, setIsLoading ] = useState(true);
     const mapContainer = useRef(null);
 
@@ -60,53 +60,53 @@ const Home = props => {
             });
         };
 
+        // const addMarkers = (map, properties) => {
+        const addMarkers = (map) => {
+            const properties = [ { coordinates: [ 12.57, 55.68 ], city: 'Copenhagen', price: 299 }, { coordinates: [ 13.57, 57.68 ], city: 'Copenhagen', price: 299 } ];
+            // const properties = await getProperties();
+
+            properties.forEach(async (property)=> {
+
+                // create a HTML element for each feature
+                const markerHTML = document.createElement('div');
+                markerHTML.className = 'marker';
+                markerHTML.textContent = `${property.price} DKK`;
+
+                // make a marker for each feature and add to the map
+                const oneMarker = new mapboxgl.Marker(markerHTML)
+                    .setLngLat(property.coordinates)
+                    .setPopup(new mapboxgl.Popup({ closeButton: false, offset: 20 })  
+                        .setHTML(constructPopup(property)))
+                    .addTo(map)
+                    currentMarkers.push(oneMarker);
+
+                // markerHTML.addEventListener('click', evt => evt.stopPropagation());
+            });
+        }
+
+        const constructPopup = property => {
+            return `<p>${property.city}</p>`
+        }
+
+        // const hideMarkers = () => {
+        //     currentMarkers.forEach(marker => {
+        //         marker.remove();
+        //     });
+        // }
+
+        // const showMarkers = map => {
+        //     currentMarkers.forEach(marker => {
+        //         marker
+        //             .setPopup(new mapboxgl.Popup({ closeOnClick: false, closeButton: false, anchor: 'center' })
+        //                 .setHTML('<p>' + marker._popup._content.innerText.split('°C')[0] + '°C</p><h4>' + marker._popup._content.innerText.split('°C')[1].trim() + '</h4>'))
+        //             .addTo(map)
+        //             .togglePopup();
+        //     });
+        // }
+
         if (!map) initializeMap({ setMap, mapContainer });
 
-    }, [map, lat, lng, zoom]);
-
-    // const addMarkers = (map, properties) => {
-    const addMarkers = (map) => {
-        const properties = [ { coordinates: [ 12.57, 55.68 ], city: 'Copenhagen', price: 299 }, { coordinates: [ 13.57, 57.68 ], city: 'Copenhagen', price: 299 } ];
-        // const properties = await getProperties();
-
-        properties.forEach(async (property)=> {
-
-            // create a HTML element for each feature
-            const markerHTML = document.createElement('div');
-            markerHTML.className = 'marker';
-            markerHTML.textContent = `${property.price} DKK`;
-
-            // make a marker for each feature and add to the map
-            const oneMarker = new mapboxgl.Marker(markerHTML)
-                .setLngLat(property.coordinates)
-                .setPopup(new mapboxgl.Popup({ closeButton: false, offset: 20 })  
-                    .setHTML(constructPopup(property)))
-                .addTo(map)
-                currentMarkers.push(oneMarker);
-
-            // markerHTML.addEventListener('click', evt => evt.stopPropagation());
-        });
-    }
-
-    const constructPopup = property => {
-        return `<p>${property.city}</p>`
-    }
-
-    const hideMarkers = () => {
-        currentMarkers.forEach(marker => {
-            marker.remove();
-        });
-    }
-
-    const showMarkers = map => {
-        currentMarkers.forEach(marker => {
-            marker
-                .setPopup(new mapboxgl.Popup({ closeOnClick: false, closeButton: false, anchor: 'center' })
-                    .setHTML('<p>' + marker._popup._content.innerText.split('°C')[0] + '°C</p><h4>' + marker._popup._content.innerText.split('°C')[1].trim() + '</h4>'))
-                .addTo(map)
-                .togglePopup();
-        });
-    }
+    }, [map, lat, lng, zoom, currentMarkers]);
 
     const showMap = isLoading ? '0' : '1';
 
