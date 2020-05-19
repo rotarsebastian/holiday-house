@@ -45,3 +45,9 @@ a {
 a:hover {
    text-decoration: underline;
 }
+
+.closeButton {
+   width:10px;
+   display: flex;
+   
+}

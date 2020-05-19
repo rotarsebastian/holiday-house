@@ -1,9 +1,11 @@
 import React from 'react';
-import {NavLink} from 'react-router-dom'
+import {NavLink} from 'react-router-dom';
 import customStyles from './Login.module.css';
 import TextField from '@material-ui/core/TextField';
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {withStyles} from '@material-ui/core/styles';
 
 const EmailTextField = withStyles({
@@ -88,6 +90,7 @@ const LoginModal = () => {
          >
          <div className={customStyles.modalContainer}>
             <div className={customStyles.titleContainer}>
+               <div className={customStyles.closeButton}><FontAwesomeIcon icon={faTimes}/></div>
                <div className={customStyles.loginTitle}>
                   <p>Log in</p>
                </div>
