@@ -27,7 +27,7 @@
 }
 
 .loginTitle {
-   padding: 15px 0px 15px 0px;
+   padding: 13px 0px 15px 0px;
    font-size: 18px;
 }
 
@@ -47,7 +47,20 @@ a:hover {
 }
 
 .closeButton {
-   width:10px;
+   width: 10px;
+   height: 10px;
+   position: absolute;
    display: flex;
-   
+   justify-content: center;
+   align-items: center;
+   right: 93%;
+   top: 2%;
+   padding: 1rem;
+   border-radius: 50%;
+   transition: .3s;
+}
+
+.closeButton:hover {
+   background-color: var(--hover-black);
+   cursor: pointer;
 }

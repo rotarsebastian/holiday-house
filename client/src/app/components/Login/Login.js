@@ -59,6 +59,16 @@ const LoginButton = withStyles({
          boxShadow: 'none',
          backgroundColor: '#f02551'
       },
+      '&:focused': {
+         boxShadow: 'none',
+         backgroundColor: 'black'
+      },
+      '&:active': {
+         boxShadow: 'none',
+         transition: '0.1s',
+         color: 'pink',
+         
+      },
       textTransform: 'none'
    }
 })(Button);
@@ -90,7 +100,7 @@ const LoginModal = () => {
          >
          <div className={customStyles.modalContainer}>
             <div className={customStyles.titleContainer}>
-               <div className={customStyles.closeButton}><FontAwesomeIcon icon={faTimes}/></div>
+               <div onClick={handleClose} className={customStyles.closeButton}><FontAwesomeIcon icon={faTimes}/></div>
                <div className={customStyles.loginTitle}>
                   <p>Log in</p>
                </div>
