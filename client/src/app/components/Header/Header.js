@@ -20,11 +20,11 @@ const Header = props => {
                         <span className={classes.Button}>Host your home</span> 
                     </NavLink>
 
-                    { true ?
+                    { !true ?
 
                     <React.Fragment>
                         <span className={classes.Button}>Log in</span> 
-                        <span className={classes.SignupButton}>Sign up<img src={UserIcon} alt="user-icon" /></span> 
+                        <span className={classes.SignupButton}>Sign up</span> 
                     </React.Fragment>
 
                     :                    
