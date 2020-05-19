@@ -1,0 +1,17 @@
+.ProfileContainer {
+    display: grid;
+    grid-template-columns: 40% 60%;
+}
+
+.TitleHistory {
+    font-size: 2.5rem;
+    color: var(--color-title);
+    margin-bottom: .5rem;
+    margin-left: 1rem;
+}
+
+.ProfileCard {
+    display: grid;
+    justify-content: center;
+    margin-top: 9vh;
+}

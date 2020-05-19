@@ -1,0 +1,31 @@
+.CardContainer {
+    box-shadow: var(--box-shadow);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    height: 65vh;
+    width: 40vh;
+}
+
+.UserIcon {
+    display: block;
+    width: 4rem;
+    margin: auto;
+}
+
+.ProfileTitle {
+    font-size: 2rem;
+    color: var(--color-title);
+}
+
+.ProfileDetails {
+    padding: 1.5rem 0;
+    border-top: 1px solid rgba(112, 112, 112, 0.3);
+}
+
+.ProfileParag {
+    display: flex;
+    justify-content: space-between;
+    font-size: .95rem;
+    padding: .5rem 0;
+}
+

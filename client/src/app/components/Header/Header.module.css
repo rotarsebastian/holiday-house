@@ -58,7 +58,7 @@
 }
 
 .HeaderContainer .NavbarRight .SignupButton:hover, .ProfileButton:hover {
-    box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.14);
+    box-shadow: var(--box-shadow);
 }
 
 .HeaderContainer .NavbarRight .ProfileButton:hover img {
