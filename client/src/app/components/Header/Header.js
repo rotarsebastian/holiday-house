@@ -1,10 +1,22 @@
-import React from 'react';
+import React, {useState} from 'react';
 import classes from './Header.module.css';
 import { NavLink } from 'react-router-dom';
 import Logo from '../../assets/img/holiday_house_logo.svg';
 import UserIcon from '../../assets/img/user_icon.svg';
+import Modal from '../Modal/Modal';
 
 const Header = props => {
+
+    const [showModal, setShowModal] = useState(undefined);
+
+    const setModal = (modalName) => setShowModal(modalName);
+
+    let modalToShow;
+
+    const closeModal = () => setShowModal(undefined);
+
+    if (showModal) modalToShow = <Modal page={showModal} closeModal={closeModal} />;
+
     return (
         <React.Fragment>
             <div className={classes.HeaderContainer}>
@@ -20,11 +32,11 @@ const Header = props => {
                         <span className={classes.Button}>Host your home</span> 
                     </NavLink>
 
-                    { !true ?
+                    { true ?
 
                     <React.Fragment>
-                        <span className={classes.Button}>Log in</span> 
-                        <span className={classes.SignupButton}>Sign up</span> 
+                        <span className={classes.Button} onClick={() => setModal("Log in")}>Log in</span> 
+                        <span className={classes.SignupButton} onClick={() => setModal("Sign up")}>Sign up</span> 
                     </React.Fragment>
 
                     :                    
@@ -38,6 +50,9 @@ const Header = props => {
                 </div>
 
             </div>
+            {
+                modalToShow ? modalToShow : undefined
+            }
         </React.Fragment>
     )
 }
