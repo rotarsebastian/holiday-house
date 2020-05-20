@@ -6,7 +6,6 @@ import Home from './pages/Home/Home';
 import AddProperty from './pages/AddProperty/AddProperty';
 import Profile from './pages/Profile/Profile'
 import PropertiesResults from './pages/PropertiesResults/PropertiesResults';
-import Profile from './pages/Profile/Profile';
 import toastr from 'toastr';
 import toastrSetup from './helpers/toastrSettings';
 import auth, { checkAuth } from './helpers/auth';
@@ -18,18 +17,6 @@ import ClipLoader from 'react-spinners/ClipLoader';
 function Test() {
   const globalState = useStoreState()
   return (
-    <div className={classes.App}>
-      <Router basename='/'> 
-        <Header />
-        <Switch>
-          <Route exact path='/' component={props => <Home {...props} />} />
-          <Route exact path='/propertiesresults' component={props => <PropertiesResults {...props} />} />
-          <Route path='/addproperty' component={props => <AddProperty {...props} />} />
-          <Route path='/profile' component={props => <Profile {...props} />} />
-        </Switch>
-      </Router>
-    </div>
-  );
     <section style={{ position: 'fixed', bottom: 0, left: 0 }}>
       <pre>
         <code id="global-state">{JSON.stringify(globalState, null, ' ')}</code>
@@ -69,6 +56,7 @@ const App = () => {
           <Test />
           <Switch>
             <Route exact path='/' component={props => <Home {...props} />} />
+            <Route path='/propertiesresults' component={props => <PropertiesResults {...props} />} />
             <Route path='/addproperty' component={props => <AddProperty {...props} />} />
             <Route path='/profile' component={props => <Profile {...props} />} />
           </Switch>
