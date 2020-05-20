@@ -10,7 +10,6 @@ export const login = async(email, password) => {
     try {
         const options = {
           method: 'POST',
-          credentials: 'include',
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -36,8 +35,7 @@ export const checkAuth = async() => {
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({})
+          }
         };
         const response = await fetch(endpoint + '/checkauth', options);
         const data = await response.json();
