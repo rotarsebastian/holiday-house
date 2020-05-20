@@ -1,0 +1,56 @@
+.DatePickerContainer .MuiFormControl-marginNormal {
+   margin-top: 16px;
+   margin-bottom: 8px;
+   width: 100%;
+}
+
+.DatePickerContainer > div {
+   padding: 7.5px 14px;
+   border: 1px solid;
+   border-color: rgba(0, 0, 0, 0.23);
+   border-radius: 4px;
+}
+
+ .MuiPickersToolbar-toolbar {
+   background-color: #E4215B !important;
+}
+
+.MuiPickersDay-daySelected {
+   background-color: #E4215B !important;
+}
+
+div.MuiDialogActions-root.MuiDialogActions-spacing > button:nth-child(1) > span.MuiButton-label {
+   color: #E4215B !important;
+}
+
+div.MuiDialogActions-root.MuiDialogActions-spacing > button:nth-child(2) > span.MuiButton-label {
+   color: #E4215B !important;
+}
+
+.DatePickerContainer .MuiInput-underline:before {
+   border-bottom: 1px solid #E4215B !important;
+}
+
+.DatePickerContainer .MuiInput-underline:after {
+   border-bottom: 2px solid #E4215B !important;
+}
+
+.DatePickerContainer * .MuiInputLabel-formControl {
+   margin-top: 0.3rem;
+   margin-left: 0.85rem;
+}
+
+.DatePickerContainer * .MuiInputLabel-root.Mui-focused {
+   color: #E4215B !important;
+   margin-top: 0.3rem;
+   margin-left: 0.85rem;
+}
+
+.MuiInput-underline:hover:before {
+   border-bottom: 0.5px solid black;
+   transition:none;
+}
+.MuiInput-underline:after {
+   transition: 0.3s;
+   border-bottom: 1px solid red;
+} 
