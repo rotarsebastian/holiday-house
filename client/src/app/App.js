@@ -5,6 +5,7 @@ import Header from './components/Header/Header';
 import Home from './pages/Home/Home';
 import AddProperty from './pages/AddProperty/AddProperty';
 import Profile from './pages/Profile/Profile'
+import PropertiesResults from './pages/PropertiesResults/PropertiesResults';
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <Header />
         <Switch>
           <Route exact path='/' component={props => <Home {...props} />} />
+          <Route exact path='/propertiesresults' component={props => <PropertiesResults {...props} />} />
           <Route path='/addproperty' component={props => <AddProperty {...props} />} />
           <Route path='/profile' component={props => <Profile {...props} />} />
         </Switch>
