@@ -33,6 +33,7 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   font-family: 'Quicksand Medium', 'sans-serif';
+  color: var(--black);
 }
 
 #root {

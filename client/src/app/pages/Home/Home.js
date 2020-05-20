@@ -5,7 +5,6 @@ import './Home.css';
 
 const Home = props => {
     
-
     return (
         <React.Fragment>
                 {/* <div className="loading"><ClipLoader size={50} color={'#485877'} loading={isLoading}/></div> */}
@@ -31,12 +30,10 @@ const Home = props => {
                                 <PropertyCard />
                                 <PropertyCard />
                             </div> */}
-                        </div>
-                        
-                        
-                        
+                        </div>                  
                     </div>
                 </div>
+            </div>
         </React.Fragment>
     )
 }
