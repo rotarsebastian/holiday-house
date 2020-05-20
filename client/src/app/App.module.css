@@ -1,8 +1,10 @@
 :root {
   --black: #222;
+  --grey: rgb(119, 119, 119);
   --hover-black: #2c225508; 
   --white-ish: rgb(223, 223, 223);
-  --enabled-color: #ffb446;
+  --orange-color: #fe9303;
+  --pink-color: #e83251;
   --error-color: #ff9800;
   --color-title: #E4215B;
   --radius: .9rem;

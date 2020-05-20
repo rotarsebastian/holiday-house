@@ -1,5 +1,5 @@
 
-.mapContainer {
+.homeContainer .mapContainer {
     width: 100%;
     height: 70.3vh;
     outline: none;
@@ -9,38 +9,72 @@
     display: none !important;
 }
 
-.marker {
+.homeContainer .mapContainer .marker .markerContainer {
+    padding: .25rem .65rem;
     font-size: 1rem;
     background: white;
     display: flex !important;
     justify-content: center;
     align-items: center;
     margin-top: 5px;
-    padding: .25rem .65rem;
     border-radius: 5rem;
+    cursor: pointer;
+    transition: .3s;
+    color: var(--pink-color);
+    /* color: rgb(163, 162, 162); */
 }
 
-/* .mapboxgl-popup-content {
-    position: relative;
-    pointer-events: none;
+.homeContainer .mapContainer .marker .markerContainer.active {
+    background-color: var(--orange-color);
+    color: #fff !important;
+}
+
+.homeContainer .mapContainer .marker .markerContainer.visited {
+    color: var(--grey);
+}
+
+.homeContainer .mapContainer .marker .markerContainer:hover {
+    transform: scale(1.1);
+}
+
+.homeContainer .mapContainer .mapboxgl-popup-content {
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(0,0,0,.1);
+    height: 15.5rem;
+    width: 17rem;
+    background-color: #fff;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    cursor: pointer;
     padding: 0;
-    font-size: .85rem;
-    background: transparent;
-    box-shadow: none;
-    bottom: -5px;
-    padding-left: 0.2rem;
-} */
-
-/* .mapboxgl-popup-content p, h4 {
-    text-align: center;
-    line-height: 1.15;
 }
 
-.mapboxgl-popup-content p {
-    margin-bottom: 2.4rem;
-} */
+.homeContainer .mapContainer .PopupContainer {
+    display: flex;
+    flex-direction: column;
+}
 
-.mapboxgl-popup-tip {
+.homeContainer .mapContainer .PopupContainer .PopupImage {
+    width: 100%;
+    height: 10rem;
+    object-fit: cover;
+}
+
+.homeContainer .mapContainer .PopupContainer .PopupBottomContainer {
+    padding: .4rem;
+}
+
+.homeContainer .mapContainer .PopupContainer .PopupBottomContainer .PopupType {
+    color: var(--grey);
+    font-size: .8rem;
+}
+
+.homeContainer .mapContainer .PopupContainer .PopupBottomContainer .PopupType {
+    color: var(--grey);
+    font-size: .8rem;
+}
+
+.homeContainer .mapContainer .mapboxgl-popup-tip {
     display: none;
 }
 

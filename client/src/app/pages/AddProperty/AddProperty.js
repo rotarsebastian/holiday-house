@@ -33,10 +33,13 @@ const AddProperty = props => {
         };
 
         const addMap = (longitude, latitude) => {
+            const currentLng = longitude ? longitude : lng;
+            const currentLat = latitude ? latitude : lat;
+
             const map = new mapboxgl.Map({
                 container: mapContainer.current,
                 style: 'mapbox://styles/mapbox/streets-v11',
-                center: [longitude, latitude],
+                center: [ currentLng, currentLat ],
                 zoom: zoom,
                 attributionControl: false,
             });
@@ -44,19 +47,33 @@ const AddProperty = props => {
             map.on('load', () => {
                 const layersToRemove = ['country-label', 'state-label', 'settlement-label'];
                 layersToRemove.forEach(layer => map.removeLayer(layer));
+
                 map.addControl(new mapboxgl.GeolocateControl({
                     positionOptions: {
-                        enableHighAccuracy: true
+                        enableHighAccuracy: true,
+                        timeout: 2000 /* 2 sec */
                     },
-                    trackUserLocation: true
-                }));
+                    trackUserLocation: true,
+                    showAccuracyCircle: false,
+                    showUserLocation: false,
+                    
+                })); 
+                
+                setTimeout(() => {
+                    mapContainer.current.querySelector('.mapboxgl-ctrl-geolocate').addEventListener('click', () => {
+                        setTimeout(() => addMarker(undefined, map, lng, lat), 2001);
+                    });
+                }, 500);
+                
+                const markerHTML = document.createElement('div');
+                markerHTML.className = 'markerPick';
     
-                const marker = new mapboxgl.Marker()
-                    .setLngLat([ longitude, latitude ])
+                const marker = new mapboxgl.Marker(markerHTML)
+                    .setLngLat([ currentLng, currentLat ])
                     .addTo(map)
     
                 currentMarker.push(marker);
-                setCurrentMarkerCoords([longitude, latitude]);
+                setCurrentMarkerCoords([ currentLng, currentLat ]);
     
                 setMap(map);
                 map.resize();
@@ -72,15 +89,21 @@ const AddProperty = props => {
             map.on('click', e => addMarker(e, map));
         }
 
-        const addMarker = (e, map) => {
+        const addMarker = (e, map, lng, lat) => {
+            let long = lng ? lng : e.lngLat.lng;
+            let lati = lat ? lat : e.lngLat.lat;
             clearMarker();
-    
-            const marker = new mapboxgl.Marker()
-                .setLngLat([ e.lngLat.lng, e.lngLat.lat ])
+
+            const markerHTML = document.createElement('div');
+            markerHTML.className = 'markerPick';
+            const marker = new mapboxgl.Marker(markerHTML)
+                .setLngLat([ long, lati ])
                 .addTo(map)
+
+            map.flyTo({ center: [ long, lati ] });
     
             currentMarker.push(marker);
-            setCurrentMarkerCoords([ e.lngLat.lng, e.lngLat.lat ]);
+            setCurrentMarkerCoords([ long, lati ]);
         }
     
         const clearMarker = () => currentMarker.forEach(marker => marker.remove())
@@ -91,13 +114,13 @@ const AddProperty = props => {
 
     const showMap = isLoading ? '0' : '1';
 
-    console.log(currentMarkerCoords)
-
+    console.log(currentMarkerCoords);
+    
     return (
         <React.Fragment>
                 <div className="loading"><ClipLoader size={50} color={'#485877'} loading={isLoading}/></div>
 
-                <div className="homeContainer">
+                <div className="AddPropertyContainer">
                     <div style={{ opacity: showMap }}>
                         <div ref={el => mapContainer.current = el} className="mapContainer" />
                     </div>
