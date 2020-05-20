@@ -6,6 +6,8 @@ import Button from '@material-ui/core/Button';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {withStyles} from '@material-ui/core/styles';
+import Datepicker from '../Datepicker/Datepicker'
+
 
 const EmailTextField = withStyles({
   root: {
@@ -39,7 +41,7 @@ const PasswordTextField = withStyles({
        '& label.Mui-focused': {
          color: 'black',
        },
-     },
+     }, 
    },
  })(TextField);
 
@@ -91,11 +93,7 @@ const AuthModal = props => {
                <EmailTextField id="outlined-email-input" label="Last name" type="text" 
                autoComplete="current-email" variant="outlined"/>
             </div>
-               {/* calender */}
-            <div>
-               <EmailTextField id="outlined-email-input" label="Birthdate" type="text" 
-               autoComplete="current-email" variant="outlined"/> 
-            </div>
+            <Datepicker for={"Sign up"} />
          </React.Fragment>
       );
 
@@ -118,8 +116,6 @@ const AuthModal = props => {
          </div>
       )
    }
-
-
 
    return (
       <React.Fragment>
@@ -145,15 +141,19 @@ const AuthModal = props => {
                      <EmailTextField id="outlined-email-input" label="Email" type="email" 
                      autoComplete="current-email" variant="outlined"/>
                   </div>
-                  <div>
-                     <PasswordTextField id="outlined-password-input" label="Password" type="password" 
-                     autoComplete="current-password" variant="outlined"/>
-                  </div>
+                  {
+                     showPage === "Recover password" ? 
+                        undefined
+                        : <div>
+                           <PasswordTextField id="outlined-password-input" label="Password" type="password" 
+                           autoComplete="current-password" variant="outlined"/>
+                        </div>
+                  }
                   {
                      showPage === "Sign up" ? 
                         <div>
-                           <EmailTextField id="outlined-email-input" label="First name" type="text" 
-                           autoComplete="current-email" variant="outlined"/>
+                           <PasswordTextField id="outlined-password-input" label="Repeat password" type="password" 
+                           variant="outlined"/>
                         </div>
                         : undefined
                   }

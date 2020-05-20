@@ -38,7 +38,7 @@
 }
 
 .loginTitle {
-   padding: 13px 0px 15px 0px;
+   padding: 1.5rem 0px 1.5rem 0px;
    font-size: 18px;
 }
 
@@ -68,8 +68,8 @@
    display: flex;
    justify-content: center;
    align-items: center;
-   right: 93%;
-   top: 2%;
+   right: 31.4rem;
+   top: 1rem;
    padding: 1rem;
    border-radius: 50%;
    transition: .3s;
