@@ -9,6 +9,9 @@ import { withStyles } from '@material-ui/core/styles';
 import Datepicker from '../Datepicker/Datepicker';
 import { login } from '../../helpers/auth';
 import { validateForm } from '../../helpers/validation';
+import { useStore, useSetStoreValue } from 'react-context-hook';
+import toastr from 'toastr';
+import '../../styles/toastr.css';
 
 const EmailTextField = withStyles({
    root: {
@@ -77,6 +80,9 @@ const SubmitButton = withStyles({
 
 const AuthModal = props => {
 
+   const [isAuthenticated, setIsAuthenticated] = useStore('isAuthenticated', false);
+   const setUser = useSetStoreValue('user');
+
    const [ showPage, setShowPage ] = useState(props.page);
    const [ user_email, setEmail ] = useState('antonel.costescu@gmail.com');
    const [ user_password, setPassword ] = useState('123123');
@@ -89,12 +95,21 @@ const AuthModal = props => {
       signUpContent = (
          <React.Fragment>
             <div>
-               <EmailTextField id="outlined-email-input" label="First name" type="text" 
-               autoComplete="current-email" variant="outlined"/>
+               <EmailTextField 
+                  id="outlined-firstname-input" 
+                  label="First name" type="text" 
+                  autoComplete="off" 
+                  variant="outlined"
+               />
             </div>
             <div>
-               <EmailTextField id="outlined-email-input" label="Last name" type="text" 
-               autoComplete="current-email" variant="outlined"/>
+               <EmailTextField 
+                  id="outlined-lastname-input" 
+                  label="Last name" 
+                  type="text" 
+                  autoComplete="off" 
+                  variant="outlined"
+               />
             </div>
             <Datepicker for={'Sign up'} />
          </React.Fragment>
@@ -127,18 +142,20 @@ const AuthModal = props => {
    }
 
    const submitForm = async() => {
-      //TODO: VALIDATE FRONTEND
+      if(showPage === 'Log in') {
 
-      const isFormValid = validateForm([ { type: 'email', val: user_email }, { type: 'password', val: user_password } ]);
+         // ====================== VALIDATION ======================
+         const isFormValid = validateForm([ { type: 'email', val: user_email }, { type: 'password', val: user_password } ]);
+         if(!isFormValid.formIsValid) return toastr.error(`Invalid ${isFormValid.invalids.join(', ')}`);
 
-      console.log(isFormValid);
-
-      if(showPage === 'Log in' && isFormValid) {
          const res = await login({ type: 'email', val: user_email }, { type: 'password', val: user_password });
-         console.log(res);
+
          if(res.status === 1) {
-   
-         }
+            toastr.success('You are now logged in!');
+            setIsAuthenticated(true);
+            setUser(res.user);
+            props.closeModal();
+         } else return toastr.error(`Invalid ${isFormValid.invalids.join(', ')}`);
       } else console.log('another page')
    }
 
@@ -148,8 +165,8 @@ const AuthModal = props => {
             open={true}
             onClose={handleClose}
             aria-labelledby="simple-modal-title"
-            aria-describedby="simple-modal-description"
-         >
+            aria-describedby="simple-modal-description">
+
             <div className={classes.modalContainer}>
                <div className={classes.titleContainer}>
                   <div onClick={handleClose} className={classes.closeButton}><FontAwesomeIcon icon={faTimes}/></div>
@@ -161,24 +178,44 @@ const AuthModal = props => {
                   <form className={classes.loginForm} noValidate autoComplete="off">
                      { signUpContent ? signUpContent : undefined }
                      <div>
-                        <EmailTextField id="outlined-email-input" label="Email" type="email" 
-                        autoComplete="current-email" variant="outlined" value={user_email} onChange={e => setEmail(e.target.value)} />
+                        <EmailTextField 
+                           id="outlined-email-input" 
+                           label="Email" 
+                           type="email" 
+                           autoComplete="off" 
+                           variant="outlined" 
+                           value={user_email} 
+                           onChange={e => setEmail(e.target.value)} 
+                        />
                      </div>
                      {
                         showPage === "Recover password" ? 
                            undefined
-                           : <div>
-                              <PasswordTextField id="outlined-password-input" label="Password" type="password" 
-                              autoComplete="current-password" variant="outlined" value={user_password} onChange={e => setPassword(e.target.value)} />
+                           : 
+                           <div>
+                              <PasswordTextField 
+                                 id="outlined-password-input" 
+                                 label="Password" 
+                                 type="password" 
+                                 autoComplete="current-password" 
+                                 variant="outlined" 
+                                 value={user_password} 
+                                 onChange={e => setPassword(e.target.value)} 
+                              />
                            </div>
                      }
                      {
                         showPage === "Sign up" ? 
                            <div>
-                              <PasswordTextField id="outlined-password-input" label="Repeat password" type="password" 
-                              variant="outlined"/>
+                              <PasswordTextField 
+                                 id="outlined-repassword-input" 
+                                 label="Repeat password" 
+                                 type="password" 
+                                 variant="outlined"
+                              />
                            </div>
-                           : undefined
+                           : 
+                           undefined
                      }
                         
                      <SubmitButton variant="contained" onClick={() => submitForm()}>{showPage}</SubmitButton>
@@ -186,6 +223,7 @@ const AuthModal = props => {
                      {
                         switchModalButtons ? switchModalButtons : undefined
                      }
+
                   </form>
                </div>
                

@@ -1,15 +1,15 @@
 const endpoint = 'http://localhost:5555/api/users';
 
 const auth = {
-    isAuthenticated: false,
-    email: undefined,
-    userID: undefined
+  isAuthenticated: undefined,
+  user: undefined
 }
 
 export const login = async(email, password) => {
     try {
         const options = {
           method: 'POST',
+          credentials: 'include',
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -54,8 +54,7 @@ export const logout = async() => {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({})
+        }
       };
       const response = await fetch(endpoint + '/logout', options);
       const data = await response.json();
@@ -127,11 +126,11 @@ export const deleteUser = async() => {
     try {
         const options = {
           method: 'DELETE',
+          credentials: 'include',
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({})
+          }
         };
         const response = await fetch(endpoint, options);
         const data = await response.json();
@@ -145,11 +144,11 @@ export const deleteUser = async() => {
 export const getSpecificUser = async(id) => {
     try {
         const options = {
+          credentials: 'include',
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({})
+          }
         };
         const response = await fetch(endpoint + '/user/' + id, options);
         const data = await response.json();

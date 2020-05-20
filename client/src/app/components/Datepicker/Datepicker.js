@@ -6,21 +6,25 @@ import './Datepicker.css';
 
 const Datepicker = (props) => {
 
-   const [selectedDate, setSelectedDate] = useState(new Date());
-   const handleDateChange = (date) => {setSelectedDate(date)};
+   const [selectedDate, setSelectedDate] = useState(new Date('1999-01-25'));
+   const handleDateChange = date => setSelectedDate(date);
       
    return (
       <div className='DatePickerContainer'>
          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardDatePicker 
-               margin="normal" 
-               id="date-picker-dialog" 
-               label="Birthdate" 
-               format="dd/MM/yyyy"
-               value={selectedDate} 
-               onChange={handleDateChange} 
-               KeyboardButtonProps={{'aria-label': 'change date'}}
-            />
+         <KeyboardDatePicker
+            disableToolbar
+            variant="inline"
+            format="yyyy/MM/dd"
+            margin="normal"
+            id="date-picker-inline"
+            label="Date picker inline"
+            value={selectedDate}
+            onChange={handleDateChange}
+            KeyboardButtonProps={{
+               'aria-label': 'change date',
+            }}
+         />
          </MuiPickersUtilsProvider>
       </div>
    );

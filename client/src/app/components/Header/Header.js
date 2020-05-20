@@ -4,16 +4,28 @@ import { NavLink } from 'react-router-dom';
 import Logo from '../../assets/img/holiday_house_logo.svg';
 import UserIcon from '../../assets/img/user_icon.svg';
 import Modal from '../Modal/Modal';
+import { useStore, useSetStoreValue } from 'react-context-hook';
+import { logout } from '../../helpers/auth';
 
 const Header = props => {
 
+    const [isAuthenticated, setIsAuthenticated] = useStore('isAuthenticated');
+    const setUser = useSetStoreValue('user');
+
     const [showModal, setShowModal] = useState(undefined);
 
-    const setModal = (modalName) => setShowModal(modalName);
+    const setModal = modalName => setShowModal(modalName);
+    const closeModal = () => setShowModal(undefined);
+
+    const handleLogout = async() => {
+        const res = await logout();
+        if(res.status === 1) {
+            setIsAuthenticated(false);
+            setUser(undefined);
+        }
+    }
 
     let modalToShow;
-
-    const closeModal = () => setShowModal(undefined);
 
     if (showModal) modalToShow = <Modal page={showModal} closeModal={closeModal} />;
 
@@ -32,7 +44,7 @@ const Header = props => {
                         <span className={classes.Button}>Host your home</span> 
                     </NavLink>
 
-                    { true ?
+                    { !isAuthenticated ?
 
                     <React.Fragment>
                         <span className={classes.Button} onClick={() => setModal("Log in")}>Log in</span> 
@@ -42,7 +54,7 @@ const Header = props => {
                     :                    
 
                     <React.Fragment>
-                        <span className={classes.Button}>Log out</span> 
+                        <span className={classes.Button} onClick={handleLogout}>Log out</span> 
                         <span className={classes.ProfileButton}>Sebastian<img src={UserIcon} alt="user-icon" /></span> 
                     </React.Fragment>
 
