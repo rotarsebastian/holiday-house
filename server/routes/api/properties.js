@@ -67,7 +67,7 @@ router.get('/user/:id', isAuthenticated, async(req, res) => {
 });
 
 // ====================== GET PROPERTIES ======================
-router.get('/', isAuthenticated, async(req, res) => {
+router.get('/', async(req, res) => {
     try {
         const { offset, city, from, to, guests, type, minprice, maxprice } = req.query;
         if(!offset || !city || !from || !to || !guests) return res.json({ status: 0, message: 'Invalid request'});
