@@ -62,30 +62,78 @@ const PropertiesResults = props => {
 
         // const addMarkers = (map, properties) => {
         const addMarkers = (map) => {
-            const properties = [ { coordinates: [ 12.57, 55.68 ], city: 'Copenhagen', price: 299 }, { coordinates: [ 13.57, 57.68 ], city: 'Copenhagen', price: 299 } ];
+            const properties = [ 
+                { coordinates: [ 12.57, 55.68 ], city: 'Copenhagen', price: 299, type: 'Entire place', title: '3 Room Apartment', img: 'https://holidayhouse1.s3.amazonaws.com/default.jpeg' }, 
+                { coordinates: [ 13.57, 57.68 ], city: 'Copenhagen', price: 299, type: 'Private room', title: 'Penthouse with sea view', img: 'https://holidayhouse1.s3.amazonaws.com/default.jpeg' }
+            ];
             // const properties = await getProperties();
 
             properties.forEach(async (property)=> {
 
                 // create a HTML element for each feature
                 const markerHTML = document.createElement('div');
+                const markerDIV = document.createElement('div');
                 markerHTML.className = 'marker';
-                markerHTML.textContent = `${property.price} DKK`;
+                markerDIV.className = 'markerContainer';
+                markerDIV.textContent = `${property.price} kr`;
+                markerHTML.appendChild(markerDIV);
+
+                markerHTML.addEventListener('click', e => {
+                    clearActiveMarker();
+                    setTimeout(() => e.target.classList.add('active', 'visited'), 100);
+                });
+
+                let popup = new mapboxgl.Popup({ closeButton: false, offset: 20 });
 
                 // make a marker for each feature and add to the map
                 const oneMarker = new mapboxgl.Marker(markerHTML)
                     .setLngLat(property.coordinates)
-                    .setPopup(new mapboxgl.Popup({ closeButton: false, offset: 20 })  
-                        .setHTML(constructPopup(property)))
+                    .setPopup(popup.setHTML(constructPopup(property)))
                     .addTo(map)
                     currentMarkers.push(oneMarker);
+
+                popup.on('close', () => clearActiveMarker());
 
                 // markerHTML.addEventListener('click', evt => evt.stopPropagation());
             });
         }
 
+        const clearActiveMarker = () => {
+            Array.from(mapContainer.current.querySelectorAll('.markerContainer')).find(e => e.classList.contains('active') ? e.classList.remove('active') : false);
+        }
+
         const constructPopup = property => {
-            return `<p>${property.city}</p>`
+            const popUpContainer = document.createElement('div');
+            popUpContainer.className = 'PopupContainer';
+            
+            const popUpBottomContainer = document.createElement('div');
+            popUpBottomContainer.className = 'PopupBottomContainer';
+
+            const popUpImage = document.createElement('img');
+            const popUpType = document.createElement('div');
+            const popUpTitle = document.createElement('div');
+            const popUpPrice = document.createElement('div');
+
+            popUpImage.setAttribute('src', property.img);
+            popUpImage.setAttribute('alt', 'house-img');
+            popUpImage.className = 'PopupImage';
+            popUpType.textContent = property.type;
+            popUpType.className = 'PopupType';
+            popUpTitle.textContent = property.title;
+            popUpTitle.className = 'PopupTitle';
+            popUpPrice.textContent = property.price;
+            popUpPrice.className = 'PopupPrice';
+
+            popUpBottomContainer.appendChild(popUpType);
+            popUpBottomContainer.appendChild(popUpTitle);
+            popUpBottomContainer.appendChild(popUpPrice);
+
+            popUpContainer.appendChild(popUpImage);
+            popUpContainer.appendChild(popUpBottomContainer);
+
+            console.log(popUpContainer)
+
+            return popUpContainer.outerHTML;
         }
 
         // const hideMarkers = () => {
@@ -112,13 +160,13 @@ const PropertiesResults = props => {
 
     return (
         <React.Fragment>
-                <div className="loading"><ClipLoader size={50} color={'#485877'} loading={isLoading}/></div>
+            <div className="loading"><ClipLoader size={50} color={'#485877'} loading={isLoading}/></div>
 
-                <div className="homeContainer">
-                    <div style={{ opacity: showMap }}>
-                        <div ref={el => mapContainer.current = el} className="mapContainer" />
-                    </div>
+            <div className="homeContainer">
+                <div style={{ opacity: showMap }}>
+                    <div ref={el => mapContainer.current = el} className="mapContainer" />
                 </div>
+            </div>
         </React.Fragment>
     )
 }
