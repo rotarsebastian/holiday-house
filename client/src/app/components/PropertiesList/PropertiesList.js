@@ -1,23 +1,27 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import classes from "./PropertiesList.module.css";
 import PropertyCard from './../PropertyCard/PropertyCard'
+import { getProperties }  from './../../helpers/properties';
+
 const PropertiesList = (props) => {
 
-   // const [properties, setProperties] = useState([]);
+   const [properties, setProperties] = useState([]);
 
-   
-   // useEffect(() => {
+  
+   useEffect(() => {
 
-   //    const fetchProperties = async() => {
-   //       const res = await fetch(...)
-   //       // const data = await res.json();
-   //       // console check data
-   //       // setProperties(data)
-   //    }
+      // from=2020-07-01&to=2020-07-11&guests=2&city=copenhagen&offset=0
 
-   //    fetchProperties();
-   // }, []) 
+      const fetchProperties = async() => {
+         const data = await getProperties('2020-07-01', '2020-07-11');
+         console.log(data);
+        setProperties(data)
+      }
 
+      fetchProperties();
+   }, []) 
+
+   console.log(properties)
    // const openPropertyPage = id => {
    //    //code
    // }
