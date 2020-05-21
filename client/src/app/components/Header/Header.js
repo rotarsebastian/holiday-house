@@ -36,7 +36,7 @@ const Header = props => {
 
     if (showModal) modalToShow = <Modal page={showModal} closeModal={closeModal} />;
 
-    console.log(user_data, isAuthenticated)
+    // console.log(user_data, isAuthenticated)
 
     return (
         <React.Fragment>

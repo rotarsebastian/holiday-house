@@ -29,8 +29,8 @@
     font-family: 'Quicksand SemiBold';
 }
 
-.AddPropertyContainer .mapContainer {
-    width: 50vw;
-    height: 70.3vh;
+.AddPropertyContainer .addPropertyMap {
+    width: 30vw;
+    height: 30vh;
     outline: none;
 }
