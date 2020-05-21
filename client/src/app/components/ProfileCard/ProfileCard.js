@@ -1,12 +1,14 @@
-import React  from "react";
+import React, { useEffect, useState }  from "react";
 import classes from "./ProfileCard.module.css";
 import UserIcon from '../../assets/img/user_icon.svg';
 
-const ProfileCard = (user) => {
+const ProfileCard = (props) => {
 
-   const [first_name, last_name] = user;
-    
-    // console.log(user)
+   const [user_data, setUserData] = useState(undefined);
+
+   useEffect(() => {
+      if(props.user) setUserData(props.user);
+   }, [props])
     
    return (
        <div className={classes.CardContainer}>
@@ -14,8 +16,8 @@ const ProfileCard = (user) => {
         <div className={classes.ProfileTitle}>Hi, I’m Andreea</div>
         <div className={classes.ProfileParag}>Joined in 2020</div>  
         <div className={classes.ProfileDetails}>
-         <div className={classes.ProfileParag}><span>{first_name}</span><span>{last_name}</span></div>
-            <div className={classes.ProfileParag}><span>Last name</span><span>Steriu</span></div>
+         <div className={classes.ProfileParag}><span>First name</span><span>{user_data ? user_data.first_name : ''  }</span></div>
+            <div className={classes.ProfileParag}><span>Last name</span><span>{user_data ? user_data.last_name: ''}</span></div>
             <div className={classes.ProfileParag}><span>Birthday</span><span>16/11/95</span></div>
         </div>    
         <div className={classes.ProfileDetails}>

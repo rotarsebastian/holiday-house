@@ -30,7 +30,7 @@ const Profile = props => {
         <React.Fragment>
             <div className={classes.ProfileContainer}>
                 <div className={classes.ProfileCard}>
-                    <ProfileCard />
+                    <ProfileCard user={user_data ? user_data : undefined} />
                 </div>
 
                 <div className={classes.Container}>
