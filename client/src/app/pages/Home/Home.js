@@ -4,6 +4,8 @@ import PropertyCard from '../../components/PropertyCard/PropertyCard'
 import './Home.css';
 
 const Home = props => {
+
+    const properties = ['','','','','','','','','','','','','','',''];
     
     return (
         <React.Fragment>
@@ -12,25 +14,9 @@ const Home = props => {
                 <div className="homeContainer">
                     <h1>What is your next destination?</h1>
                     <div className="slideshowContainer">
-                        <div className="slider">Slider</div>
-                        <div className="propertiesSlideshow">
-                            <div className="propertiesCard">
-                                <PropertyCard />
-                                <PropertyCard />
-                                <PropertyCard />
-                                <PropertyCard />
-                                <PropertyCard />
-                                <PropertyCard />
-                            </div>
-                            {/* <div className="propertiesCard">
-                                <PropertyCard />
-                                <PropertyCard />
-                                <PropertyCard />
-                                <PropertyCard />
-                                <PropertyCard />
-                                <PropertyCard />
-                            </div> */}
-                        </div>                  
+                        { properties.map(property => {
+                            return <PropertyCard className="propertyCard" home={'Home'} />
+                        })}                                   
                     </div>
                 </div>
         </React.Fragment>

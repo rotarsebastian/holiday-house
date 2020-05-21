@@ -1,9 +1,42 @@
-.propertiesSlideshow {
-    overflow-x: scroll;
+.slideshowContainer {
+    width: 30em;
+    height: 95vw;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transform:rotate(-90deg) translateY(-30em);
+    transform-origin: right top;
+}
+body {
     overflow-y: hidden;
-    white-space: nowrap;
-    height: 80px;
+    overflow-x: hidden;
 }
-.propertiesCard {
-    display: inline-block;
+h1 {
+    color: #e4215b;
+    font-size: 45px;
+    padding-bottom: 1em;
 }
+
+/* scrollbar */
+::-webkit-scrollbar {
+    width: 5px;
+    min-height: 300px;
+}
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: #aaaaaa;
+    width: 5px;
+
+}
+::-webkit-scrollbar-thumb {
+    background: #e4215b; 
+    border-radius: 10px;
+    /* height: 50px; */
+}
+::-webkit-scrollbar-track-piece {
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #b91c4b; 
+}
+
