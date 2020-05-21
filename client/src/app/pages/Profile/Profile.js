@@ -3,26 +3,24 @@ import classes from './Profile.module.css';
 import ProfileCard from './../../components/ProfileCard/ProfileCard'
 import PropertyCard from './../../components/PropertyCard/PropertyCard'
 import { getUserProperties }  from './../../helpers/properties';
-
+import { useStoreValue } from 'react-context-hook';
 
 const Profile = props => {
 
-
+    const user_data = useStoreValue('user');
     const [properties, setProperties] = useState([]);
-
   
     useEffect(() => {
-  
         const fetchProperties = async() => {
-                const properties = await getUserProperties(1,0);
+            if(user_data) {
+                const properties = await getUserProperties(user_data.id, 0);
+                // console.log(properties)
                 setProperties(properties.data);
+            }
         }
 
-       
        fetchProperties();
-       
-
-    }, []) 
+    }, [user_data]) // component didmount - []  || componentWillUpdate - [yourDependency]
 
    const openPropertyPage = id => {
       //code

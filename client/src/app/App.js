@@ -29,7 +29,6 @@ function Test() {
 
 const App = () => {
   toastr.options = toastrSetup;
-  
   const [isAuthenticated, setIsAuthenticated] = useStore('isAuthenticated', undefined);
   const setUser = useSetStoreValue('user');
 
@@ -47,7 +46,6 @@ const App = () => {
   }, [setIsAuthenticated, setUser]);
 
   if(isAuthenticated === undefined) return <div className="loading"><ClipLoader size={50} color={'#e83251'} /></div>
-
   else {
     return (
       <div className={classes.App}>
@@ -58,7 +56,7 @@ const App = () => {
             <Route exact path='/' component={props => <Home {...props} />} />
             <Route path='/propertiesresults' component={props => <PropertiesResults {...props} />} />
             <PrivateRoute path='/addproperty' component={props => <AddProperty {...props} />} />
-            <PrivateRoute path='/profile' component={props => <Profile {...props} />} />
+            <PrivateRoute path='/profile' component={props => <Profile {...props}/>} />
             <Route path='/addproperty' component={props => <AddProperty {...props} />} />
             <Route path='/property' component={props => <Property {...props} />} />
           </Switch>

@@ -16,7 +16,6 @@ const Header = props => {
     const [setRedirectTo] = useSetAndDelete('redirectTo');
     const setUser = useSetStoreValue('user');
     const user_data = useStoreValue('user');
-
     const setModal = modalName => setShowModal(modalName);
     const closeModal = () => {
         setRedirectTo(undefined);
@@ -35,8 +34,6 @@ const Header = props => {
     let modalToShow;
 
     if (showModal) modalToShow = <Modal page={showModal} closeModal={closeModal} />;
-
-    console.log(user_data, isAuthenticated)
 
     return (
         <React.Fragment>

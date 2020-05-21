@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import PropertyCard from '../../components/PropertyCard/PropertyCard'
+// import PropertyCard from '../../components/PropertyCard/PropertyCard'
 // import ClipLoader from 'react-spinners/ClipLoader';
 import './Home.css';
 import { useSetAndDelete } from 'react-context-hook';
@@ -35,12 +35,12 @@ const Home = props => {
                         <div className="slider">Slider</div>
                         <div className="propertiesSlideshow">
                             <div className="propertiesCard">
+                                {/* <PropertyCard />
                                 <PropertyCard />
                                 <PropertyCard />
                                 <PropertyCard />
                                 <PropertyCard />
-                                <PropertyCard />
-                                <PropertyCard />
+                                <PropertyCard /> */}
                             </div>
                             {/* <div className="propertiesCard">
                                 <PropertyCard />
