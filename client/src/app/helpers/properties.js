@@ -32,8 +32,7 @@ export const getUserProperties = async(id, offset) => {
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({})
+          }
         };
         const response = await fetch(endpoint + '/user/' + id + `?offset=${offset}`, options);
         const data = await response.json();
