@@ -7,6 +7,23 @@ import { useHistory } from 'react-router-dom';
 
 const Home = props => {
 
+    const history = useHistory();
+
+    const [setShowModal] = useSetAndDelete('showModal');
+    const [setRedirectTo] = useSetAndDelete('redirectTo');
+
+    useEffect(() => {
+
+        // history.replace('', null);
+        
+        if(props.location.state !== undefined && props.location.state !== null) {
+            const { pathname } = props.location.state.from;
+            setRedirectTo(pathname) 
+            setShowModal('Log in');
+            history.replace('', null);
+        }
+
+    }, [props.location.state, setRedirectTo, setShowModal, history]); 
     const properties = ['','','','','','','','','','','','','','',''];
 
     const history = useHistory();
