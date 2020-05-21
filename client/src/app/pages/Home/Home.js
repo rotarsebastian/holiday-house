@@ -13,7 +13,6 @@ const Home = props => {
     const [setRedirectTo] = useSetAndDelete('redirectTo');
 
     useEffect(() => {
-
         // history.replace('', null);
         
         if(props.location.state !== undefined && props.location.state !== null) {
@@ -22,28 +21,9 @@ const Home = props => {
             setShowModal('Log in');
             history.replace('', null);
         }
-
     }, [props.location.state, setRedirectTo, setShowModal, history]); 
+
     const properties = ['','','','','','','','','','','','','','',''];
-
-    const history = useHistory();
-
-    const [setShowModal] = useSetAndDelete('showModal');
-    const [setRedirectTo] = useSetAndDelete('redirectTo');
-
-    useEffect(() => {
-
-        // history.replace('', null);
-        
-        if(props.location.state !== undefined && props.location.state !== null) {
-            const { pathname } = props.location.state.from;
-            setRedirectTo(pathname) 
-            setShowModal('Log in');
-            history.replace('', null);
-        }
-
-    }, [props.location.state, setRedirectTo, setShowModal, history]); 
-
     
     return (
         <React.Fragment>
@@ -52,8 +32,8 @@ const Home = props => {
                 <div className="homeContainer">
                     <h1>What is your next destination?</h1>
                     <div className="slideshowContainer">
-                        { properties.map(property => {
-                            return <PropertyCard className="propertyCard" home={'Home'} />
+                        { properties.map((property,index) => {
+                            return <PropertyCard key={index} className="propertyCard" home={'Home'} />
                         })}                                   
                     </div>
                 </div>
