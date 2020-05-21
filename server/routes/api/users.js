@@ -104,7 +104,7 @@ router.post('/logout', isAuthenticated, (req,res) => {
 router.get('/checkauth', isAuthenticated, async(req, res) => {
     try {
         // ====================== FIND LOGGED USER ======================
-        const loggedUser = await User.query().select('id', 'email', 'first_name', 'last_name', 'birthdate').findById(req.session.user.id);
+        const loggedUser = await User.query().select('id', 'email', 'first_name', 'last_name', 'birthdate', 'created_at').findById(req.session.user.id);
         if(!loggedUser) return res.json({ status: 0, msg: 'User not authorized!'});
 
         // ====================== SEND BACK LOGGED USER ======================
@@ -285,7 +285,10 @@ router.post('/login', async(req, res) => {
 
             // ====================== ALL OK - CREATING A SESSION FOR USER ======================
             else {
-                const loggedUser = { id: user.id, email: user.email, birthdate: user.birthdate, first_name: user.first_name, last_name: user.last_name };
+                const loggedUser = { 
+                    id: user.id, email: user.email, birthdate: user.birthdate, 
+                    first_name: user.first_name, last_name: user.last_name, created_at: user.created_at 
+                };
                 req.session.user = loggedUser;
                 return res.status(200).json({ status: 1, message: 'User logged in', user: loggedUser, code: 200 });
             }
