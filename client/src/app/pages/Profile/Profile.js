@@ -9,7 +9,6 @@ const Profile = props => {
 
     const user_data = useStoreValue('user');
     const [properties, setProperties] = useState([]);
-    // const [user, setUser] = useState([]);
 
     useEffect(() => {
         const fetchProperties = async() => {

@@ -3,7 +3,8 @@ import classes from "./ProfileCard.module.css";
 import UserIcon from '../../assets/img/user_icon.svg';
 
 const ProfileCard = (user) => {
-//    const [first_name, last_name] = user;
+
+   const [first_name, last_name] = user;
     
     // console.log(user)
     
@@ -13,7 +14,7 @@ const ProfileCard = (user) => {
         <div className={classes.ProfileTitle}>Hi, I’m Andreea</div>
         <div className={classes.ProfileParag}>Joined in 2020</div>  
         <div className={classes.ProfileDetails}>
-   <div className={classes.ProfileParag}><span>Andreea</span><span>Steriu</span></div>
+         <div className={classes.ProfileParag}><span>{first_name}</span><span>{last_name}</span></div>
             <div className={classes.ProfileParag}><span>Last name</span><span>Steriu</span></div>
             <div className={classes.ProfileParag}><span>Birthday</span><span>16/11/95</span></div>
         </div>    
