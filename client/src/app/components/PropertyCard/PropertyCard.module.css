@@ -7,6 +7,16 @@
     overflow: hidden;
 }
 
+.Home {
+    width: 100%;
+    height: auto;
+    padding: 0;
+    margin: 0 -1.5rem;
+    margin-bottom: 20em;
+    transform: rotate(90deg) translateX(30em);
+    transform-origin: right top;
+}
+
 .PropertyImage {
  background-image: url(../../assets/img/LMM-Cover-Images-2.jpg);
  background-repeat: no-repeat;
