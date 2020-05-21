@@ -10,20 +10,23 @@ import Datepicker from '../Datepicker/Datepicker'
 
 const LocationTextField = withStyles({
    root: {
-     
-       width: '20vw',
-       '& label.Mui-focused': {
-          color: '#E4215B',
-        },
+      textTransform: "uppercase",
+      width: '20vw',
+      fontSize: "1rem",
+      borderRight:' 1px solid #dbdbdb',
+      '& label.Mui-focused': {
+         color: '#E4215B',
+      },
       '& .MuiOutlinedInput-root': {
          '& .PrivateNotchedOutline-root-60':{
-            borderWidth: '0px'
+            borderWidth: '0px',
+            fontSize: '0.9rem',
          },
         '&.Mui-focused fieldset': {
           borderColor: '#E4215B',
         },
         '& label.Mui-focused': {
-          color: 'black',
+          color: 'pink',
         },
       },
     },
@@ -31,19 +34,24 @@ const LocationTextField = withStyles({
 
  const GuestsTextField = withStyles({
    root: {
-       width: '20vw',
-       '& label.Mui-focused': {
-          color: '#E4215B',
-        },
-        '& .MuiOutlinedInput-root': {
-         '& .PrivateNotchedOutline-root-60':{
-            borderWidth: '0px'
-         },
-         '&.Mui-focused fieldset': {
-           borderColor: '#E4215B',
-         },
-        '& label.Mui-focused': {
-          color: 'black',
+      textTransform: "uppercase",
+      fontSize: "1rem",
+      width: '20vw',
+      '& label.Mui-focused': {
+         color: '#E4215B',
+      },
+      '& .MuiOutlinedInput-root': {
+      '& .PrivateNotchedOutline-root-60':{
+         borderWidth: '0px'
+      },
+      '& .PrivateNotchedOutline':{
+         borderWidth: '0px'
+      },
+      '&.Mui-focused fieldset': {
+         borderColor: '#E4215B',
+      },
+      '& label.Mui-focused': {
+         color: 'black',
         },
       },
     },
@@ -51,7 +59,7 @@ const LocationTextField = withStyles({
 
  const SearchButton = withStyles({
    root: {
-      width: '15vw',
+      width: '100%',
       height: '56px',
       fontWeight: 'bold',
       fontSize: '12px',
@@ -78,6 +86,8 @@ const LocationTextField = withStyles({
    }
 })(Button);
 
+const handleSearch = () => {}
+
 const SearchbarComponents = () => {
    return (
       <React.Fragment>
@@ -85,17 +95,17 @@ const SearchbarComponents = () => {
             <div className={classes.SearchbarBody}>
                <div>
                   <LocationTextField id="outlined-search-input" label="Location" type="search" 
-                  placeholder="Where are you going" variant="outlined"/>
+                  placeholder="Where are you going?" variant="outlined" />
                </div>   
                <div>
-                  <Datepicker for={"Check in"} />
+                  <Datepicker newLabel="Check in"  />
                </div>   
                <div>
-                  <Datepicker for={"Check out"} />
+                  <Datepicker newLabel="Check out"  />
                </div>    
                <div>
                   <GuestsTextField id="outlined-input" label="Guests" type="number"
-                  placeholder="Add guests" variant="outlined"/>
+                  placeholder="How many will you be?" variant="outlined"/>
                </div>   
                <div className={classes.SearchbarButtonContainer}>
                   <SearchButton variant="contained">Search</SearchButton>

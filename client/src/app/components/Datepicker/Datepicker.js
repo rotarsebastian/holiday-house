@@ -4,10 +4,12 @@ import  { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/picke
 import './Datepicker.css';
 
 
-const Datepicker = (props) => {
+const Datepicker = ({newLabel}) => {
 
+   
    const [selectedDate, setSelectedDate] = useState(new Date('1999-01-25'));
    const handleDateChange = date => setSelectedDate(date);
+
       
    return (
       <div className='DatePickerContainer'>
@@ -18,7 +20,7 @@ const Datepicker = (props) => {
             format="yyyy/MM/dd"
             margin="normal"
             id="date-picker-inline"
-            label="Date picker inline"
+            label={newLabel}
             value={selectedDate}
             onChange={handleDateChange}
             KeyboardButtonProps={{

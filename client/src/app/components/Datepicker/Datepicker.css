@@ -62,15 +62,34 @@ div.MuiDialogActions-root.MuiDialogActions-spacing > button:nth-child(2) > span.
 } 
 
 /* ############# SEARCHBAR ############# */
+div.SearchbarContainer > div > div:nth-child(2) > div {
+   width: 20vw;
+   border-right: 1px solid #dbdbdb;
+}
 
+.DatePickerContainer .MuiInput-underline:before {
+   border-bottom: 1px solid rgba(0, 0, 0, 0.54)!important;
+}
+
+input#date-picker-inline.MuiInputBase-input.MuiInput-input.MuiInputBase-inputAdornedEnd {
+   color: rgba(0, 0, 0, 0.54);
+}
+
+input#date-picker-inline.MuiInputBase-input.MuiInput-input.MuiInputBase-inputAdornedEnd:focus {
+   color: var(--black);
+   fill: var(--black) !important;
+}
+
+div.SearchbarContainer > div > div:nth-child(3) > div {
+   width: 20vw;
+   border-right: 1px solid #dbdbdb;
+}
 
 div.SearchbarContainer > div > div:nth-child(2) > div > div {
-   width: 20vw;
    margin-top: 2.8px;
 }
 
 div.SearchbarContainer > div > div:nth-child(3) > div > div {
-   width: 20vw;
    margin-top: 2.8px;
 }
 
@@ -82,7 +101,23 @@ div.SearchbarContainer .DatePickerContainer > div {
 }
 
 div.SearchbarContainer .DatePickerContainer > div {
-   border: none !important
+   border: none !important;
+}
+
+div.SearchbarContainer .DatePickerContainer > div {
+   text-transform: uppercase;
+}
+
+.MuiSvgIcon-root {
+   fill: rgba(0, 0, 0, 0.54) !important;
+}
+
+.MuiSvgIcon-root:hover {
+   fill: var(--black) !important;
+}
+
+.MuiSvgIcon-root:active {
+   fill: var(--black) !important;
 }
 
  /* 3.3px */

@@ -92,6 +92,8 @@ const AuthModal = props => {
    const [ showPage, setShowPage ] = useState(props.page);
    const [ user_email, setEmail ] = useState('antonel.costescu@gmail.com');
    const [ user_password, setPassword ] = useState('123123');
+
+
    
    const handleClose = () => props.closeModal();
 
@@ -117,7 +119,7 @@ const AuthModal = props => {
                   variant="outlined"
                />
             </div>
-            <Datepicker for={'Sign up'} />
+            <Datepicker newLabel="Birthdate" />
          </React.Fragment>
       );
 
