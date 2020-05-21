@@ -1,0 +1,58 @@
+.PropertyDetailsContainer {
+    margin-left: 3rem;
+}
+
+.PropertyTitle {
+    color: var(--black);
+    font-family: 'Quicksand Bold';
+    font-size: 1.3rem;
+    margin: .5rem 0;
+}
+
+.PropertyDetails {
+    padding: 1rem 0 3rem 0;
+}
+
+.PropertyDetailTitle {
+    color: var(--black);
+    font-family: 'Quicksand Bold';
+    font-size: 1rem;
+    margin: .5rem 0;
+}
+
+.PropertyInfo {
+    color: var(--grey);
+    font-size: .85rem;
+}
+
+.PropertyInfoRooms {
+    color: var(--black);
+}
+
+.PropertyOrderContainer {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 4rem;
+}
+
+.PropertyPrice {
+    color: var(--black);
+    font-family: 'Quicksand Bold';
+    font-size: 1.5rem;
+}
+
+.PropertyPriceNight {
+    color: var(--black);
+    font-family: 'Quicksand Bold';
+    font-size: 1rem;
+}
+
+.PropertyPriceTotal {
+    color: var(--black);
+    font-size: 1rem;
+    text-align: center;
+}
+
+.BookButtonText {
+    color: #FFF;
+}

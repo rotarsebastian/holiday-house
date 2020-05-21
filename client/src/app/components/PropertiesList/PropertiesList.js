@@ -13,26 +13,22 @@ const PropertiesList = (props) => {
       // from=2020-07-01&to=2020-07-11&guests=2&city=copenhagen&offset=0
 
       const fetchProperties = async() => {
-         const data = await getProperties('2020-07-01', '2020-07-11');
-         console.log(data);
-        setProperties(data)
+         const properties = await getProperties('2020-07-01', '2020-07-11', 2, 'copenhagen', 0);
+         console.log(properties);
+        setProperties(properties)
       }
 
       fetchProperties();
    }, []) 
 
-   console.log(properties)
+   
    // const openPropertyPage = id => {
    //    //code
    // }
 
    return (
        <div className={classes.ListContainer}>
-         {/* { PropertiesList.map(property => {
-            return (
-               <div className={classes.PropertyCard}><PropertyCard property={property} click={openPropertyPage} /></div>
-            )
-         })} */}
+        
          <div className={classes.PropertyCard}><PropertyCard/></div>
           <div className={classes.PropertyCard}><PropertyCard/></div>
           <div className={classes.PropertyCard}><PropertyCard/></div>

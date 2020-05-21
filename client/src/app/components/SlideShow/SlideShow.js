@@ -1,8 +1,8 @@
 import React from "react";
 import classes from "./SlideShow.module.css";
 import { Fade } from 'react-slideshow-image';
-import fadeImages from './../../assets/img/LMM-Cover-Images-2.jpg'
 import anotherImage from './../../assets/img/pexels-photo-1396122.jpeg'
+import anotheroneImage from './../../assets/img/image-asset.jpeg'
 
 
 // const fadeImages = [
@@ -24,7 +24,7 @@ const Slideshow = (props) => {
     <Fade {...fadeProperties}>
     <div className={classes.EachFade}>
       <div className={classes.ImageContainer}>
-        <img src={fadeImages} alt="house1" />
+        <img src={anotheroneImage} alt="house1" />
       </div>
     </div>
     <div className={classes.EachFade}>
@@ -34,7 +34,7 @@ const Slideshow = (props) => {
     </div>
     <div className={classes.EachFade}>
       <div className={classes.ImageContainer}>
-        <img src={fadeImages}  alt="house3"/>
+        <img src={anotheroneImage}  alt="house3"/>
       </div>
     </div>
   </Fade>

@@ -13,6 +13,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "date-fns": "^2.14.0",
     "mapbox-gl": "^1.10.1",
     "react": "^16.13.1",
     "react-context-hook": "^2.2.0",
