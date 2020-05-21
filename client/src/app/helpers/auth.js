@@ -2,7 +2,10 @@ const endpoint = 'http://localhost:5555/api/users';
 
 const auth = {
   isAuthenticated: undefined,
-  user: undefined
+  user: undefined,
+
+  showModal: undefined,
+  redirectTo: undefined
 }
 
 export const login = async(email, password) => {

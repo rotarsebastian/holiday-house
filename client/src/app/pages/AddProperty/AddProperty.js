@@ -16,19 +16,13 @@ const AddProperty = props => {
     const mapContainer = useRef(null);
 
     useEffect(() => {
-        // ===================== FOR PRODUCTION =====================
-        // mapboxgl.accessToken = process.env.REACT_APP_MAP;
-        // ===================== END PRODUCTION =====================
-
         // ===================== FOR DEVELOPMENT =====================
+        // mapboxgl.accessToken = process.env.REACT_APP_MAP;
         mapboxgl.accessToken = ak('map');
-        // ===================== END DEVELOPMENT =====================
 
-        const initializeMap = ({ setMap, mapContainer }) => {
+        const initializeMap = () => {
             if ('geolocation' in navigator) { 
-                navigator.geolocation.getCurrentPosition(position => {
-                    addMap(position.coords.longitude, position.coords.latitude);
-                }) 
+                navigator.geolocation.getCurrentPosition(position => addMap(position.coords.longitude, position.coords.latitude)) 
             } else addMap();
         };
 
@@ -40,7 +34,7 @@ const AddProperty = props => {
                 container: mapContainer.current,
                 style: 'mapbox://styles/mapbox/streets-v11',
                 center: [ currentLng, currentLat ],
-                zoom: zoom,
+                zoom,
                 attributionControl: false,
             });
     
@@ -51,7 +45,7 @@ const AddProperty = props => {
                 map.addControl(new mapboxgl.GeolocateControl({
                     positionOptions: {
                         enableHighAccuracy: true,
-                        timeout: 2000 /* 2 sec */
+                        timeout: 1800 /* 1.8 sec */
                     },
                     trackUserLocation: true,
                     showAccuracyCircle: false,
@@ -60,9 +54,11 @@ const AddProperty = props => {
                 })); 
                 
                 setTimeout(() => {
-                    mapContainer.current.querySelector('.mapboxgl-ctrl-geolocate').addEventListener('click', () => {
-                        setTimeout(() => addMarker(undefined, map, lng, lat), 2001);
-                    });
+                    if(mapContainer.current) {
+                        mapContainer.current.querySelector('.mapboxgl-ctrl-geolocate').addEventListener('click', () => {
+                            setTimeout(() => addMarker(undefined, map, lng, lat), 2001);
+                        });
+                    }
                 }, 500);
                 
                 const markerHTML = document.createElement('div');
@@ -113,8 +109,6 @@ const AddProperty = props => {
     }, [map, lat, lng, zoom, currentMarker]);
 
     const showMap = isLoading ? '0' : '1';
-
-    console.log(currentMarkerCoords);
     
     return (
         <React.Fragment>

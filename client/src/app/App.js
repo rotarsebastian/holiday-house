@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import classes from './App.module.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import Home from './pages/Home/Home';
 import AddProperty from './pages/AddProperty/AddProperty';
 import Profile from './pages/Profile/Profile'
@@ -42,7 +43,7 @@ const App = () => {
     }
     checkIfLogged();
 
-  }, [setIsAuthenticated]);
+  }, [setIsAuthenticated, setUser]);
 
   if(isAuthenticated === undefined) return <div className="loading"><ClipLoader size={50} color={'#e83251'} /></div>
 
@@ -55,8 +56,8 @@ const App = () => {
           <Switch>
             <Route exact path='/' component={props => <Home {...props} />} />
             <Route path='/propertiesresults' component={props => <PropertiesResults {...props} />} />
-            <Route path='/addproperty' component={props => <AddProperty {...props} />} />
-            <Route path='/profile' component={props => <Profile {...props} />} />
+            <PrivateRoute path='/addproperty' component={props => <AddProperty {...props} />} />
+            <PrivateRoute path='/profile' component={props => <Profile {...props} />} />
           </Switch>
         </Router>
       </div>

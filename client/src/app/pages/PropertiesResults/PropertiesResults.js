@@ -162,7 +162,7 @@ const PropertiesResults = props => {
         <React.Fragment>
             <div className="loading"><ClipLoader size={50} color={'#485877'} loading={isLoading}/></div>
 
-            <div className="homeContainer">
+            <div className="propertiesResults">
                 <div style={{ opacity: showMap }}>
                     <div ref={el => mapContainer.current = el} className="mapContainer" />
                 </div>

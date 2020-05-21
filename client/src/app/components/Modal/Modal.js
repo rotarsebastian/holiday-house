@@ -9,9 +9,10 @@ import { withStyles } from '@material-ui/core/styles';
 import Datepicker from '../Datepicker/Datepicker';
 import { login } from '../../helpers/auth';
 import { validateForm } from '../../helpers/validation';
-import { useStore, useSetStoreValue } from 'react-context-hook';
+import { useStore, useSetStoreValue, useSetAndDelete } from 'react-context-hook';
 import toastr from 'toastr';
 import '../../styles/toastr.css';
+import { useHistory } from 'react-router-dom';
 
 const EmailTextField = withStyles({
    root: {
@@ -80,7 +81,10 @@ const SubmitButton = withStyles({
 
 const AuthModal = props => {
 
-   const [isAuthenticated, setIsAuthenticated] = useStore('isAuthenticated', false);
+   const history = useHistory();
+
+   const [redirectTo, setRedirectTo] = useStore('redirectTo');
+   const [setIsAuthenticated] = useSetAndDelete('isAuthenticated');
    const setUser = useSetStoreValue('user');
 
    const [ showPage, setShowPage ] = useState(props.page);
@@ -154,6 +158,11 @@ const AuthModal = props => {
             toastr.success('You are now logged in!');
             setIsAuthenticated(true);
             setUser(res.user);
+            if(redirectTo !== undefined) {
+               const goTo = redirectTo;
+               setRedirectTo(undefined);
+               history.push(goTo);
+            }
             props.closeModal();
          } else return toastr.error(`Invalid ${isFormValid.invalids.join(', ')}`);
       } else console.log('another page')

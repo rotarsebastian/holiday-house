@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import classes from './Header.module.css';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import Logo from '../../assets/img/holiday_house_logo.svg';
 import UserIcon from '../../assets/img/user_icon.svg';
 import Modal from '../Modal/Modal';
@@ -9,10 +9,11 @@ import { logout } from '../../helpers/auth';
 
 const Header = props => {
 
-    const [isAuthenticated, setIsAuthenticated] = useStore('isAuthenticated');
-    const setUser = useSetStoreValue('user');
+    const history = useHistory();
 
-    const [showModal, setShowModal] = useState(undefined);
+    const [isAuthenticated, setIsAuthenticated] = useStore('isAuthenticated');
+    const [showModal, setShowModal] = useStore('showModal');
+    const setUser = useSetStoreValue('user');
 
     const setModal = modalName => setShowModal(modalName);
     const closeModal = () => setShowModal(undefined);
@@ -20,6 +21,7 @@ const Header = props => {
     const handleLogout = async() => {
         const res = await logout();
         if(res.status === 1) {
+            history.push('/');
             setIsAuthenticated(false);
             setUser(undefined);
         }

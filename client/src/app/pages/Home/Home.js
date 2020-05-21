@@ -1,9 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropertyCard from '../../components/PropertyCard/PropertyCard'
 // import ClipLoader from 'react-spinners/ClipLoader';
 import './Home.css';
+import { useSetAndDelete } from 'react-context-hook';
+import { useHistory } from 'react-router-dom';
 
 const Home = props => {
+
+    const history = useHistory();
+
+    const [setShowModal] = useSetAndDelete('showModal');
+    const [setRedirectTo] = useSetAndDelete('redirectTo');
+
+    useEffect(() => {
+
+        // history.replace('', null);
+
+        console.log(props.location)
+        if(props.location.state !== undefined && props.location.state !== null) {
+            const { pathname } = props.location.state.from;
+            // console.log(pathname)
+            setRedirectTo(pathname) 
+            setShowModal('Log in');
+            history.replace('', null);
+        }
+
+    }, [props.location.state, setRedirectTo, setShowModal, history]); 
     
     return (
         <React.Fragment>
