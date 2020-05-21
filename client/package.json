@@ -22,6 +22,7 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
+    "react-slideshow-image": "^1.4.2",
     "react-spinners": "^0.8.3",
     "toastr": "^2.1.4",
     "uuidv4": "^6.0.7"
