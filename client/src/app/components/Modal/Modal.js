@@ -56,7 +56,6 @@ const SubmitButton = withStyles({
       height: '56px',
       marginTop: '20px',
       marginBottom: '20px',
-      color: 'white',
       fontWeight: 'bold',
       fontSize: '17px',
       backgroundColor: '#E4215B',
@@ -75,6 +74,9 @@ const SubmitButton = withStyles({
          color: 'pink',
          
       },
+      '& .MuiButton-label': {
+        color: 'white' 
+      },
       textTransform: 'none'
    }
 })(Button);
@@ -90,6 +92,8 @@ const AuthModal = props => {
    const [ showPage, setShowPage ] = useState(props.page);
    const [ user_email, setEmail ] = useState('antonel.costescu@gmail.com');
    const [ user_password, setPassword ] = useState('123123');
+
+
    
    const handleClose = () => props.closeModal();
 
@@ -115,7 +119,7 @@ const AuthModal = props => {
                   variant="outlined"
                />
             </div>
-            <Datepicker for={'Sign up'} />
+            <Datepicker newLabel="Birthdate" />
          </React.Fragment>
       );
 

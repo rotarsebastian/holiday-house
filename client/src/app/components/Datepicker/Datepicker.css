@@ -1,21 +1,20 @@
+/* ############# MODALS ############# */
+
 .DatePickerContainer .MuiFormControl-marginNormal {
-   margin-top: 16px;
-   margin-bottom: 8px;
+   margin-top: 11px;
+   margin-bottom: 2px;
    width: 100%;
 }
 
-.DatePickerContainer > div {
-   padding: 7.5px 14px;
-   border: 1px solid;
-   border-color: rgba(0, 0, 0, 0.23);
-   border-radius: 4px;
+body > div:nth-child(7) > div.Modal_modalContainer__3IrUk > div.Modal_FormContainer__2s9g6  {
+   color: white
 }
 
- .MuiPickersToolbar-toolbar {
+div.MuiToolbar-root.MuiToolbar-regular.MuiPickersToolbar-toolbar.MuiPickersDatePickerRoot-toolbar.MuiToolbar-gutters {
    background-color: #E4215B !important;
 }
 
-.MuiPickersDay-daySelected {
+.MuiPickersDay-daySelected  {
    background-color: #E4215B !important;
 }
 
@@ -27,8 +26,15 @@ div.MuiDialogActions-root.MuiDialogActions-spacing > button:nth-child(2) > span.
    color: #E4215B !important;
 }
 
+.DatePickerContainer > div {
+   padding: 7.5px 14px;
+   border: 1px solid;
+   border-color: rgba(0, 0, 0, 0.23);
+   border-radius: 4px;
+}
+
 .DatePickerContainer .MuiInput-underline:before {
-   border-bottom: 1px solid #E4215B !important;
+   border-bottom: 1px solid rgb(135, 135, 135) !important;
 }
 
 .DatePickerContainer .MuiInput-underline:after {
@@ -54,3 +60,64 @@ div.MuiDialogActions-root.MuiDialogActions-spacing > button:nth-child(2) > span.
    transition: 0.3s;
    border-bottom: 1px solid red;
 } 
+
+/* ############# SEARCHBAR ############# */
+div.SearchbarContainer > div > div:nth-child(2) > div {
+   width: 20vw;
+   border-right: 1px solid #dbdbdb;
+}
+
+.DatePickerContainer .MuiInput-underline:before {
+   border-bottom: 1px solid rgba(0, 0, 0, 0.54)!important;
+}
+
+input#date-picker-inline.MuiInputBase-input.MuiInput-input.MuiInputBase-inputAdornedEnd {
+   color: rgba(0, 0, 0, 0.54);
+}
+
+input#date-picker-inline.MuiInputBase-input.MuiInput-input.MuiInputBase-inputAdornedEnd:focus {
+   color: var(--black);
+   fill: var(--black) !important;
+}
+
+div.SearchbarContainer > div > div:nth-child(3) > div {
+   width: 20vw;
+   border-right: 1px solid #dbdbdb;
+}
+
+div.SearchbarContainer > div > div:nth-child(2) > div > div {
+   margin-top: 2.8px;
+}
+
+div.SearchbarContainer > div > div:nth-child(3) > div > div {
+   margin-top: 2.8px;
+}
+
+div.SearchbarContainer .DatePickerContainer > div {
+   padding: 3.1px 14px;
+   border: 1px solid;
+   border-color: rgba(0, 0, 0, 0.23);
+   border-radius: 4px;
+}
+
+div.SearchbarContainer .DatePickerContainer > div {
+   border: none !important;
+}
+
+div.SearchbarContainer .DatePickerContainer > div {
+   text-transform: uppercase;
+}
+
+.MuiSvgIcon-root {
+   fill: rgba(0, 0, 0, 0.54) !important;
+}
+
+.MuiSvgIcon-root:hover {
+   fill: var(--black) !important;
+}
+
+.MuiSvgIcon-root:active {
+   fill: var(--black) !important;
+}
+
+ /* 3.3px */
