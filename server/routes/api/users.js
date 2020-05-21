@@ -104,7 +104,7 @@ router.post('/logout', isAuthenticated, (req,res) => {
 router.get('/checkauth', isAuthenticated, async(req, res) => {
     try {
         // ====================== FIND LOGGED USER ======================
-        const loggedUser = await User.query().select('email', 'first_name', 'last_name').findById(req.session.user.id);
+        const loggedUser = await User.query().select('id', 'email', 'first_name', 'last_name', 'birthday').findById(req.session.user.id);
         if(!loggedUser) return res.json({ status: 0, msg: 'User not authorized!'});
 
         // ====================== SEND BACK LOGGED USER ======================

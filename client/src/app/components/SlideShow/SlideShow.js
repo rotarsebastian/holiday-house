@@ -14,7 +14,7 @@ import anotheroneImage from './../../assets/img/image-asset.jpeg'
   const fadeProperties = {
     duration: 5000,
     transitionDuration: 500,
-    infinite: false,
+    infinite: true,
     indicators: true
   }
 
