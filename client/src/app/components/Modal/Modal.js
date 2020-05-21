@@ -51,7 +51,6 @@ const LoginButton = withStyles({
       height: '56px',
       marginTop: '20px',
       marginBottom: '20px',
-      color: 'white',
       fontWeight: 'bold',
       fontSize: '17px',
       backgroundColor: '#E4215B',
@@ -69,6 +68,9 @@ const LoginButton = withStyles({
          transition: '0.1s',
          color: 'pink',
          
+      },
+      '& .MuiButton-label': {
+        color: 'white' 
       },
       textTransform: 'none'
    }
