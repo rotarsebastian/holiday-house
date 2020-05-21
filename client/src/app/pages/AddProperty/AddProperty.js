@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import ak from '../../assets/config';
 import mapboxgl from 'mapbox-gl';
 import ClipLoader from 'react-spinners/ClipLoader';
+import DragAndDrop from '../../components/DragAndDrop/DragAndDrop';
 import './AddProperty.css';
 
 const AddProperty = props => {
@@ -13,7 +14,7 @@ const AddProperty = props => {
     const [ currentMarker ] = useState([]);    
     const [ currentMarkerCoords, setCurrentMarkerCoords ] = useState([]);    
     const [ isLoading, setIsLoading ] = useState(true);
-    const mapContainer = useRef(null);
+    const addPropertyMap = useRef(null);
 
     useEffect(() => {
         // ===================== FOR DEVELOPMENT =====================
@@ -31,7 +32,7 @@ const AddProperty = props => {
             const currentLat = latitude ? latitude : lat;
 
             const map = new mapboxgl.Map({
-                container: mapContainer.current,
+                container: addPropertyMap.current,
                 style: 'mapbox://styles/mapbox/streets-v11',
                 center: [ currentLng, currentLat ],
                 zoom,
@@ -54,8 +55,8 @@ const AddProperty = props => {
                 })); 
                 
                 setTimeout(() => {
-                    if(mapContainer.current) {
-                        mapContainer.current.querySelector('.mapboxgl-ctrl-geolocate').addEventListener('click', () => {
+                    if(addPropertyMap.current) {
+                        addPropertyMap.current.querySelector('.mapboxgl-ctrl-geolocate').addEventListener('click', () => {
                             setTimeout(() => addMarker(undefined, map, lng, lat), 2001);
                         });
                     }
@@ -104,7 +105,7 @@ const AddProperty = props => {
     
         const clearMarker = () => currentMarker.forEach(marker => marker.remove())
 
-        if (!map) initializeMap({ setMap, mapContainer });
+        if (!map) initializeMap({ setMap, addPropertyMap });
 
     }, [map, lat, lng, zoom, currentMarker]);
 
@@ -112,12 +113,13 @@ const AddProperty = props => {
     
     return (
         <React.Fragment>
-                <div className="loading"><ClipLoader size={50} color={'#485877'} loading={isLoading}/></div>
+                <div className="loading"><ClipLoader size={50} color={'#e83251'} loading={isLoading}/></div>
 
                 <div className="AddPropertyContainer">
                     <div style={{ opacity: showMap }}>
-                        <div ref={el => mapContainer.current = el} className="mapContainer" />
+                        <div ref={el => addPropertyMap.current = el} className="addPropertyMap" />
                     </div>
+                    <DragAndDrop />
                 </div>
         </React.Fragment>
     )
