@@ -15,11 +15,9 @@ const Home = props => {
     useEffect(() => {
 
         // history.replace('', null);
-
-        console.log(props.location)
+        
         if(props.location.state !== undefined && props.location.state !== null) {
             const { pathname } = props.location.state.from;
-            // console.log(pathname)
             setRedirectTo(pathname) 
             setShowModal('Log in');
             history.replace('', null);

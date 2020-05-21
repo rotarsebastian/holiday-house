@@ -25,7 +25,7 @@ export const getOneProperty = async(id) => {
     }
 };
 
-export const getUserProperties = async(id) => {
+export const getUserProperties = async(id, offset) => {
     try {
         const options = {
           credentials: 'include',
@@ -35,7 +35,7 @@ export const getUserProperties = async(id) => {
           },
           body: JSON.stringify({})
         };
-        const response = await fetch(endpoint + '/user/' + id, options);
+        const response = await fetch(endpoint + '/user/' + id + `?offset=${offset}`, options);
         const data = await response.json();
         return data;
     }
