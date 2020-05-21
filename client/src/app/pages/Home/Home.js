@@ -4,6 +4,7 @@ import PropertyCard from '../../components/PropertyCard/PropertyCard'
 import './Home.css';
 import { useSetAndDelete } from 'react-context-hook';
 import { useHistory } from 'react-router-dom';
+import SearchbarComponents from '../../components/Searchbar/Searchbar'
 
 const Home = props => {
 
@@ -129,7 +130,7 @@ const Home = props => {
     return (
         <React.Fragment>
                 {/* <div className="loading"><ClipLoader size={50} color={'#485877'} loading={isLoading}/></div> */}
-
+                <SearchbarComponents />
                 <div className="homeContainer">
                     <h1>What is your next destination?</h1>
                     <div className="slideshowContainer">
