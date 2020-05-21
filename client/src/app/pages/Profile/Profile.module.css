@@ -15,3 +15,16 @@
     justify-content: center;
     margin-top: 9vh;
 }
+
+.PropertyCard {
+    margin: .5rem 1rem;
+}
+
+.ListContainer {
+    width: fit-content;
+    height: 70vh;
+    overflow: hidden;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    
+}

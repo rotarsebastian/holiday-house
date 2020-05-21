@@ -14,6 +14,7 @@ import { withStore } from 'react-context-hook';
 import { useStore, useSetStoreValue } from 'react-context-hook';
 import { useStoreState } from 'react-context-hook';
 import ClipLoader from 'react-spinners/ClipLoader';
+import Property from './pages/PropertyPage/PropertyPage'
 
 function Test() {
   const globalState = useStoreState()
@@ -58,6 +59,8 @@ const App = () => {
             <Route path='/propertiesresults' component={props => <PropertiesResults {...props} />} />
             <PrivateRoute path='/addproperty' component={props => <AddProperty {...props} />} />
             <PrivateRoute path='/profile' component={props => <Profile {...props} />} />
+            <Route path='/addproperty' component={props => <AddProperty {...props} />} />
+            <Route path='/property' component={props => <Property {...props} />} />
           </Switch>
         </Router>
       </div>

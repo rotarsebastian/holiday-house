@@ -64,7 +64,11 @@ const Header = props => {
 
                     <React.Fragment>
                         <span className={classes.Button} onClick={handleLogout}>Log out</span> 
-                        <span className={classes.ProfileButton}>{user_data ? user_data.first_name : 'Guest'}<img src={UserIcon} alt="user-icon" /></span> 
+                        <NavLink exact to="/profile" activeClassName={classes.active}>
+                            <span className={classes.ProfileButton}>{user_data ? user_data.first_name : 'Guest'}
+                                <img src={UserIcon} alt="user-icon" />
+                            </span> 
+                        </NavLink>
                     </React.Fragment>
 
                     }

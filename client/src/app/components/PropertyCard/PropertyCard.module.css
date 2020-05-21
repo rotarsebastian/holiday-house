@@ -7,13 +7,16 @@
     overflow: hidden;
 }
 
-.PropertyImage {
- background-image: url(../../assets/img/LMM-Cover-Images-2.jpg);
- background-repeat: no-repeat;
- background-size: cover;
- background-position: center;
+.PropertyImageContainer {
  width: 35rem;
  height: 11rem;
+
+}
+
+.PropertyImage {
+    display: block;
+    width: 100%;
+    height: 100%;
 }
 
 .PropertyDetails {
