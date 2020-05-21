@@ -79,3 +79,7 @@
    background-color: var(--hover-black);
    cursor: pointer;
 }
+
+div.Modal_FormContainer__2s9g6 > form > button > span.MuiButton-label {
+   color: white !important;
+}
