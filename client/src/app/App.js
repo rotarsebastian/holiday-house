@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import classes from './App.module.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import Home from './pages/Home/Home';
 import AddProperty from './pages/AddProperty/AddProperty';
 import Profile from './pages/Profile/Profile'
@@ -10,7 +11,7 @@ import toastr from 'toastr';
 import toastrSetup from './helpers/toastrSettings';
 import auth, { checkAuth } from './helpers/auth';
 import { withStore } from 'react-context-hook';
-import { useStore, useSetAndDelete, useSetStoreValue } from 'react-context-hook';
+import { useStore, useSetStoreValue } from 'react-context-hook';
 import { useStoreState } from 'react-context-hook';
 import ClipLoader from 'react-spinners/ClipLoader';
 
@@ -27,27 +28,25 @@ function Test() {
 
 const App = () => {
   toastr.options = toastrSetup;
-  const [loggedUser, setLoggedUser] = useStore('email', undefined);
-  const [setIsAuthenticated] = useSetAndDelete('isAuthenticated');
-  const [setLoggedID] = useSetAndDelete('userID');
-  // const setObject = useSetStoreValue('profile_data');
+  
+  const [isAuthenticated, setIsAuthenticated] = useStore('isAuthenticated', undefined);
+  const setUser = useSetStoreValue('user');
 
   useEffect(() => {
     const checkIfLogged = async() => {
         const res = await checkAuth();
-        console.log(res);
+        
         if(res.status === 1) {
           setIsAuthenticated(true);
-          setLoggedUser(res.data.email);
-          setLoggedID(res.data.id);
-          // setObject(res.data);
-        } else setLoggedUser('Guest');    
+          setUser(res.user);
+        } else setIsAuthenticated(false);    
     }
     checkIfLogged();
 
-  }, [setLoggedUser, setIsAuthenticated, setLoggedID]);
+  }, [setIsAuthenticated, setUser]);
 
-  if(loggedUser === undefined) return <div className="loading"><ClipLoader size={50} color={'#e83251'} /></div>
+  if(isAuthenticated === undefined) return <div className="loading"><ClipLoader size={50} color={'#e83251'} /></div>
+
   else {
     return (
       <div className={classes.App}>
@@ -57,8 +56,8 @@ const App = () => {
           <Switch>
             <Route exact path='/' component={props => <Home {...props} />} />
             <Route path='/propertiesresults' component={props => <PropertiesResults {...props} />} />
-            <Route path='/addproperty' component={props => <AddProperty {...props} />} />
-            <Route path='/profile' component={props => <Profile {...props} />} />
+            <PrivateRoute path='/addproperty' component={props => <AddProperty {...props} />} />
+            <PrivateRoute path='/profile' component={props => <Profile {...props} />} />
           </Switch>
         </Router>
       </div>
