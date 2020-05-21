@@ -36,6 +36,22 @@
   color: var(--black);
 }
 
+label {
+  font-family: "Quicksand Regular", "sans-serif" !important;
+}
+
+p {
+  font-family: "Quicksand Medium", "sans-serif" !important;
+}
+
+input {
+  font-family: "Quicksand Medium", "sans-serif" !important;
+}
+
+::placeholder {
+  font-family: "Quicksand Regular", "sans-serif" !important;
+}
+
 #root {
   padding: 1.5rem 2.5rem;
 }
