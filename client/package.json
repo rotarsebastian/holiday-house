@@ -20,6 +20,7 @@
     "react-copy-to-clipboard": "^5.0.2",
     "react-debounce-input": "^3.2.2",
     "react-dom": "^16.13.1",
+    "react-dropzone": "^11.0.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "react-slideshow-image": "^1.4.2",

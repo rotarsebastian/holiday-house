@@ -156,8 +156,10 @@ const AuthModal = props => {
 
          if(res.status === 1) {
             toastr.success('You are now logged in!');
+            
             setIsAuthenticated(true);
             setUser(res.user);
+            
             if(redirectTo !== undefined) {
                const goTo = redirectTo;
                setRedirectTo(undefined);
