@@ -13,6 +13,7 @@ import { useStore, useSetStoreValue, useSetAndDelete } from 'react-context-hook'
 import toastr from 'toastr';
 import '../../styles/toastr.css';
 import { useHistory } from 'react-router-dom';
+import moment from 'moment';
 
 const EmailTextField = withStyles({
    root: {
@@ -92,8 +93,12 @@ const AuthModal = props => {
    const [ showPage, setShowPage ] = useState(props.page);
    const [ user_email, setEmail ] = useState('antonel.costescu@gmail.com');
    const [ user_password, setPassword ] = useState('123123');
+   const [ birthdate, setBirthdate ] = useState(moment().format('yyyy-MM-DD'));
 
-
+   const changeDate = newDate => {
+      const date = moment(newDate).format('yyyy-MM-DD'); 
+      setBirthdate(date);
+   };
    
    const handleClose = () => props.closeModal();
 
@@ -119,7 +124,7 @@ const AuthModal = props => {
                   variant="outlined"
                />
             </div>
-            <Datepicker newLabel="Birthdate" />
+            <Datepicker date={birthdate} newLabel="Birthdate" page="Sign up" handleChange={changeDate} />
          </React.Fragment>
       );
 

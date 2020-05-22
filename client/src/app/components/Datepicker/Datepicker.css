@@ -6,10 +6,6 @@
    width: 100%;
 }
 
-body > div:nth-child(7) > div.Modal_modalContainer__3IrUk > div.Modal_FormContainer__2s9g6  {
-   color: white
-}
-
 div.MuiToolbar-root.MuiToolbar-regular.MuiPickersToolbar-toolbar.MuiPickersDatePickerRoot-toolbar.MuiToolbar-gutters {
    background-color: #E4215B !important;
 }
@@ -72,7 +68,7 @@ div.SearchbarContainer > div > div:nth-child(2) > div {
 }
 
 .DatePickerContainer .MuiInput-underline:before {
-   border-bottom: 1px solid rgba(0, 0, 0, 0.54)!important;
+   border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
 }
 
 input#date-picker-inline.MuiInputBase-input.MuiInput-input.MuiInputBase-inputAdornedEnd {
@@ -122,6 +118,15 @@ div.SearchbarContainer .DatePickerContainer > div {
 
 .MuiSvgIcon-root:active {
    fill: var(--black) !important;
+}
+
+.MuiPickersDay-dayDisabled span p {
+   color: var(--grey);
+   pointer-events: none;
+}
+
+.MuiIconButton-root {
+   padding: 0 !important;
 }
 
  /* 3.3px */
