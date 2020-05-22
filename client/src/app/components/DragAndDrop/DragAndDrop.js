@@ -62,7 +62,13 @@ const DragAndDrop = props => {
 
       if(acceptedFiles.length !== newImages.length) toastr.warning('Only the new images will be added!', 'You uploaded duplicates!');
 
-      const updateImages = [ ...props.files, ...newImages ];
+      let updateImages = [ ...props.files, ...newImages ];
+
+      if(updateImages.length > 10) {
+        updateImages = updateImages.filter((img, index) => index < 10);
+        toastr.warning('Only the first 10 iamges will be kept!', 'Too many images!')
+      }
+
       props.setNewFiles(updateImages);
     }
   });
@@ -86,7 +92,13 @@ const DragAndDrop = props => {
 
     if(inputImages.length !== newImages.length) toastr.warning('Only the new images will be added!', 'You uploaded duplicates!');
 
-    const updateImages = [ ...props.files, ...newImages ];
+    let updateImages = [ ...props.files, ...newImages ];
+
+    if(updateImages.length > 10) {
+      updateImages = updateImages.filter((img, index) => index < 10);
+      toastr.warning('Only the first 10 iamges will be kept!', 'Too many images!')
+    }
+
     props.setNewFiles(updateImages);
   }
 
@@ -139,7 +151,7 @@ const DragAndDrop = props => {
       <span className={classes.ThumbsContainer}>
         {thumbs}
         {
-          thumbs && thumbs.length > 0 
+          thumbs && thumbs.length > 0 && thumbs.length < 10
           ? 
           <AddMoreImages addImages={addImages} />
           : 
