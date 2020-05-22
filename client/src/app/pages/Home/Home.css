@@ -23,20 +23,40 @@ body.home  {
     width: 5px;
     min-height: 300px;
 }
-::-webkit-scrollbar-track {
+
+.homeContainer ::-webkit-scrollbar-track {
     border-radius: 10px;
-    background: #aaaaaa;
+    background: #aaaaaa !important;
     width: 5px;
 
 }
+
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: #fff;
+    width: 5px;
+
+}
+
 ::-webkit-scrollbar-thumb {
-    background: #e4215b; 
+    background: #c9c9c963; 
     border-radius: 10px;
 }
+
+.homeContainer ::-webkit-scrollbar-thumb {
+    background: #e4215b !important; 
+    border-radius: 10px;
+}
+
 ::-webkit-scrollbar-track-piece {
     width: 5px;
 }
+
+.homeContainer::-webkit-scrollbar-thumb:hover {
+    background: #b91c4b !important; 
+}
+
 ::-webkit-scrollbar-thumb:hover {
-    background: #b91c4b; 
+    background: #b6b6b6; 
 }
 
