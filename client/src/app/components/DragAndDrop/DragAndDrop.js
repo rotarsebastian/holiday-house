@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import classes from './DragAndDrop.module.css';
 import DragDrop from './../../assets/img/drag_drop.svg';
+import toastr from 'toastr';
+import AddMoreImages from './AddMoreImages/AddMoreImages';
 
 const baseStyle = {
   flex: 1,
@@ -53,8 +55,15 @@ const DragAndDrop = props => {
     noClick: true,
     noKeyboard: true,
     onDrop: acceptedFiles => {
-      const files = acceptedFiles.map(file => Object.assign(file, { preview: URL.createObjectURL(file) }))
-      props.setNewFiles(files);
+      const newImages = acceptedFiles.filter(file => { 
+        if(props.files.findIndex(propFile => propFile.name === file.name) === -1) 
+          return Object.assign(file, { preview: URL.createObjectURL(file) } )
+      });
+
+      if(acceptedFiles.length !== newImages.length) toastr.warning('Only the new images will be added!', 'You uploaded duplicates!');
+
+      const updateImages = [ ...props.files, ...newImages ];
+      props.setNewFiles(updateImages);
     }
   });
 
@@ -69,10 +78,16 @@ const DragAndDrop = props => {
   }
 
   const addImages = e => {
-    const newImage = Object.assign(e.target.files[0], { preview: URL.createObjectURL(e.target.files[0]) });
-    const newImages = [ ...props.files ];
-    newImages.push(newImage);
-    props.setNewFiles(newImages);
+    const inputImages = Array.from(e.target.files);
+    const newImages = inputImages.filter(file => { 
+      if(props.files.findIndex(propFile => propFile.name === file.name) === -1) 
+        return Object.assign(file, { preview: URL.createObjectURL(file) } )
+    });
+
+    if(inputImages.length !== newImages.length) toastr.warning('Only the new images will be added!', 'You uploaded duplicates!');
+
+    const updateImages = [ ...props.files, ...newImages ];
+    props.setNewFiles(updateImages);
   }
 
   const style = useMemo(
@@ -116,14 +131,19 @@ const DragAndDrop = props => {
     <div className='container'>
       <div { ...getRootProps({ style }) } onClick={open} onMouseEnter={toggleHover} onMouseLeave={toggleHover} >
         <input { ...getInputProps() } />
-        <p style={onHoverText} className={classes.DragInfo}>Drag &amp; drop images here or click</p>
+        <p style={onHoverText} className={classes.DragInfo}>Click or Drag &amp; drop images</p>
         <img style={onHoverStyle} className={classes.DragDrop} src={DragDrop} alt={'drag-n-drop'} />
         <p style={onHoverText} className={classes.AcceptedFiles}>Accepted types: JPEG, JPG, PNG, SVG</p>
+        <p style={onHoverText} className={classes.MaxFiles}>(max. 10 images)</p>
       </div>
       <span className={classes.ThumbsContainer}>
         {thumbs}
         {
-          thumbs && thumbs.length > 0 ? <span className={classes.AddMoreContainer}><input className={classes.HiddenInputFile} type='file' onChange={addImages} /></span> : undefined
+          thumbs && thumbs.length > 0 
+          ? 
+          <AddMoreImages addImages={addImages} />
+          : 
+          undefined
         }
       </span>
       
