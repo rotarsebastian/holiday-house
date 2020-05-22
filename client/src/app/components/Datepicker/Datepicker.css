@@ -18,6 +18,10 @@ div.MuiToolbar-root.MuiToolbar-regular.MuiPickersToolbar-toolbar.MuiPickersDateP
    background-color: #E4215B !important;
 }
 
+.MuiPickersDay-daySelected span p { 
+   color: #fff !important;
+}
+
 div.MuiDialogActions-root.MuiDialogActions-spacing > button:nth-child(1) > span.MuiButton-label {
    color: #E4215B !important;
 }

@@ -1,14 +1,13 @@
-import React, {useState} from 'react'
-import './Searchbar.module.css'
+import React, { useState } from 'react'
 import TextField from '@material-ui/core/TextField';
-import classes from './Searchbar.module.css';
+import './Searchbar.css';
 import Button from '@material-ui/core/Button';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import {withStyles} from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Datepicker from '../Datepicker/Datepicker';
 import moment from 'moment';
-import {getProperties} from '../../helpers/properties'
+import { getProperties } from '../../helpers/properties'
 
 const CityTextField = withStyles({
    root: {
@@ -36,9 +35,9 @@ const CityTextField = withStyles({
         },
       },
     },
- })(TextField);
+})(TextField);
 
- const GuestsTextField = withStyles({
+const GuestsTextField = withStyles({
    root: {
       textTransform: "uppercase",
       fontSize: "1rem",
@@ -61,9 +60,9 @@ const CityTextField = withStyles({
         },
       },
     },
- })(TextField);
+})(TextField);
 
- const SearchButton = withStyles({
+const SearchButton = withStyles({
    root: {
       width: '100%',
       height: '56px',
@@ -93,9 +92,6 @@ const CityTextField = withStyles({
    }
 })(Button);
 
-
-
-
 const SearchbarComponents = () => {
          
    const [ city, setCity ] = useState('');
@@ -120,7 +116,7 @@ const SearchbarComponents = () => {
    return (
       <React.Fragment>
          <div className="SearchbarContainer">
-            <div className={classes.SearchbarBody}>
+            <div className="SearchbarBody">
                <div>
                   <CityTextField 
                      id="outlined-search-input" 
@@ -154,9 +150,9 @@ const SearchbarComponents = () => {
                      onChange={e => setGuests(e.target.value)}
                   />
                </div>   
-               <div className={classes.SearchbarButtonContainer}>
+               <div className="SearchbarButtonContainer">
                   <SearchButton variant="contained" onClick={() => handleSearch()}>
-                  <div className={classes.SearchIcon}><FontAwesomeIcon icon={faSearch} /></div>Search</SearchButton>
+                  <div className="classes.SearchIcon"><FontAwesomeIcon icon={faSearch} /></div>Search</SearchButton>
                </div>  
             </div>
          </div>

@@ -15,6 +15,8 @@ const Home = props => {
 
     useEffect(() => {
         // history.replace('', null);
+
+        document.querySelector('body').classList.add('home');
         
         if(props.location.state !== undefined && props.location.state !== null) {
             const { pathname } = props.location.state.from;
@@ -22,6 +24,9 @@ const Home = props => {
             setShowModal('Log in');
             history.replace('', null);
         }
+
+        return () => document.querySelector('body').classList.remove('home');
+
     }, [props.location.state, setRedirectTo, setShowModal, history]); 
 
     const properties = [

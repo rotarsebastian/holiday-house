@@ -13,7 +13,10 @@ aws.config.update({
 const s3 = new aws.S3();
 
 const fileFilter = (req, file, cb) => {
-    if (file.mimetype.toLowerCase() === 'image/jpeg' || file.mimetype.toLowerCase() === 'image/png' || file.mimetype.toLowerCase() === 'image/jpg') {
+    if (file.mimetype.toLowerCase() === 'image/jpeg' || 
+        file.mimetype.toLowerCase() === 'image/png' || 
+        file.mimetype.toLowerCase() === 'image/svg+xml' || 
+        file.mimetype.toLowerCase() === 'image/jpg') {
         return cb(null, true);
     } else {
         return cb(new Error('Invalid file type, only JPEG, JPG and PNG is allowed!'), false);

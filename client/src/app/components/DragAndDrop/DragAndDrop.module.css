@@ -1,0 +1,83 @@
+.HiddenInputFile {
+    opacity: 0;
+    -moz-opacity: 0;
+    filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.AddMoreContainer {
+    display: inline-flex;
+    margin: 8px;
+    width: 150px;
+    height: 200px;
+    position: relative;
+    background-image: url("data:image/svg+xml,%3Csvg height='90pt' viewBox='0 0 448 448' width='448pt' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='m408 184h-136c-4.417969 0-8-3.582031-8-8v-136c0-22.089844-17.910156-40-40-40s-40 17.910156-40 40v136c0 4.417969-3.582031 8-8 8h-136c-22.089844 0-40 17.910156-40 40s17.910156 40 40 40h136c4.417969 0 8 3.582031 8 8v136c0 22.089844 17.910156 40 40 40s40-17.910156 40-40v-136c0-4.417969 3.582031-8 8-8h136c22.089844 0 40-17.910156 40-40s-17.910156-40-40-40zm0 0'/%3E%3C/svg%3E");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    filter: invert(72%) sepia(8%) saturate(7%) hue-rotate(358deg) brightness(85%) contrast(77%);
+    border: 1px dashed black;
+    border-radius: 10px;
+}
+
+.ThumbsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.Thumb {
+    display: inline-flex;
+    margin: 8px;
+    width: auto;
+    height: 200px;
+    position: relative;
+}
+
+.ThumbInner {
+    width: 15rem;
+}
+
+.ThumbInner img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+.CloseContainer {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    background-color: rgba(255, 255, 255, 0.86);
+    padding: 0 6px;
+    border-radius: 50%;
+    cursor: pointer;
+    filter: brightness(1.8);
+    transition: .3s;
+}
+
+.CloseContainer:hover {
+    opacity: 1;
+    background-color: #fff;
+    transform: scale(1.03);
+}
+
+.CloseButton {
+    width: .5rem !important;
+}
+
+.DragDrop {
+    width: 7rem;
+}
+
+.DragInfo {
+    color: var(--grey);
+}
+
+.AcceptedFiles {
+    font-size: .75rem;
+    color: var(--grey);
+}

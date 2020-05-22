@@ -1,3 +1,8 @@
+.mapboxgl-ctrl button.mapboxgl-ctrl-geolocate .mapboxgl-ctrl-icon {
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg' fill='%23333'%3E%3Cpath d='M10 4C9 4 9 5 9 5v.1A5 5 0 005.1 9H5s-1 0-1 1 1 1 1 1h.1A5 5 0 009 14.9v.1s0 1 1 1 1-1 1-1v-.1a5 5 0 003.9-3.9h.1s1 0 1-1-1-1-1-1h-.1A5 5 0 0011 5.1V5s0-1-1-1zm0 2.5a3.5 3.5 0 110 7 3.5 3.5 0 110-7z'/%3E%3Ccircle cx='10' cy='10' r='2'/%3E%3C/svg%3E") !important;
+    filter: invert(24%) sepia(71%) saturate(4448%) hue-rotate(330deg) brightness(91%) contrast(95%);
+}
+
 .AddPropertyContainer .markerPick {
     width: 2.5rem;
     height: 2.5rem;
@@ -11,10 +16,6 @@
     box-shadow: none;
 }
 
-.mapboxgl-ctrl button.mapboxgl-ctrl-geolocate .mapboxgl-ctrl-icon {
-    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='29' height='29' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg' fill='%23333'%3E%3Cpath d='M10 4C9 4 9 5 9 5v.1A5 5 0 005.1 9H5s-1 0-1 1 1 1 1 1h.1A5 5 0 009 14.9v.1s0 1 1 1 1-1 1-1v-.1a5 5 0 003.9-3.9h.1s1 0 1-1-1-1-1-1h-.1A5 5 0 0011 5.1V5s0-1-1-1zm0 2.5a3.5 3.5 0 110 7 3.5 3.5 0 110-7z'/%3E%3Ccircle cx='10' cy='10' r='2'/%3E%3C/svg%3E") !important;
-    filter: invert(24%) sepia(71%) saturate(4448%) hue-rotate(330deg) brightness(91%) contrast(95%);
-}
 
 .AddPropertyContainer .mapboxgl-ctrl button.mapboxgl-ctrl-geolocate .mapboxgl-ctrl-icon::before {
     content: "Locate me";
@@ -30,7 +31,22 @@
 }
 
 .AddPropertyContainer .addPropertyMap {
-    width: 30vw;
-    height: 30vh;
+    width: 100%;
+    height: 35vh;
     outline: none;
+}
+
+.AddPropertyContainer .FirstRow, .SecondRow {
+    display: flex;
+    justify-content: space-between;
+}
+
+.AddPropertyContainer .FirstRow .addPropertyMap {
+    width: 50%;
+    height: 17rem;
+}
+
+.AddPropertyContainer .SecondRow .Availability, .Facilities {
+    width: 50%;
+    height: 17rem;
 }

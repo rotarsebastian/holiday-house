@@ -1,4 +1,4 @@
-.slideshowContainer {
+.homeContainer .slideshowContainer {
     width: 30em;
     height: 95vw;
     overflow-y: auto;
@@ -6,37 +6,39 @@
     transform:rotate(-90deg) translateY(-30em);
     transform-origin: right top;
 }
-body {
+
+body.home  {
     overflow-y: hidden;
     overflow-x: hidden;
 }
-h1 {
+
+.homeContainer h1 {
     color: #e4215b;
     font-size: 45px;
     padding-bottom: 1em;
 }
 
 /* scrollbar */
-::-webkit-scrollbar {
+.homeContainer ::-webkit-scrollbar {
     width: 5px;
     min-height: 300px;
 }
-::-webkit-scrollbar-track {
+.homeContainer ::-webkit-scrollbar-track {
     border-radius: 10px;
     background: #aaaaaa;
     width: 5px;
 
 }
-::-webkit-scrollbar-thumb {
+.homeContainer ::-webkit-scrollbar-thumb {
     background: #e4215b; 
     border-radius: 10px;
     /* height: 50px; */
 }
-::-webkit-scrollbar-track-piece {
+.homeContainer ::-webkit-scrollbar-track-piece {
     width: 5px;
 }
 
-::-webkit-scrollbar-thumb:hover {
+.homeContainer ::-webkit-scrollbar-thumb:hover {
     background: #b91c4b; 
 }
 

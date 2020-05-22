@@ -1,4 +1,4 @@
-.SearchbarBody {
+.SearchbarContainer .SearchbarBody {
    margin-bottom: 1.7rem;
    display: flex;
    justify-content: left;
@@ -9,24 +9,32 @@
    box-shadow: 0px 4px 7px 1px rgba(0, 0, 0, 0.08) !important;
 }
 
+.SearchbarContainer .SearchbarBody .MuiOutlinedInput-notchedOutline {
+   border: none !important;
+}
 
-.SearchbarButtonContainer {
+.SearchbarContainer .MuiButton-label svg {
+   filter: invert(98%) sepia(100%) saturate(0%) hue-rotate(327deg) brightness(102%) contrast(102%) !important;
+   margin-right: .3rem !important;
+}
+
+.SearchbarContainer .SearchbarButtonContainer {
    width: 80%;
    margin-right: 1rem;
 }
 
-input[type=number]::-webkit-inner-spin-button, 
+.SearchbarContainer input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
   -webkit-appearance: none; 
   margin: 0; 
 }
 
-.SearchIcon {
+.SearchbarContainer .SearchIcon {
    width: 1em;
    margin-right: 0.5rem;
 }
 
-.SearchIcon path {
+.SearchbarContainer .SearchIcon path {
    fill:white !important;
 }
 

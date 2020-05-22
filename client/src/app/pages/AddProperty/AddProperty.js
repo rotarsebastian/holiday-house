@@ -12,9 +12,11 @@ const AddProperty = props => {
     const [ lat, setLat ] = useState(55.657091699999995);    
     const [ zoom, setZoom ] = useState(15);    
     const [ currentMarker ] = useState([]);    
+    // eslint-disable-next-line
     const [ currentMarkerCoords, setCurrentMarkerCoords ] = useState([]);    
     const [ isLoading, setIsLoading ] = useState(true);
     const addPropertyMap = useRef(null);
+    const [files, setFiles] = useState([]);
 
     useEffect(() => {
         // ===================== FOR DEVELOPMENT =====================
@@ -32,13 +34,13 @@ const AddProperty = props => {
             const currentLat = latitude ? latitude : lat;
 
             const map = new mapboxgl.Map({
-                container: addPropertyMap.current,
+                container: addPropertyMap.current ? addPropertyMap.current : '',
                 style: 'mapbox://styles/mapbox/streets-v11',
                 center: [ currentLng, currentLat ],
                 zoom,
                 attributionControl: false,
             });
-    
+
             map.on('load', () => {
                 const layersToRemove = ['country-label', 'state-label', 'settlement-label'];
                 layersToRemove.forEach(layer => map.removeLayer(layer));
@@ -82,8 +84,9 @@ const AddProperty = props => {
                 setLat(map.getCenter().lat.toFixed(4));
                 setZoom(map.getZoom().toFixed(2));
             });
-    
+
             map.on('click', e => addMarker(e, map));
+            
         }
 
         const addMarker = (e, map, lng, lat) => {
@@ -107,7 +110,11 @@ const AddProperty = props => {
 
         if (!map) initializeMap({ setMap, addPropertyMap });
 
-    }, [map, lat, lng, zoom, currentMarker]);
+        // return () => clearTimeout(timeout);
+
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+    const setNewFiles = files => setFiles(files);
 
     const showMap = isLoading ? '0' : '1';
     
@@ -115,11 +122,21 @@ const AddProperty = props => {
         <React.Fragment>
                 <div className="loading"><ClipLoader size={50} color={'#e83251'} loading={isLoading}/></div>
 
-                <div className="AddPropertyContainer">
-                    <div style={{ opacity: showMap }}>
-                        <div ref={el => addPropertyMap.current = el} className="addPropertyMap" />
+                <div className="AddPropertyContainer" style={{ opacity: showMap }}>
+                    <div className="FirstRow">
+                        <div>Form</div>
+                        <div ref={addPropertyMap} className="addPropertyMap" />
                     </div>
-                    <DragAndDrop />
+
+                    <div className="SecondRow">
+                        <div className="Availability">Form</div>
+                        <div className="Facilities">Form</div>
+                    </div>
+
+                    <div className="ThirdRow">
+                        <DragAndDrop files={files} setNewFiles={setNewFiles} />
+                    </div>
+
                 </div>
         </React.Fragment>
     )

@@ -88,9 +88,7 @@ export const deleteProperty = async(id) => {
     }
 };
 
-export const createProperty = async(data, image) => {
-    let images = [];
-    images.push(image);
+export const createProperty = async() => {
     try {
         const options = {
             method: 'POST',
@@ -99,7 +97,7 @@ export const createProperty = async(data, image) => {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({data, image})
+            body: JSON.stringify({})
         };
         const response = await fetch(endpoint + '/', options);
         const data = await response.json();
@@ -110,7 +108,7 @@ export const createProperty = async(data, image) => {
     }
 };
 
-export const editProperty = async(id, data, images) => {
+export const editProperty = async(id) => {
     try {
         const options = {
             method: 'PATCH',
@@ -119,7 +117,7 @@ export const editProperty = async(id, data, images) => {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({data, images})
+          body: JSON.stringify({})
         };
         const response = await fetch(endpoint + '/' + id, options);
         const data = await response.json();
@@ -129,3 +127,5 @@ export const editProperty = async(id, data, images) => {
         return { status: 0, message: 'Can not connect to the server', code: 999 };
     }
 };
+
+export default auth;
