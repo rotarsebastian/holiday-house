@@ -13,8 +13,7 @@ export const getOneProperty = async(id) => {
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({})
+          }
         };
         const response = await fetch(endpoint + '/' + id, options);
         const data = await response.json();

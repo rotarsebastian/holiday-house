@@ -4,9 +4,9 @@ import ProfileCard from './../../components/ProfileCard/ProfileCard'
 import PropertyCard from './../../components/PropertyCard/PropertyCard'
 import { getUserProperties }  from './../../helpers/properties';
 import { useStoreValue } from 'react-context-hook';
-
+import { useHistory } from 'react-router-dom'
 const Profile = props => {
-
+    const history = useHistory();
     const user_data = useStoreValue('user');
     const [properties, setProperties] = useState([]);
 
@@ -23,7 +23,9 @@ const Profile = props => {
     }, [user_data]) // component didmount - []  || componentWillUpdate - [yourDependency]
 
    const openPropertyPage = id => {
-      console.log(id);
+        history.push(`/property/${id}`)
+    //   console.log(id);
+     
    }
     
     return (
@@ -34,13 +36,13 @@ const Profile = props => {
                 </div>
 
                 <div className={classes.Container}>
-                    <div className={classes.TitleHistory}>My reservation history</div>
+                    <div className={classes.TitleHistory}>My properties</div>
                     <div className={classes.ListContainer}>
 
                     { properties.map(property => {
                         return (
                             <div className={classes.PropertyCard} key={property.id}>
-                            <PropertyCard property={property} click={openPropertyPage} />
+                            <PropertyCard property={property} click={openPropertyPage} profile={'Profile'} />
                             </div>
                         )
                     })}

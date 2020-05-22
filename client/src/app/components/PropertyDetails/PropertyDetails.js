@@ -29,21 +29,25 @@ const OrderButton = withStyles({
     }
  })(Button);
 
+
+
 const PropertyDetails = (props) => {
 
+    const { id, title, description, price, capacity, type, rooms, beds, bathrooms, address } = props.property;
+
+ 
     return (
-        <div className={classes.PropertyDetailsContainer}>
-            <div  className={classes.PropertyInfo}>Entire house</div>
-            <div className={classes.PropertyTitle}>Beautiful house by the beach</div>
-            <div className={classes.PropertyInfoRooms} >2 guests 1 bedroom 1 bed 1 bath</div>
+        <div className={classes.PropertyDetailsContainer +" "+id}>
+            <div  className={classes.PropertyInfo}>{type}</div>
+            <div className={classes.PropertyTitle}>{title}</div>
+            <div className={classes.PropertyInfoRooms} >{capacity} guests {rooms} rooms {beds} bed {bathrooms} bath</div>
             <div className={classes.PropertyDetails}>
                 <div className={classes.PropertyDetailTitle}>Description</div>
-                <div className={classes.PropertyInfo}>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                     Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s.</div>
+                <div className={classes.PropertyInfo}>{description}</div>
          
             <div>
                 <div  className={classes.PropertyDetailTitle}>Address</div>
-                <div className={classes.PropertyInfo}>Lorem Ipsum is simply dummy text of the printing and </div>
+                <div className={classes.PropertyInfo}>{address ? address.property_address : ''}, {address ? address.city : ''}, {address ? address.country : ''}</div>
             </div>
             <div>
                 <div  className={classes.PropertyDetailTitle}>Facilities</div>
@@ -57,7 +61,7 @@ const PropertyDetails = (props) => {
             <div className={classes.PropertyOrderContainer} >
                 <OrderButton><span className={classes.BookButtonText}>Book it</span></OrderButton>
                 <div>
-                    <div className={classes.PropertyPrice}>200 DKK<span className={classes.PropertyPriceNight}>/ night</span></div>
+                    <div className={classes.PropertyPrice}>{price} DKK<span className={classes.PropertyPriceNight}>/ night</span></div>
                     <div className={classes.PropertyPriceTotal}>3000 DKK total</div>
                 </div>
             </div>

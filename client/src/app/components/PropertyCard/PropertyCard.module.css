@@ -17,6 +17,25 @@
     transform-origin: right top;
 }
 
+.Profile button {
+    display: block;
+}
+
+.Button {
+    display: none;
+    padding: .5rem 1rem;
+    color: #FFF;
+    background-color: var(--pink-color);
+    border-radius: .5rem;
+    font-family: 'Quicksand Bold';
+    outline: none;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
 .PropertyImageContainer {
 
  width: 35rem;
