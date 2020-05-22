@@ -16,11 +16,24 @@
     transform: rotate(90deg) translateX(30em);
     transform-origin: right top;
 }
-
 .Profile button {
     display: block;
 }
+.Profile .Trash {
+    display: block;
+}
 
+.Trash {
+    display: none;
+    position: absolute;
+    bottom: top;
+    right: 0;
+    cursor: pointer;
+    transition: .3s;
+}
+.Trash>path:hover {
+    fill: var(--pink-color);
+}
 .Button {
     display: none;
     padding: .5rem 1rem;
@@ -34,6 +47,9 @@
     position: absolute;
     bottom: 0;
     left: 0;
+}
+.Button:hover {
+    background-color: #f02551
 }
 
 .PropertyImageContainer {
@@ -58,11 +74,15 @@
 .PropertyTitle {
     color: var(--black);
     font-family: 'Quicksand Bold';
-    padding: .2rem 0 .4rem 0;
+    padding: 1rem 0 .4rem 0;
+
 }
 
 .Type {
     font-size: .75rem;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .Parag {
