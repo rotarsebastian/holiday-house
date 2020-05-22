@@ -20,7 +20,7 @@
 
 .SearchbarContainer .SearchbarButtonContainer {
    width: 80%;
-   margin-right: 1rem;
+   margin-right: 2.9em;
 }
 
 .SearchbarContainer input[type=number]::-webkit-inner-spin-button, 
