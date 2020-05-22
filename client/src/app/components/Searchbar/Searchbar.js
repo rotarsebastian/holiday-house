@@ -87,8 +87,13 @@ const SearchButton = withStyles({
       },
       '& .MuiButton-label': {
          color: 'white' 
-       },
-      textTransform: 'none'
+      },
+      textTransform: 'none',
+      '@media (min-width: 1024px)': {
+         button: {
+           width: 200
+         }
+      },
    }
 })(Button);
 
@@ -143,7 +148,7 @@ const SearchbarComponents = () => {
                      date={to}
                />
                </div>    
-               <div>
+               <div className={"SearchRight"}>
                   <GuestsTextField 
                      id="outlined-input" 
                      label="Guests" 
@@ -153,11 +158,11 @@ const SearchbarComponents = () => {
                      value={guests}
                      onChange={e => setGuests(e.target.value)}
                   />
+                  <div className="SearchbarButtonContainer">
+                     <SearchButton variant="contained" onClick={() => handleSearch()}>
+                     <div className="classes.SearchIcon"><FontAwesomeIcon icon={faSearch} /></div>Search</SearchButton>
+                  </div>  
                </div>   
-               <div className="SearchbarButtonContainer">
-                  <SearchButton variant="contained" onClick={() => handleSearch()}>
-                  <div className="classes.SearchIcon"><FontAwesomeIcon icon={faSearch} /></div>Search</SearchButton>
-               </div>  
             </div>
          </div>
       </React.Fragment>

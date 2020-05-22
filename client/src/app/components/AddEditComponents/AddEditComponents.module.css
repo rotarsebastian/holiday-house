@@ -18,6 +18,10 @@ span.MuiFormLabel-asterisk.MuiInputLabel-asterisk {
    justify-content: center;
 }
 
+#root > div > div.AddPropertyContainer > div.FirstRow > div:nth-child(1) > div > div > div.AddEditComponents_CityCountryContainer__1jDMp > div.MuiFormControl-root.MuiTextField-root.WithStyles\(ForwardRef\(TextField\)\)-root-68 > div > svg.MuiSvgIcon-root.MuiSelect-icon.MuiSelect-iconOutlined {
+   display: none !important;
+}
+
 
 
 /* ################ AddEditHouseBottomLeft ################ */
