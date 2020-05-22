@@ -39,12 +39,16 @@
     color: var(--black);
     font-family: 'Quicksand Bold';
     font-size: 1.5rem;
+    white-space: nowrap;
+    text-align: left;
+    padding-left: 1rem;
 }
 
 .PropertyPriceNight {
     color: var(--black);
     font-family: 'Quicksand Bold';
     font-size: 1rem;
+    
 }
 
 .PropertyPriceTotal {
@@ -55,4 +59,6 @@
 
 .BookButtonText {
     color: #FFF;
+    white-space: nowrap;
+    text-align: center;
 }
