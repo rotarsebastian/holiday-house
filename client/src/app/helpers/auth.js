@@ -8,7 +8,7 @@ const auth = {
   redirectTo: undefined
 }
 
-export const login = async(email, password) => {
+export const login = async(loginData) => {
     try {
         const options = {
           method: 'POST',
@@ -17,10 +17,7 @@ export const login = async(email, password) => {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify([
-            email,
-            password
-          ])
+          body: JSON.stringify(loginData)
         };
         const response = await fetch(endpoint + '/login', options);
         const data = await response.json();
@@ -76,7 +73,7 @@ export const recoverOrResendValidation = async(email) => {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify([ email ])
+        body: JSON.stringify(email)
       };
       const response = await fetch(endpoint + '/recover', options);
       const data = await response.json();
@@ -87,7 +84,7 @@ export const recoverOrResendValidation = async(email) => {
     }
 };
 
-export const register = async(first_name, last_name, birthdate, email, password, repeatPassword) => {
+export const register = async(registerData) => {
     try {
         const options = {
           method: 'POST',
@@ -95,7 +92,7 @@ export const register = async(first_name, last_name, birthdate, email, password,
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify([ first_name, last_name, birthdate, email, password, repeatPassword ])
+          body: JSON.stringify(registerData)
         };
         const response = await fetch(endpoint + '/register', options);
         const data = await response.json();
@@ -106,7 +103,7 @@ export const register = async(first_name, last_name, birthdate, email, password,
     }
 };
 
-export const changePassword = async(password, repeatPassword, key) => {
+export const changePassword = async(changePassData) => {
     try {
         const options = {
           method: 'POST',
@@ -114,7 +111,7 @@ export const changePassword = async(password, repeatPassword, key) => {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify([ password, repeatPassword, key ])
+          body: JSON.stringify(changePassData)
         };
         const response = await fetch(endpoint + '/resetpass', options);
         const data = await response.json();
