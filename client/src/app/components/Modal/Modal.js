@@ -108,7 +108,6 @@ const AuthModal = props => {
       const searchParams = new URLSearchParams(location.search);
       const key = searchParams.get('key'); 
       if(isUuid(key)) setKey({ key });
-          else history.push('/login');
     }, [history, location]);
 
    const changeDate = newDate => {
