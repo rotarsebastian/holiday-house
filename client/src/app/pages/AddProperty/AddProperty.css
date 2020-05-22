@@ -36,6 +36,10 @@
     outline: none;
 }
 
+.AddPropertyContainer .mapboxgl-ctrl-top-right {
+    margin-top: 1rem;
+}
+
 .AddPropertyContainer .FirstRow, .SecondRow {
     display: flex;
     justify-content: space-between;
@@ -43,10 +47,20 @@
 
 .AddPropertyContainer .FirstRow .addPropertyMap {
     width: 50%;
-    height: 17rem;
+    height: 23.5rem;
+    margin-top: -0.6rem;
+}
+
+.AddPropertyContainer .FirstRow .addPropertyMap h3 {
+    color: #e4215b;
 }
 
 .AddPropertyContainer .SecondRow .Availability, .Facilities {
     width: 50%;
     height: 17rem;
+}
+
+h1.AddPropertyTitle {
+    color: #e4215b;
+    padding-bottom: .4em;
 }

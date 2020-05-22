@@ -1,0 +1,29 @@
+/* ################ AddEditHouseTop ################ */
+
+.AddEditHouseTopContainer {
+   width:42vw;
+   padding-right: 1rem;
+}
+
+.AddEditHouseTopContainer .AddEditHouseTopBody {
+   width:100%;
+}
+
+span.MuiFormLabel-asterisk.MuiInputLabel-asterisk {
+   color: var(--color-title);
+}
+
+.CityCountryContainer {
+   display: flex;
+   justify-content: center;
+}
+
+
+
+/* ################ AddEditHouseBottomLeft ################ */
+
+
+
+
+
+/* ################ AddEditHouseBottomRight ################ */
