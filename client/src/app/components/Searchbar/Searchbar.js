@@ -95,8 +95,8 @@ const SearchButton = withStyles({
 const SearchbarComponents = () => {
          
    const [ city, setCity ] = useState('');
-   const [ from, setFrom ] = useState('1999-01-25');
-   const [ to, setTo ] = useState('1999-01-25');
+   const [ from, setFrom ] = useState(moment().format('yyyy-MM-DD'));
+   const [ to, setTo ] = useState(moment().format('yyyy-MM-DD'));
    const [ guests, setGuests ] = useState('');
    const offset = 0
 
@@ -106,11 +106,13 @@ const SearchbarComponents = () => {
    }
    
    const changeDate = (newDate, label) => {
-         const date = moment(newDate).format('yyyy-MM-DD');
-      
-         if (label === "Check in") setFrom(date);
-         else setTo(date);
-      };
+      const date = moment(newDate).format('yyyy-MM-DD');
+
+      console.log(date)
+   
+      if (label === "Check in") setFrom(date);
+      else setTo(date);
+   };
       
 
    return (
@@ -131,12 +133,14 @@ const SearchbarComponents = () => {
                   <Datepicker 
                      newLabel="Check in" 
                      handleChange={changeDate}
+                     date={from}
                    />
                </div>   
                <div>
                   <Datepicker 
                      newLabel="Check out"
                      handleChange={changeDate}
+                     date={to}
                />
                </div>    
                <div>
