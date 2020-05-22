@@ -4,6 +4,7 @@ import mapboxgl from 'mapbox-gl';
 import ClipLoader from 'react-spinners/ClipLoader';
 import DragAndDrop from '../../components/DragAndDrop/DragAndDrop';
 import './AddProperty.css';
+import AddEditHouseTop from '../../components/AddEditComponents/AddEditHouseTop'
 
 const AddProperty = props => {
     
@@ -121,16 +122,17 @@ const AddProperty = props => {
     return (
         <React.Fragment>
                 <div className="loading"><ClipLoader size={50} color={'#e83251'} loading={isLoading}/></div>
-
+                <h1 className="AddPropertyTitle">Rent your place in no time!</h1>
                 <div className="AddPropertyContainer" style={{ opacity: showMap }}>
                     <div className="FirstRow">
-                        <div>Form</div>
-                        <div ref={addPropertyMap} className="addPropertyMap" />
+                        <div><AddEditHouseTop /></div>
+                        
+                        <div ref={addPropertyMap} className="addPropertyMap"><h3>Pick your address: *</h3></div>
                     </div>
 
                     <div className="SecondRow">
-                        <div className="Availability">Form</div>
-                        <div className="Facilities">Form</div>
+                        <div className="Availability">AddEditHouseBottomLeft</div>
+                        <div className="Facilities">AddEditHouseBottomRight</div>
                     </div>
 
                     <div className="ThirdRow">

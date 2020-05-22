@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import DateFnsUtils from '@date-io/date-fns';
 import  { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import './Datepicker.css';
