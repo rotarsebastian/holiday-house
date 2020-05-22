@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import classes from './Modal.module.css';
 import TextField from '@material-ui/core/TextField';
 import Modal from '@material-ui/core/Modal';
@@ -12,10 +12,9 @@ import { validateForm } from '../../helpers/validation';
 import { useStore, useSetStoreValue, useSetAndDelete } from 'react-context-hook';
 import toastr from 'toastr';
 import '../../styles/toastr.css';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import moment from 'moment';
-import ClipLoader from 'react-spinners/ClipLoader';
-import { isUuid } from 'uuidv4';
+import ClipLoader from 'react-spinners/ClipLoader'
 
 const EmailTextField = withStyles({
    root: {
@@ -87,28 +86,21 @@ const SubmitButton = withStyles({
 const AuthModal = props => {
 
    const history = useHistory();
-   const location = useLocation();
 
+   const [key, setChangeKey] = useStore('changeKey');
    const [redirectTo, setRedirectTo] = useStore('redirectTo');
    const [setIsAuthenticated] = useSetAndDelete('isAuthenticated');
    const setUser = useSetStoreValue('user');
 
    const [ showPage, setShowPage ] = useState(props.page);
    const [loadingButton, setLoadingButton] = useState(false);
-   const [key, setKey] = useState(null);
 
    const [ user_first_name, setFirstName ] = useState('Sebastian');
    const [ user_last_name, setLastName ] = useState('Rotar');
    const [ user_birthdate, setBirthdate ] = useState(moment('1999-01-25').format('yyyy-MM-DD'));
-   const [ user_email, setEmail ] = useState('rotar.seby1@gmail.com');
+   const [ user_email, setEmail ] = useState('antonel.costescu@gmail.com');
    const [ user_password, setPassword ] = useState('123123');
    const [ user_rePassword, setRepassword ] = useState('123123');
-
-   useEffect(() => {
-      const searchParams = new URLSearchParams(location.search);
-      const key = searchParams.get('key'); 
-      if(isUuid(key)) setKey({ key });
-    }, [history, location]);
 
    const changeDate = newDate => {
       const date = moment(newDate).format('yyyy-MM-DD'); 
@@ -160,7 +152,6 @@ const AuthModal = props => {
          <div className='modalBottom'>
             <div className={classes.SwitchPageButton} onClick={() => setShowPage('Recover password')}>Forgotten password?</div> 
             <div className={classes.SwitchPageButton} onClick={() => setShowPage('Sign up')}>Don't have an account? Sign up</div> 
-            <div className={classes.SwitchPageButton} onClick={() => setShowPage('Change password')}>Change password</div> 
          </div>
       );
    } 
@@ -209,12 +200,7 @@ const AuthModal = props => {
                history.push(goTo);
             }
             props.closeModal();
-         } else return toastr.error(res.message);
-
-      
-      
-      
-      
+         } else return toastr.error(res.message); 
       } 
       
       // ====================== SIGNUP ======================
@@ -286,9 +272,14 @@ const AuthModal = props => {
          const isFormValid = validateForm(changePassData);
          if(!isFormValid.formIsValid) return toastr.error(`Invalid ${isFormValid.invalids.join(', ')}`);
 
-         changePassData.push(key);
+         console.log(key)
+
+         if(key) changePassData.push({ key });
+            else return toastr.error('Unauthorized!');
+
          setLoadingButton(true);
          const res = await changePassword(changePassData);
+         setChangeKey(undefined);
          setLoadingButton(false);
 
          // ====================== RESPONSE ======================
@@ -389,6 +380,4 @@ const AuthModal = props => {
    );
 };
       
-   
-
 export default AuthModal;

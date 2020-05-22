@@ -213,13 +213,13 @@ router.get('/reset', async(req, res) => {
 
     // ====================== GET THE KEY FROM THE QUERY STRING AND CHECK IT ======================
     const { key } = req.query;
-    if(!key) return res.redirect(`${clientEndpoint}/login?expired=true`);
-    if(!isUuid(key)) return res.redirect(`${clientEndpoint}/login?expired=true`);
+    if(!key) return res.redirect(`${clientEndpoint}?expired=true`);
+    if(!isUuid(key)) return res.redirect(`${clientEndpoint}?expired=true`);
 
     // ====================== FIND THE USER WITH THE SAME KEY ======================
     const [ foundUser ] = await User.query().where({ activate_or_reset_pass_key: key }).limit(1);
-    if(!foundUser) return res.redirect(`${clientEndpoint}/login?expired=true`);
-    if(foundUser.reset_pass_time === null) return res.redirect(`${clientEndpoint}/login?expired=true`);
+    if(!foundUser) return res.redirect(`${clientEndpoint}?expired=true`);
+    if(foundUser.reset_pass_time === null) return res.redirect(`${clientEndpoint}?expired=true`);
 
     // ====================== CHECK IF THE KEY IS STILL VALID ======================
     const timeNow = moment().unix(); // NOW
@@ -227,10 +227,10 @@ router.get('/reset', async(req, res) => {
     const difference = Number(userLimitTime) - Number(timeNow); // DIFFERENCE FROM NOW TO USER TIME
 
     // ====================== IF DIFFERENCE IS NOT POSITIVE - TIME HAS EXPIRED ======================
-    if(difference <= 0 ) return res.redirect(`${clientEndpoint}/login?expired=true`);
+    if(difference <= 0 ) return res.redirect(`${clientEndpoint}?expired=true`);
 
     // ====================== DIFFERENCE IS POSITIVE - REDIRECT USER TO CHANGE PASSWORD ======================
-    else return res.redirect(`${clientEndpoint}/changepass?key=${key}`);
+    else return res.redirect(`${clientEndpoint}?key=${key}`);
 });
 
 // ====================== ACTIVATE ACCOUNT ======================
@@ -239,24 +239,24 @@ router.get('/activate', async(req, res) => {
     // ====================== GET THE KEY FROM THE QUERY STRING AND CHECK IT ======================
     const { key } = req.query;
     console.log(key)
-    if(!key) return res.redirect(`${clientEndpoint}/login?expired=true`);
-    if(!isUuid(key)) return res.redirect(`${clientEndpoint}/login?expired=true`);
+    if(!key) return res.redirect(`${clientEndpoint}?expired=true`);
+    if(!isUuid(key)) return res.redirect(`${clientEndpoint}?expired=true`);
 
     try {
         // ====================== FIND THE USER WITH THE SAME KEY ======================
         const [ user ] = await User.query().where({ activate_or_reset_pass_key: key }).limit(1);
-        if(!user) return res.redirect(`${clientEndpoint}/login?expired=true`); // WRONG KEY OR ALREADY ACTIVATED
+        if(!user) return res.redirect(`${clientEndpoint}?expired=true`); // WRONG KEY OR ALREADY ACTIVATED
 
         // ====================== CHECK IF USER ALREADY ACTIVATED HIS ACCOUNT ======================
-        if(user.verified === 1) return res.redirect(`${clientEndpoint}/login?expired=true`); // ALREADY ACTIVATED
+        if(user.verified === 1) return res.redirect(`${clientEndpoint}?expired=true`); // ALREADY ACTIVATED
 
         // ====================== USER IS CORRECT - RESET KEY AND CHANGE IT TO VERIFIED ======================
         const activatedAccount = await User.query().findById(user.id).patch({ activate_or_reset_pass_key: uuid(), verified: 1 });
-        if(activatedAccount !== undefined) return res.redirect(`${clientEndpoint}/login?activated=${key}`);
-            else return res.redirect(`${clientEndpoint}/login?expired=true`);
+        if(activatedAccount !== undefined) return res.redirect(`${clientEndpoint}?activated=${key}`);
+            else return res.redirect(`${clientEndpoint}?expired=true`);
 
     } catch (err) {
-        return res.redirect(`${clientEndpoint}/login?expired=true`);
+        return res.redirect(`${clientEndpoint}?expired=true`);
     }
 });
 

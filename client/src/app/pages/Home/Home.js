@@ -3,15 +3,20 @@ import PropertyCard from '../../components/PropertyCard/PropertyCard'
 // import ClipLoader from 'react-spinners/ClipLoader';
 import './Home.css';
 import { useSetAndDelete } from 'react-context-hook';
-import { useHistory } from 'react-router-dom';
-import SearchbarComponents from '../../components/Searchbar/Searchbar'
+import SearchbarComponents from '../../components/Searchbar/Searchbar';
+import { useHistory, useLocation } from 'react-router-dom';
+import { isUuid } from 'uuidv4';
+import toastr from 'toastr';
 
 const Home = props => {
 
     const history = useHistory();
+    const location = useLocation();
 
     const [setShowModal] = useSetAndDelete('showModal');
     const [setRedirectTo] = useSetAndDelete('redirectTo');
+
+    const [setChangeKey] = useSetAndDelete('changeKey');
 
     useEffect(() => {
         // history.replace('', null);
@@ -25,9 +30,28 @@ const Home = props => {
             history.replace('', null);
         }
 
+        const searchParams = new URLSearchParams(location.search);
+        const key = searchParams.get('key'); 
+        const activatedKey = searchParams.get('activated'); 
+        const isExpired = searchParams.get('expired'); 
+
+        if(isExpired && isExpired === 'true') toastr.success('Your link has expired!');
+
+        if(activatedKey && isUuid(activatedKey)) {
+            toastr.success('You can now login into your account', 'Your account is now activated!');
+            history.push('/');
+            setShowModal('Log in');
+        }
+
+        if(key && isUuid(key)) {
+            setChangeKey(key);
+            history.push('/');
+            setShowModal('Change password');
+        }
+
         return () => document.querySelector('body').classList.remove('home');
 
-    }, [props.location.state, setRedirectTo, setShowModal, history]); 
+    }, [props.location.state, setRedirectTo, setShowModal, history, location, setChangeKey]); 
 
     const properties = [
         {
