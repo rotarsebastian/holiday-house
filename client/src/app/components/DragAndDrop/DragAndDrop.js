@@ -55,6 +55,7 @@ const DragAndDrop = props => {
     noClick: true,
     noKeyboard: true,
     onDrop: acceptedFiles => {
+      // eslint-disable-next-line
       const newImages = acceptedFiles.filter(file => { 
         if(props.files.findIndex(propFile => propFile.name === file.name) === -1) 
           return Object.assign(file, { preview: URL.createObjectURL(file) } )
@@ -85,6 +86,8 @@ const DragAndDrop = props => {
 
   const addImages = e => {
     const inputImages = Array.from(e.target.files);
+
+    // eslint-disable-next-line
     const newImages = inputImages.filter(file => { 
       if(props.files.findIndex(propFile => propFile.name === file.name) === -1) 
         return Object.assign(file, { preview: URL.createObjectURL(file) } )

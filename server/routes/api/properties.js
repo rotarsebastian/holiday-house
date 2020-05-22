@@ -21,11 +21,16 @@ router.get('/:id', async(req, res) => {
         if(!id) return res.json({ status: 0, message: 'Missing id!', code: 404 });
 
         // ====================== GET THE PROPERTY ======================
-        const property = await Property.query().select().where({ id });
+        const property = await Property.query().select().where({ id }).withGraphFetched('facilities');
         if(property.length === 0) return res.json({ status: 0, message: 'Property does not exists!', code: 404 });
+
+        // ====================== GET USER ======================
+        const user = await User.query().select('first_name', 'last_name').where({ id: property[0].user_id });
+
+        const responseObj = { ...property[0], ...user[0] };
         
         // ====================== EVERYTHING OK ======================s
-        return res.json({ status: 1, message: 'Property retrieved successfully!', data: property[0] });
+        return res.json({ status: 1, message: 'Property retrieved successfully!', data: responseObj });
 
     } catch (err) {
         return res.json({ status: 0, message: 'Error getting property!'});
