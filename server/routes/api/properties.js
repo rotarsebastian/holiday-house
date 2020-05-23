@@ -7,7 +7,7 @@ const User = require(__dirname + '/../../models/User');
 const Property = require(__dirname + '/../../models/Property');
 const PropertyFacilities = require(__dirname + '/../../models/PropertyFacilities');
 const { editProperty, getPropertiesWithFilters } = require(__dirname + '/../../helpers/dbqueries');
-const { fn } = require('objection');
+const { raw, fn } = require('objection');
 const { upload, removeImages } = require(__dirname + '/../../helpers/handleImages');
 const moment = require('moment');
 
@@ -34,6 +34,27 @@ router.get('/:id', async(req, res) => {
 
     } catch (err) {
         return res.json({ status: 0, message: 'Error getting property!'});
+    }
+});
+
+// ====================== GET RANDOM PROPERTIES ======================
+router.get('/random/10', async(req, res) => {
+    try {
+        // ====================== CHECK IF IS DATES ARE VALID ======================
+        const oneMonthOn = moment().add(120, 'days').format('YYYY-MM-DD');
+
+        // ====================== GET PROPERTIES ======================
+        const properties = await Property.query()
+            .select('id', 'title', 'beds', 'bathrooms', 'rooms', 'type', 'capacity', 'price', 'photos')
+            .where('available_end', '>' , oneMonthOn)
+            .orderBy(raw('random()'))
+            .limit(10)
+
+        // ====================== EVERYTHING OK ======================s
+        return res.json({ status: 1, message: 'Properties retrieved successfully!', data: properties });
+
+    } catch (err) {
+        return res.json({ status: 0, message: 'Error getting properties!'});
     }
 });
 
@@ -102,7 +123,7 @@ router.get('/', async(req, res) => {
         const properties = await getPropertiesWithFilters(offset, city, from, to, guests, type, minprice, maxprice);
 
         if(!properties) res.json({ status: 0, message: 'Error getting properties from the db!'});
-        return res.json({properties});
+        return res.json({ properties });
     } catch(e) {
         console.log(e);
         return res.json({ status: 0, message: 'Error returning properties!'});

@@ -238,7 +238,6 @@ router.get('/activate', async(req, res) => {
 
     // ====================== GET THE KEY FROM THE QUERY STRING AND CHECK IT ======================
     const { key } = req.query;
-    console.log(key)
     if(!key) return res.redirect(`${clientEndpoint}?expired=true`);
     if(!isUuid(key)) return res.redirect(`${clientEndpoint}?expired=true`);
 
