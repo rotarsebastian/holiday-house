@@ -19,8 +19,8 @@
 }
 
 .SearchbarContainer .SearchbarButtonContainer {
-   width: 80%;
-   margin-right: 2.9em;
+   width: 6rem;
+   margin-right: 0.9em;
 }
 
 .SearchbarContainer input[type=number]::-webkit-inner-spin-button, 
@@ -36,6 +36,13 @@ input[type=number]::-webkit-outer-spin-button {
 
 .SearchbarContainer .SearchIcon path {
    fill:white !important;
+}
+
+.SearchbarContainer .SearchRight {
+   display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
 }
 
 /* #outlined-search-input-label label {

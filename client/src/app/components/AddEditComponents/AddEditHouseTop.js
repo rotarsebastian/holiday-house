@@ -4,7 +4,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
 import classes from './AddEditComponents.module.css';
 import countries from '../../assets/testData';
-// import Person from '@material-ui/icons/Person';
+import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown';
 
 const TitleTextField = withStyles({
    root: {
@@ -102,6 +102,9 @@ const CityTextField = withStyles({
          color: '#E4215B',
        },
      '& .MuiOutlinedInput-root': {
+         borderTopRightRadius: '0px',
+         borderBottomRightRadius: '0px',
+         borderRight: '0px',
        '&.Mui-focused fieldset': {
          border: '2px solid #E4215B',
        },
@@ -124,6 +127,9 @@ const CountryTextField = withStyles({
          color: '#E4215B',
        },
      '& .MuiOutlinedInput-root': {
+        borderTopLeftRadius: '0px',
+        borderBottomLeftRadius: '0px',
+        marginLeft: '-1px',
        '&.Mui-focused fieldset': {
          border: '2px solid #E4215B',
        },
@@ -144,6 +150,8 @@ const AddEditHouseTop = () => {
   const handleChange = (event) => {
    setCountry(event.target.value);
   };
+
+  const icon = <KeyboardArrowDown />;
 
    return (
       <React.Fragment>
@@ -206,11 +214,13 @@ const AddEditHouseTop = () => {
                   select
                   label="Country" 
                   required={true}
-                  // IconComponent = {Person}
+                  IconComponent={() => (<KeyboardArrowDown />)}
                   value={country}
-                  placeholder="Select country"
                   onChange={handleChange}
                   variant="outlined" 
+                  // InputProps={{
+                  //    endAdornment: icon
+                  // }}
                   >
 
                   {countries.map(country => (
