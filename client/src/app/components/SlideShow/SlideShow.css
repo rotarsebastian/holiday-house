@@ -1,0 +1,42 @@
+
+.SlideMainContainer {
+  width: 65%;
+  height: fit-content;
+  margin: 0;
+}
+
+.SlideMainContainer .EachFade {
+  display: flex;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.SlideMainContainer .EachFade .ImageContainer {
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.SlideMainContainer .EachFade .ImageContainer img {
+  width: 100%;
+  border-radius: var(--radius) ;
+  object-fit: cover;
+}
+
+.SlideMainContainer .react-slideshow-container .nav:first-of-type {
+  margin-right: -35px;
+}
+
+.SlideMainContainer .react-slideshow-container .nav:last-of-type {
+  margin-left: -35px;
+}
+
+@media only screen and (max-width: 1030px) {
+  .SlideMainContainer {
+    width: calc(100vw - 10rem);
+  }
+}

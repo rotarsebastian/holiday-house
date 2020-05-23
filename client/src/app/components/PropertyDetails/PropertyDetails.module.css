@@ -1,38 +1,48 @@
 .PropertyDetailsContainer {
-    margin-left: 3rem;
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    padding-left: 2rem;
+    padding-top: 1rem;
 }
 
 .PropertyTitle {
     color: var(--black);
     font-family: 'Quicksand Bold';
-    font-size: 1.3rem;
-    margin: .5rem 0;
+    font-size: 1.7rem;
+    margin-top: .45rem;
 }
 
 .PropertyDetails {
-    padding: 1rem 0 3rem 0;
+    padding: .45rem 0;
+    padding-top: 2.2rem;
+}
+
+.PropertyDetails > div {
+    padding-bottom: 1.15rem;
 }
 
 .PropertyDetailTitle {
     color: var(--black);
     font-family: 'Quicksand Bold';
-    font-size: 1rem;
-    margin: .5rem 0;
+    font-size: 1.2rem;
+    margin-bottom: .5rem;
 }
 
 .PropertyInfo {
     color: var(--grey);
-    font-size: .85rem;
+    font-size: 1rem;
 }
 
 .PropertyInfoRooms {
     color: var(--black);
+    padding: 1rem 0;
+    font-size: 1.1rem;
 }
 
 .PropertyOrderContainer {
     display: flex;
-    justify-content: space-between;
-    padding-right: 4rem;
+    align-items: center;
 }
 
 .PropertyPrice {
@@ -53,12 +63,36 @@
 
 .PropertyPriceTotal {
     color: var(--black);
-    font-size: 1rem;
-    text-align: center;
+    padding: 1.5rem 0;
+    padding-bottom: .25rem;
+}
+
+.PropertyDiscount {
+    color: var(--black);
+    padding: 2.5rem 0;
+    padding-top: 0;
+}
+
+.PriceTotalAmount {
+    color: var(--black);
+    font-family: 'Quicksand Bold';
+    font-size: 1.5rem;
+    white-space: nowrap;
+    text-align: left;
+    padding-left: .5rem;
 }
 
 .BookButtonText {
     color: #FFF;
     white-space: nowrap;
     text-align: center;
+}
+
+@media only screen and (max-width: 1030px) {
+    .PropertyDetailsContainer {
+        width: 100%;
+        margin-bottom: 4rem;
+        padding: 1.5rem 0;
+        padding-left: 3rem;
+    }
 }

@@ -4,7 +4,8 @@ import ProfileCard from './../../components/ProfileCard/ProfileCard'
 import PropertyCard from './../../components/PropertyCard/PropertyCard'
 import { getUserProperties }  from './../../helpers/properties';
 import { useStoreValue } from 'react-context-hook';
-import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom';
+
 const Profile = props => {
     const history = useHistory();
     const user_data = useStoreValue('user');
@@ -22,11 +23,7 @@ const Profile = props => {
        fetchProperties();
     }, [user_data]) // component didmount - []  || componentWillUpdate - [yourDependency]
 
-   const openPropertyPage = id => {
-        history.push(`/property/${id}`)
-    //   console.log(id);
-     
-   }
+    const openPropertyPage = id => history.push(`/property/${id}`);
     
     return (
         <React.Fragment>
@@ -42,7 +39,7 @@ const Profile = props => {
                     { properties.map(property => {
                         return (
                             <div className={classes.PropertyCard} key={property.id}>
-                            <PropertyCard property={property} click={openPropertyPage} profile={'Profile'} />
+                                <PropertyCard property={property} click={openPropertyPage} from={'Profile'} />
                             </div>
                         )
                     })}

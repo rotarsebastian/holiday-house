@@ -24,7 +24,7 @@ exports.seed = knex => {
   const properties = [
     { 
       title: 'Beautiful 4 rooms studio', 
-      description: 'description for - Beautiful 4 rooms studio',
+      description: "description for - Beautiful 4 rooms studio There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.",
       available_start: '2019-04-11', 
       available_end: '2022-04-11', 
       price: 999, 
@@ -34,12 +34,12 @@ exports.seed = knex => {
       beds: 3,
       bathrooms: 2,
       address: '{"property_address":"mjolnerparken 108, 1. 3","city":"berlin","country":"germany","postal_code":"2300"}',
-      photos: '["default.jpeg"]',
+      photos: '["default.jpeg","default1.jpeg"]',
       user_id: 1
     },
     { 
       title: 'Beautiful 5 rooms studio', 
-      description: 'description for - Beautiful 5 rooms studio',
+      description: "description for - Beautiful 5 rooms studio There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.",
       available_start: '2020-06-11', 
       available_end: '2020-07-11', 
       price: 399, 
@@ -49,12 +49,12 @@ exports.seed = knex => {
       beds: 3,
       bathrooms: 2,
       address: '{"property_address":"mjolnerparken 108, 1. 3","city":"berlin","country":"germany","postal_code":"2300"}',
-      photos: '["default.jpeg"]',
+      photos: '["default.jpeg","default1.jpeg"]',
       user_id: 1
     },
     { 
       title: 'Beautiful 3 rooms studio', 
-      description: 'description for - Beautiful 3 rooms studio',
+      description: "description for - Beautiful 3 rooms studioThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.",
       available_start: '2020-06-11', 
       available_end: '2020-07-11', 
       price: 399, 
@@ -64,12 +64,12 @@ exports.seed = knex => {
       beds: 3,
       bathrooms: 2,
       address: '{"property_address":"mjolnerparken 108, 1. 3","city":"copenhagen","country":"denmark","postal_code":"2300"}',
-      photos: '["default.jpeg"]',
+      photos: '["default.jpeg","default1.jpeg"]',
       user_id: 1
     },
     { 
       title: 'Room in 6 room apartment', 
-      description: 'description for - Room in 6 room apartment',
+      description: "description for - Room in 6 room apartment There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.",
       available_start: '2020-04-11', 
       available_end: '2021-04-11', 
       price: 799, 
@@ -79,12 +79,12 @@ exports.seed = knex => {
       beds: 6,
       bathrooms: 3,
       address: '{"property_address":"amagerbrogade 172, 1. 3","city":"copenhagen","country":"denmark","postal_code":"2300"}',
-      photos: '["default.jpeg"]',
+      photos: '["default.jpeg","default1.jpeg"]',
       user_id: 1
     },
     { 
       title: 'Penthouse in the heart of New York', 
-      description: 'description for - Penthouse in the heart of New York',
+      description: "description for - Penthouse in the heart of New York There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.",
       available_start: '2020-07-01', 
       available_end: '2021-08-11', 
       capacity: 2, 
@@ -94,18 +94,18 @@ exports.seed = knex => {
       beds: 5,
       bathrooms: 2,
       address: '{"property_address":"15 avenue road","city":"new york","country":"usa","postal_code":"2200"}',
-      photos: '["default.jpeg"]',
+      photos: '["default.jpeg","default1.jpeg"]',
       user_id: 2
     },
   ];
 
   const facilities = [
     { 
-      facilities_list: '["WiFi","Kitchen","Parking"]',
+      facilities_list: '[{"name":"WiFi","icon":"wifi"},{"name":"Kitchen","icon":"utensils"},{"name":"Parking","icon":"parking"}]',
       property_id: 1
     },
     { 
-      facilities_list: '["WiFi","Laundry","Iron"]',
+      facilities_list: '[{"name":"WiFi","icon":"wifi"},{"name":"Laundry","icon":"laundry.svg"},{"name":"Iron","icon":"iron.svg"}]',
       property_id: 2
     },
   ];

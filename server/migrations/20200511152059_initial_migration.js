@@ -17,7 +17,7 @@ exports.up = function(knex) {
         .createTable('properties', table => {
             table.increments('id').primary()
             table.string('title').notNullable()
-            table.string('description').notNullable()
+            table.string('description', 3000).notNullable()
             table.date('available_start').notNullable()
             table.date('available_end').notNullable()
             table.integer('price').notNullable()

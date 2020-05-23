@@ -13,10 +13,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 //   setShowDialog(false)
 // }
 
-{/* <button variant="outlined" color="primary" onClick={() => setShowDialog(true)}>
+/* <button variant="outlined" color="primary" onClick={() => setShowDialog(true)}>
   Delete your profile
 </button>
-<YesNoModal sendAnswer={handleAnswer} open={showDialog} close={() => setShowDialog(!showDialog)} /> */}
+<YesNoModal sendAnswer={handleAnswer} open={showDialog} close={() => setShowDialog(!showDialog)} /> */
 
 const YesNoModal = (props) => {
 
@@ -40,10 +40,10 @@ const YesNoModal = (props) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={(e) => props.sendAnswer(e, "Yes")} color="primary">
+          <Button onClick={e => props.sendAnswer(e, "Yes")} color="primary">
             Yes
           </Button>
-          <Button onClick={(e) => props.sendAnswer(e, "No")} color="primary" autoFocus>
+          <Button onClick={e => props.sendAnswer(e, "No")} color="primary" autoFocus>
             No
           </Button>
         </DialogActions>

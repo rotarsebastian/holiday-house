@@ -5,6 +5,7 @@
     overflow-x: hidden;
     transform:rotate(-90deg) translateY(-30em);
     transform-origin: right top;
+    margin-top: 1rem;
 }
 
 body.home  {
@@ -13,9 +14,9 @@ body.home  {
 }
 
 .homeContainer h1 {
-    color: #e4215b;
+    color: var(--color-title);
     font-size: 45px;
-    padding-bottom: 1em;
+    padding: 2rem 0;
 }
 
 /* scrollbar */

@@ -5,6 +5,7 @@
     box-shadow: var(--box-shadow);
     border-radius: var(--radius);
     overflow: hidden;
+    cursor: pointer;
 }
 
 .Home {
@@ -16,29 +17,33 @@
     transform: rotate(90deg) translateX(30em);
     transform-origin: right top;
 }
-.Profile button {
-    display: block;
-}
-.Profile .Icon {
-    display: block;
-}
 
-.Icon {
-    display: none;
+.Icon {  
     position: absolute;
-    bottom: top;
-    right: 0;
+    top: -.75rem;
+    right: -.5rem;
     cursor: pointer;
 }
 
-.Trash {
+.Icon svg {
+    width: 18px !important;
     transition: .3s;
 }
+
+.Icon:hover svg {
+    width: 20px !important;
+}
+
+.Icon svg path {
+    transition: .3s;
+}
+
 .Icon:hover path {
     fill: var(--pink-color);
+    /* transform: scale(1.1); */
 }
+
 .Button {
-    display: none;
     padding: .5rem 1rem;
     color: #FFF;
     background-color: var(--pink-color);
@@ -50,15 +55,17 @@
     position: absolute;
     bottom: 0;
     left: 0;
+    transition: .3s;
 }
+
 .Button:hover {
-    background-color: #f02551
+    background-color: #f02551;
+    transform: scale(1.04);
 }
+
 .PropertyImageContainer {
-
- width: 35rem;
- height: 11rem;
-
+    width: 35rem;
+    height: 11rem;
 }
 
 .PropertyImage {

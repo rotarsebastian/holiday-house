@@ -1,9 +1,6 @@
-import React from "react";
-import classes from "./SlideShow.module.css";
+import React, { useState } from "react";
+import "./SlideShow.css";
 import { Fade } from 'react-slideshow-image';
-import anotherImage from './../../assets/img/pexels-photo-1396122.jpeg'
-import anotheroneImage from './../../assets/img/image-asset.jpeg'
-
 
 // const fadeImages = [
 //     './../../assets/img/LMM-Cover-Images-2.jpg',
@@ -11,35 +8,34 @@ import anotheroneImage from './../../assets/img/image-asset.jpeg'
 //     './../../assets/img/LMM-Cover-Images-2.jpg'
 //   ];
 
-  const fadeProperties = {
-    duration: 5000,
-    transitionDuration: 500,
-    infinite: true,
-    indicators: true
-  }
+const fadeProperties = {
+  duration: 5000,
+  transitionDuration: 500,
+  infinite: true,
+  indicators: true,
+  pauseOnHover: true,
+}
 
-const Slideshow = (props) => {
-   return (
-     <div className={classes.SlideMainContainer}>
-    <Fade {...fadeProperties}>
-    <div className={classes.EachFade}>
-      <div className={classes.ImageContainer}>
-        <img src={anotheroneImage} alt="house1" />
-      </div>
+const Slideshow = props => {
+
+  const [ imgPath ] = useState('https://holidayhouse1.s3.amazonaws.com/');
+  const { photos } = props;
+
+  return (
+    <div className={"SlideMainContainer"}>
+      <Fade { ...fadeProperties }>
+        { photos.map(photo => {
+            return (
+              <div className={"EachFade"} key={photo}>
+                <div className={"ImageContainer"}>
+                  <img src={imgPath + photo} alt={photo} />
+                </div>
+              </div>
+            )
+        })}
+      </Fade>
     </div>
-    <div className={classes.EachFade}>
-      <div className={classes.ImageContainer}>
-        <img src={anotherImage}  alt="house2"/>
-      </div>
-    </div>
-    <div className={classes.EachFade}>
-      <div className={classes.ImageContainer}>
-        <img src={anotheroneImage}  alt="house3"/>
-      </div>
-    </div>
-  </Fade>
-  </div>
-   )
+  )
 };
 
 export default Slideshow;

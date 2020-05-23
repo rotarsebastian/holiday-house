@@ -12,20 +12,20 @@ import toastrSetup from './helpers/toastrSettings';
 import auth, { checkAuth } from './helpers/auth';
 import { withStore } from 'react-context-hook';
 import { useStore, useSetStoreValue } from 'react-context-hook';
-import { useStoreState } from 'react-context-hook';
+// import { useStoreState } from 'react-context-hook';
 import ClipLoader from 'react-spinners/ClipLoader';
 import Property from './pages/PropertyPage/PropertyPage'
 
-function Test() {
-  const globalState = useStoreState()
-  return (
-    <section style={{ position: 'fixed', bottom: 0, left: 0 }}>
-      <pre>
-        <code id="global-state">{JSON.stringify(globalState, null, ' ')}</code>
-      </pre>
-    </section>
-  )
-}
+// function Test() {
+//   const globalState = useStoreState()
+//   return (
+//     <section style={{ position: 'fixed', bottom: 0, left: 0 }}>
+//       <pre>
+//         <code id="global-state">{JSON.stringify(globalState, null, ' ')}</code>
+//       </pre>
+//     </section>
+//   )
+// }
 
 const App = () => {
   toastr.options = toastrSetup;
@@ -51,7 +51,7 @@ const App = () => {
       <div className={classes.App}>
         <Router basename='/'> 
           <Header />
-          <Test />
+          {/* <Test /> */}
           <Switch>
             <Route exact path='/' component={props => <Home {...props} />} />
             <Route path='/propertiesresults' component={props => <PropertiesResults {...props} />} />

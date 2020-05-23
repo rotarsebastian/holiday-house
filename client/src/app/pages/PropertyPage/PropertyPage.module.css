@@ -1,3 +1,40 @@
-.PropertyContainer {
+.PropertyTopContainer {
     display: flex;
+}
+
+.PropertyBottomContainer {
+    margin: 1rem 1.15rem;
+}
+
+.PropertyAttrTitle {
+    color: var(--color-title);
+    font-size: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.PropertyAttrText {
+    color: var(--grey);
+    line-height: 1.7;
+}
+
+.PropertyAttrText > div {
+    display: flex;
+    align-items: center;
+    width: 5rem;
+    margin-bottom: .5rem;
+}
+
+.PropertyAttrText > div > div{
+    padding-left: 1rem;
+    color: var(--grey);
+}
+
+.Icon {
+    width: 20px;
+}
+
+@media only screen and (max-width: 1030px) {
+    .PropertyTopContainer {
+        display: block;
+    }
 }
