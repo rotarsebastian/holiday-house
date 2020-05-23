@@ -41,7 +41,6 @@ const GuestsTextField = withStyles({
    root: {
       textTransform: "uppercase",
       fontSize: "1rem",
-      width: '20vw',
       '& label.Mui-focused': {
          color: '#E4215B',
       },
