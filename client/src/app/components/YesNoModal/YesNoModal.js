@@ -20,25 +20,30 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 const YesNoModal = (props) => {
 
+  const closeModal = e => {
+    e.stopPropagation();
+    props.close();
+  }
+
   return (
     <div>
       <Dialog
         open={props.open}
-        onClose={props.close}
+        onClose={e => closeModal(e)}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Delete your profile"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"Delete your property"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Are you sure you want to delete your profile?
+            Are you sure you want to delete your property?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => props.sendAnswer("Yes")} color="primary">
+          <Button onClick={(e) => props.sendAnswer(e, "Yes")} color="primary">
             Yes
           </Button>
-          <Button onClick={() => props.sendAnswer("No")} color="primary" autoFocus>
+          <Button onClick={(e) => props.sendAnswer(e, "No")} color="primary" autoFocus>
             No
           </Button>
         </DialogActions>

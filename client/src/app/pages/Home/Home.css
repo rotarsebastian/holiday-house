@@ -1,6 +1,6 @@
 .homeContainer .slideshowContainer {
     width: 30em;
-    height: 95vw;
+    height: 88vw;
     overflow-y: auto;
     overflow-x: hidden;
     transform:rotate(-90deg) translateY(-30em);
