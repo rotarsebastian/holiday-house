@@ -57,7 +57,6 @@ const App = () => {
             <Route path='/propertiesresults' component={props => <PropertiesResults {...props} />} />
             <PrivateRoute path='/addproperty' component={props => <AddProperty {...props} />} />
             <PrivateRoute path='/profile' component={props => <Profile {...props}/>} />
-            {/* <Route path='/addproperty' component={props => <AddProperty {...props} />} /> */}
             <Route path='/property/:id' component={props => <Property {...props} />} />
           </Switch>
         </Router>
