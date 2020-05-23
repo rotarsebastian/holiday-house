@@ -7,7 +7,6 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { withStyles } from '@material-ui/core/styles';
 import Datepicker from '../Datepicker/Datepicker';
 import moment from 'moment';
-import { getProperties } from '../../helpers/properties'
 
 const CityTextField = withStyles({
    root: {
@@ -96,29 +95,36 @@ const SearchButton = withStyles({
    }
 })(Button);
 
-const SearchbarComponents = () => {
+const SearchbarComponents = props => {
          
    const [ city, setCity ] = useState('');
    const [ from, setFrom ] = useState(moment().format('yyyy-MM-DD'));
-   const [ to, setTo ] = useState(moment().format('yyyy-MM-DD'));
+   const [ to, setTo ] = useState(moment().add(1, 'days').format('yyyy-MM-DD'));
    const [ guests, setGuests ] = useState('');
-   const offset = 0
-
-   const handleSearch = async() => {
-      console.log(city, from, to, guests);
-      getProperties(from, to, guests, city, offset)
-   }
+   const [ isDisabled, setDisabled ] = useState(true);
    
    const changeDate = (newDate, label) => {
       const date = moment(newDate).format('yyyy-MM-DD');
-
-      console.log(date)
    
       if (label === "Check in") setFrom(date);
       else setTo(date);
    };
-      
 
+   const handleChangeInput = (e, input) => {
+      if(input === 'guests') {
+         if(e.target.value === '') setGuests('');
+         else setGuests(parseInt(e.target.value));
+
+         if(city.length > 0 && parseInt(e.target.value) > 0) setDisabled(false);
+         else setDisabled(true);
+      } else {
+         setCity(e.target.value);
+
+         if(e.target.value.length > 1 && parseInt(guests) > 0) setDisabled(false);
+         else setDisabled(true);
+      }
+   }
+      
    return (
       <React.Fragment>
          <div className="SearchbarContainer">
@@ -131,7 +137,7 @@ const SearchbarComponents = () => {
                      placeholder="Where are you going?" 
                      variant="outlined" 
                      value={city}
-                     onChange={e => setCity(e.target.value)} />
+                     onChange={e => handleChangeInput(e, 'city')} />
                </div>   
                <div>
                   <Datepicker 
@@ -155,11 +161,17 @@ const SearchbarComponents = () => {
                      placeholder="How many will you be?" 
                      variant="outlined"
                      value={guests}
-                     onChange={e => setGuests(e.target.value)}
+                     onChange={e => handleChangeInput(e, 'guests')}
                   />
                   <div className="SearchbarButtonContainer">
-                     <SearchButton variant="contained" onClick={() => handleSearch()}>
-                     <div className="classes.SearchIcon"><FontAwesomeIcon icon={faSearch} /></div>Search</SearchButton>
+                     <SearchButton 
+                        variant="contained" 
+                        disabled={isDisabled}
+                        onClick={() => props.clickSearch(city, from, to, guests)}
+                     >
+                     <div className="classes.SearchIcon"><FontAwesomeIcon icon={faSearch} /></div>
+                     Search
+                     </SearchButton>
                   </div>  
                </div>   
             </div>

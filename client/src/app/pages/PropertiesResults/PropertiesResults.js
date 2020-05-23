@@ -3,9 +3,12 @@ import ak from '../../assets/config';
 import mapboxgl from 'mapbox-gl';
 import ClipLoader from 'react-spinners/ClipLoader';
 import './PropertiesResults.css';
+import { getProperties }  from './../../helpers/properties';
 
 const PropertiesResults = props => {
     
+    const [ properties, setProperties ] = useState(undefined);    
+
     const [ map, setMap ] = useState(null);    
     const [ lng, setLng ] = useState(9.8694);    
     const [ lat, setLat ] = useState(52.3082);    
@@ -15,6 +18,12 @@ const PropertiesResults = props => {
     const mapContainer = useRef(null);
 
     useEffect(() => {
+        //TODO: continue 
+        // ====================== GET SEARCH DATA ======================
+        // const res = await getProperties(from, to, parseInt(guests), city, 0);
+        // if(res.status !== 1) return toastr.error('Something went wrong!');
+
+
         // ===================== FOR PRODUCTION =====================
         // mapboxgl.accessToken = process.env.REACT_APP_MAP;
         // ===================== END PRODUCTION =====================
@@ -130,8 +139,6 @@ const PropertiesResults = props => {
 
             popUpContainer.appendChild(popUpImage);
             popUpContainer.appendChild(popUpBottomContainer);
-
-            console.log(popUpContainer)
 
             return popUpContainer.outerHTML;
         }

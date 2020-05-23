@@ -55,6 +55,8 @@ export const validateInputValue = (type, value) => {
             return Number.isInteger(value);
         case 'bathrooms':
             return Number.isInteger(value);
+        case 'guests':
+            return Number.isInteger(value);
         case 'address':
             return typeof value === 'string' && isJSON(value)
         case 'facilities':

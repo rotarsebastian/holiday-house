@@ -3,28 +3,18 @@ import TextField from '@material-ui/core/TextField';
 import './AddEditComponents.module.css';
 import Button from '@material-ui/core/Button';
 
-
-
-
-
-
 const AddEditHouseBottomLeft = () => {
          
-
    const [ from, setFrom ] = useState(moment().format('yyyy-MM-DD'));
    const [ to, setTo ] = useState(moment().format('yyyy-MM-DD'));
-
-   
+ 
    const changeDate = (newDate, label) => {
       const date = moment(newDate).format('yyyy-MM-DD');
-
-      console.log(date)
    
       if (label === "Available from") setFrom(date);
       else setTo(date);
-   };
+   }
       
-
    return (
       <React.Fragment>
          <div className="SearchbarContainer">

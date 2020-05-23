@@ -3,12 +3,13 @@ import PropertyCard from '../../components/PropertyCard/PropertyCard'
 // import ClipLoader from 'react-spinners/ClipLoader';
 import './Home.css';
 import { useSetAndDelete } from 'react-context-hook';
-import SearchbarComponents from '../../components/Searchbar/Searchbar';
+import Searchbar from '../../components/Searchbar/Searchbar';
 import { useHistory, useLocation } from 'react-router-dom';
 import { isUuid } from 'uuidv4';
 import toastr from 'toastr';
 import ClipLoader from 'react-spinners/ClipLoader';
 import { getRecommendedProperties }  from './../../helpers/properties';
+import { validateForm }  from './../../helpers/validation';
 
 const Home = props => {
 
@@ -70,11 +71,25 @@ const Home = props => {
 
     const showProperty = id => history.push(`/property/${id}`);
 
+    const handleSearch = async(city, from, to, guests) => {
+        const searchData = [ 
+            { type: 'city', val: city }, { type: 'available_start', val: from }, 
+            { type: 'available_end', val: to }, { type: 'guests', val: parseInt(guests) }
+        ];
+
+        const isFormValid = validateForm(searchData);
+        if(!isFormValid.formIsValid) return toastr.error(`Invalid ${isFormValid.invalids.join(', ')}`);
+
+        const queryString = `?from=${from}&to=${to}&guests=${guests}&city=${city}&offset=${0}`;
+
+        history.push(`/propertiesresults${queryString}`);
+    }
+
     if(recommendedProperties === undefined) return <div className="loading"><ClipLoader size={50} color={'#e83251'} /></div>;
 
     return (
         <React.Fragment>
-                <SearchbarComponents />
+                <Searchbar clickSearch={handleSearch} />
 
                 <div className="homeContainer">
                     <h1>What is your next destination?</h1>

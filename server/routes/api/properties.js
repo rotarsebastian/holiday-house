@@ -123,7 +123,7 @@ router.get('/', async(req, res) => {
         const properties = await getPropertiesWithFilters(offset, city, from, to, guests, type, minprice, maxprice);
 
         if(!properties) res.json({ status: 0, message: 'Error getting properties from the db!'});
-        return res.json({ properties });
+        return res.status(200).json({ status: 1, properties, code: 200 });
     } catch(e) {
         console.log(e);
         return res.json({ status: 0, message: 'Error returning properties!'});

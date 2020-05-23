@@ -60,12 +60,14 @@ export const getUserProperties = async(id, offset) => {
     }
 };
 
-export const getProperties = async(from, to, guests, minprice, maxprice, type, city, offset) => {
-    let requestString = `from=${from}&to=${to}&guests=${guests}&city=${city}&offset=${offset}`;
+export const getProperties = async(from, to, guests, city, offset, minprice, maxprice, type) => {
+    let requestString = `?from=${from}&to=${to}&guests=${guests}&city=${city}&offset=${offset}`;
+
     if( minprice && maxprice ) {
         requestString = requestString + `&minprice=${minprice}`;
         requestString = requestString + `&maxprice=${maxprice}`;
     }
+
     if( type ) requestString = requestString + `&type=${type}`;
     
     try {
@@ -73,10 +75,9 @@ export const getProperties = async(from, to, guests, minprice, maxprice, type, c
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({})
+          }
         };
-        const response = await fetch(endpoint + '?' + requestString, options);
+        const response = await fetch(endpoint + requestString, options);
         const data = await response.json();
         return data;
     }
