@@ -19,19 +19,22 @@
 .Profile button {
     display: block;
 }
-.Profile .Trash {
+.Profile .Icon {
     display: block;
 }
 
-.Trash {
+.Icon {
     display: none;
     position: absolute;
     bottom: top;
     right: 0;
     cursor: pointer;
+}
+
+.Trash {
     transition: .3s;
 }
-.Trash>path:hover {
+.Icon:hover path {
     fill: var(--pink-color);
 }
 .Button {
@@ -51,7 +54,6 @@
 .Button:hover {
     background-color: #f02551
 }
-
 .PropertyImageContainer {
 
  width: 35rem;

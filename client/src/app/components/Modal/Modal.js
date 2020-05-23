@@ -100,7 +100,7 @@ const AuthModal = props => {
    const [ user_first_name, setFirstName ] = useState('Sebastian');
    const [ user_last_name, setLastName ] = useState('Rotar');
    const [ user_birthdate, setBirthdate ] = useState(moment('1999-01-25').format('yyyy-MM-DD'));
-   const [ user_email, setEmail ] = useState('rotar.seby1@gmail.com');
+   const [ user_email, setEmail ] = useState('antonel.costescu@gmail.com');
    const [ user_password, setPassword ] = useState('123123');
    const [ user_rePassword, setRepassword ] = useState('123123');
 
