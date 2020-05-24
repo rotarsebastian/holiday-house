@@ -167,7 +167,9 @@ const SearchbarComponents = props => {
          setQueryLoaded(true);
       }
 
-   }, [props, city])
+   }, [props, city, queryLoaded, types])
+
+   const handler = useCallback(debounce(text => handleSearchRequest(text), 400), []);
 
    const capitalize = text => text.charAt(0).toUpperCase() + text.slice(1);
    
@@ -176,8 +178,8 @@ const SearchbarComponents = props => {
    
       if (label === "Check in") {
          setFrom(date);
+         if(moment(to).isBefore(date, 'day')) setTo(moment(date).add(1, 'days').format('yyyy-MM-DD'));
          setMinDateTo(moment(date).add(1, 'days').format('yyyy-MM-DD'));
-         setTo(moment(date).add(1, 'days').format('yyyy-MM-DD'));
       }
       else setTo(date);
    };
@@ -186,8 +188,6 @@ const SearchbarComponents = props => {
       const results = await citySearch(city);
       setSearchResults(results);
    }
-
-   const handler = useCallback(debounce(text => handleSearchRequest(text), 400), []);
 
    const handleChangeInput = (e, input) => {
       if(input === 'guests') {

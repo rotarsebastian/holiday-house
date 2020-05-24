@@ -6,7 +6,7 @@ import ClipLoader from 'react-spinners/ClipLoader';
 import './PropertiesResults.css';
 import { getProperties }  from './../../helpers/properties';
 import Searchbar from '../../components/Searchbar/Searchbar';
-import toastr from 'toastr';
+// import toastr from 'toastr';
 
 const PropertiesResults = props => {
 
@@ -87,95 +87,80 @@ const PropertiesResults = props => {
             });
         };
 
-        // const addMarkers = (map, properties) => {
-        const addMarkers = (map) => {
-
-            properties.forEach(async (property)=> {
-
-                // create a HTML element for each feature
-                const markerHTML = document.createElement('div');
-                const markerDIV = document.createElement('div');
-                markerHTML.className = 'marker';
-                markerDIV.className = 'markerContainer';
-                markerDIV.textContent = `${property.price} kr`;
-                markerHTML.appendChild(markerDIV);
-
-                markerHTML.addEventListener('click', e => {
-                    clearActiveMarker();
-                    setTimeout(() => e.target.classList.add('active', 'visited'), 100);
-                });
-
-                let popup = new mapboxgl.Popup({ closeButton: false, offset: 20 });
-
-                // make a marker for each feature and add to the map
-                const oneMarker = new mapboxgl.Marker(markerHTML)
-                    .setLngLat(property.coordinates)
-                    .setPopup(popup.setHTML(constructPopup(property)))
-                    .addTo(map)
-                    currentMarkers.push(oneMarker);
-
-                popup.on('close', () => clearActiveMarker());
-
-                // markerHTML.addEventListener('click', evt => evt.stopPropagation());
-            });
-        }
-
-        const clearActiveMarker = () => {
-            Array.from(mapContainer.current.querySelectorAll('.markerContainer')).find(e => e.classList.contains('active') ? e.classList.remove('active') : false);
-        }
-
-        const constructPopup = property => {
-            const popUpContainer = document.createElement('div');
-            popUpContainer.className = 'PopupContainer';
-            
-            const popUpBottomContainer = document.createElement('div');
-            popUpBottomContainer.className = 'PopupBottomContainer';
-
-            const popUpImage = document.createElement('img');
-            const popUpType = document.createElement('div');
-            const popUpTitle = document.createElement('div');
-            const popUpPrice = document.createElement('div');
-
-            popUpImage.setAttribute('src', `https://holidayhouse1.s3.amazonaws.com/${property.photos[0]}`);
-            popUpImage.setAttribute('alt', 'house-img');
-            popUpImage.className = 'PopupImage';
-            popUpType.textContent = property.type;
-            popUpType.className = 'PopupType';
-            popUpTitle.textContent = property.title;
-            popUpTitle.className = 'PopupTitle';
-            popUpPrice.innerHTML = property.price + ' kr <span>/ night<span>';
-            popUpPrice.className = 'PopupPrice';
-
-            popUpBottomContainer.appendChild(popUpType);
-            popUpBottomContainer.appendChild(popUpTitle);
-            popUpBottomContainer.appendChild(popUpPrice);
-
-            popUpContainer.appendChild(popUpImage);
-            popUpContainer.appendChild(popUpBottomContainer);
-
-            return popUpContainer.outerHTML;
-        }
-
-        // const hideMarkers = () => {
-        //     currentMarkers.forEach(marker => {
-        //         marker.remove();
-        //     });
-        // }
-
-        // const showMarkers = map => {
-        //     currentMarkers.forEach(marker => {
-        //         marker
-        //             .setPopup(new mapboxgl.Popup({ closeOnClick: false, closeButton: false, anchor: 'center' })
-        //                 .setHTML('<p>' + marker._popup._content.innerText.split('°C')[0] + '°C</p><h4>' + marker._popup._content.innerText.split('°C')[1].trim() + '</h4>'))
-        //             .addTo(map)
-        //             .togglePopup();
-        //     });
-        // }
-
         if(properties === undefined) fetchProperties();
         if (!map && properties) initializeMap({ setMap, mapContainer });
 
-    }, [map, lat, lng, zoom, currentMarkers, location, properties]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [map, lat, lng, zoom, currentMarkers, location, properties, history]);
+
+    const addMarkers = (map, newProperties) => {
+        const showProperties = newProperties ? newProperties : properties;
+
+        showProperties.forEach(property => {
+
+            // create a HTML element for each feature
+            const markerHTML = document.createElement('div');
+            const markerDIV = document.createElement('div');
+            markerHTML.className = 'marker';
+            markerDIV.className = 'markerContainer';
+            markerDIV.textContent = `${property.price} kr`;
+            markerHTML.appendChild(markerDIV);
+
+            markerHTML.addEventListener('click', e => {
+                clearActiveMarker();
+                setTimeout(() => e.target.classList.add('active', 'visited'), 100);
+            });
+
+            let popup = new mapboxgl.Popup({ closeButton: false, offset: 20 });
+
+            // make a marker for each feature and add to the map
+            const oneMarker = new mapboxgl.Marker(markerHTML)
+                .setLngLat(property.coordinates)
+                .setPopup(popup.setHTML(constructPopup(property)))
+                .addTo(map)
+                currentMarkers.push(oneMarker);
+
+            popup.on('close', () => clearActiveMarker());
+        });
+    }
+
+    const clearActiveMarker = () => {
+        Array.from(mapContainer.current.querySelectorAll('.markerContainer')).find(e => e.classList.contains('active') ? e.classList.remove('active') : false);
+    }
+
+    const constructPopup = property => {
+        const popUpContainer = document.createElement('div');
+        popUpContainer.className = 'PopupContainer';
+        
+        const popUpBottomContainer = document.createElement('div');
+        popUpBottomContainer.className = 'PopupBottomContainer';
+
+        const popUpImage = document.createElement('img');
+        const popUpType = document.createElement('div');
+        const popUpTitle = document.createElement('div');
+        const popUpPrice = document.createElement('div');
+
+        popUpImage.setAttribute('src', `https://holidayhouse1.s3.amazonaws.com/${property.photos[0]}`);
+        popUpImage.setAttribute('alt', 'house-img');
+        popUpImage.className = 'PopupImage';
+        popUpType.textContent = property.type;
+        popUpType.className = 'PopupType';
+        popUpTitle.textContent = property.title;
+        popUpTitle.className = 'PopupTitle';
+        popUpPrice.innerHTML = property.price + ' kr <span>/ night<span>';
+        popUpPrice.className = 'PopupPrice';
+
+        popUpBottomContainer.appendChild(popUpType);
+        popUpBottomContainer.appendChild(popUpTitle);
+        popUpBottomContainer.appendChild(popUpPrice);
+
+        popUpContainer.appendChild(popUpImage);
+        popUpContainer.appendChild(popUpBottomContainer);
+
+        return popUpContainer.outerHTML;
+    }
+
+    const hideMarkers = () => currentMarkers.forEach(marker => marker.remove());
 
     const handleSearch = async(city, from, to, guests, minPrice, maxPrice, types) => {
 
@@ -186,6 +171,8 @@ const PropertiesResults = props => {
             else result = await getProperties(from, to, guests, city, 0, minPrice, maxPrice);
         
         setProperties(result.properties);
+        hideMarkers();
+        addMarkers(map, result.properties);
     }
 
     const showMap = isLoading ? '0' : '1';
