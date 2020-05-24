@@ -211,11 +211,14 @@ const SearchbarComponents = props => {
                         disabled={isDisabled}
                         onClick={() => props.clickSearch(city, from, to, guests)}
                      >
-                     <div className="classes.SearchIcon"><FontAwesomeIcon icon={faSearch} /></div>
+                     <FontAwesomeIcon icon={faSearch} />
                      Search
                      </SearchButton>
                   </div>  
                </div>   
+            </div>
+            <div className="FiltersContainer">
+               Filters
             </div>
          </div>
       </React.Fragment>

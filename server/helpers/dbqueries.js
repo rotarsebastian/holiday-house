@@ -37,11 +37,11 @@ const editUser = async(form, id) => {
 }
 
 // ====================== GET USER PROPERTIES ======================
-const getPropertiesWithFilters = async(offset, city, from, to, guests, type, minPrice, maxPrice) => {
+const getPropertiesWithFilters = async(offset, city, from, to, guests, types, minPrice, maxPrice) => {
     let properties;
     let min = minPrice ? minPrice : 0;
     let max = maxPrice ? maxPrice : 999999;
-    if(!type) {
+    if(!types) {
         properties = await Property.query()
             .select('title', 'beds', 'bathrooms', 'rooms', 'type', 'capacity', 'price', 'photos')
             .where(ref('address:city').castText(), '=', city.toLowerCase())
@@ -61,7 +61,12 @@ const getPropertiesWithFilters = async(offset, city, from, to, guests, type, min
             .andWhere('capacity', '>=' , guests)
             .andWhere('price', '>=' , min)
             .andWhere('price', '<=' , max)
-            .andWhere(raw('LOWER("type") = ?', type.toLowerCase()))
+            .where(builder => {
+                builder
+                  .where(raw('LOWER("type") = ?', type.toLowerCase()))
+                  .orWhere(raw('LOWER("type") = ?', type1.toLowerCase()));
+            })
+            // .andWhere(raw('LOWER("type") = ?', type.toLowerCase()))
             .limit(10)
             .offset(offset)      
     }

@@ -13,7 +13,7 @@ const moment = require('moment');
 
 const multipleUpload = upload.array('image', 10); // MAXIMUM 10 IMAGES AT ONCE
 
-// ====================== GET A SPECIFIC PROPERTY ======================
+// ====================== GET CITY SEARCH ======================
 router.get('/city/search', async(req, res) => {
     try {
         // ====================== GET THE PROPERTY ID ======================
@@ -122,7 +122,7 @@ router.get('/user/:id', isAuthenticated, async(req, res) => {
 // ====================== GET PROPERTIES ======================
 router.get('/', async(req, res) => {
     try {
-        const { offset, city, from, to, guests, type, minprice, maxprice } = req.query;
+        const { offset, city, from, to, guests, types, minprice, maxprice } = req.query;
         if(!offset || !city || !from || !to || !guests) return res.json({ status: 0, message: 'Invalid request'});
 
         if(!Number.isInteger(Number(guests))) return res.json({ status: 0, message: 'Guests should be a number', code: 404 });
@@ -132,7 +132,7 @@ router.get('/', async(req, res) => {
         if(!minprice && maxprice) return res.json({ status: 0, message: 'Min price missing!'});
 
         if(city.length > 85 || !/^[\p{L} .'-]+$/u.test(city)) return res.json({ status: 0, message: 'City name invalid'});
-        if(type && (type.length > 60 || !/^[\p{L} .'-]+$/u.test(type))) return res.json({ status: 0, message: 'House type is invalid'});
+        if(types && !isJSON(types)) return res.json({ status: 0, message: 'House types are invalid'});
 
         // ====================== CHECK IF IS DATES ARE VALID ======================
         const today_date = moment().format('YYYY-MM-DD');
@@ -147,7 +147,7 @@ router.get('/', async(req, res) => {
         if(minprice && (!Number.isInteger(Number(minprice)) || Number(minprice) < 0)) return res.json({ status: 0, message: 'Min price should be a number', code: 404 });
         if(maxprice && (!Number.isInteger(Number(maxprice)) || Number(maxprice) > 999999)) return res.json({ status: 0, message: 'Max price should be a number', code: 404 });
 
-        const properties = await getPropertiesWithFilters(offset, city, from, to, guests, type, minprice, maxprice);
+        const properties = await getPropertiesWithFilters(offset, city, from, to, guests, types, minprice, maxprice);
 
         if(!properties) res.json({ status: 0, message: 'Error getting properties from the db!'});
         return res.status(200).json({ status: 1, properties, code: 200 });

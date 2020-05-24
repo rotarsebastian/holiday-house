@@ -1,5 +1,5 @@
 .SearchbarContainer .SearchbarBody {
-   margin-bottom: 1.7rem;
+   margin-bottom: .7rem;
    display: flex;
    justify-content: left;
    align-items:center;
@@ -57,7 +57,6 @@ input[type=number]::-webkit-outer-spin-button {
    top: 4.5rem;
    width: 99%;
    left: 0;
-   /* border: 1px solid #222; */
    background-color: #fff;
    box-shadow: 0px 4px 7px 1px rgba(0, 0, 0, 0.08);
    border-radius: var(--radius);
@@ -84,6 +83,10 @@ input[type=number]::-webkit-outer-spin-button {
 
 .SearchResults .Result:last-of-type {
    border-bottom: none;
+}
+
+.SearchbarContainer .FiltersContainer {
+   margin-bottom: .7rem;
 }
 
 /* #outlined-search-input-label label {

@@ -4,6 +4,7 @@ import mapboxgl from 'mapbox-gl';
 import ClipLoader from 'react-spinners/ClipLoader';
 import './PropertiesResults.css';
 import { getProperties }  from './../../helpers/properties';
+import Searchbar from '../../components/Searchbar/Searchbar';
 
 const PropertiesResults = props => {
     
@@ -163,14 +164,20 @@ const PropertiesResults = props => {
 
     }, [map, lat, lng, zoom, currentMarkers]);
 
+    const handleSearch = async(city, from, to, guests) => {
+        console.log('make req');
+    }
+
     const showMap = isLoading ? '0' : '1';
 
     return (
         <React.Fragment>
             <div className="loading"><ClipLoader size={50} color={'#485877'} loading={isLoading}/></div>
 
-            <div className="propertiesResults">
-                <div style={{ opacity: showMap }}>
+            <div className="PropertiesResults" style={{ opacity: showMap }}>
+                <Searchbar clickSearch={handleSearch} withFilters={true} />
+                <div className="MapResultsContainer">
+                    <div className="PropertiesList">List</div>
                     <div ref={el => mapContainer.current = el} className="mapContainer" />
                 </div>
             </div>
