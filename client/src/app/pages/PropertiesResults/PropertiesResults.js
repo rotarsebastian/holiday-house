@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import ak from '../../assets/config';
 import mapboxgl from 'mapbox-gl';
 import ClipLoader from 'react-spinners/ClipLoader';
@@ -10,9 +10,11 @@ import toastr from 'toastr';
 
 const PropertiesResults = props => {
 
+    const history = useHistory();
     const location = useLocation();
     
     const [ properties, setProperties ] = useState(undefined);    
+    // const [ offset, setOffset ] = useState(0);    
 
     const [ map, setMap ] = useState(null);    
     const [ lng, setLng ] = useState(9.8694);    
@@ -36,7 +38,9 @@ const PropertiesResults = props => {
             const types = location.search.split('&').filter(el => el.includes('types[]'));
 
             const res = await getProperties(from, to, parseInt(guests), city, 0, minPrice, maxPrice, types);
-            if(res.status !== 1) return toastr.error('Something went wrong!');
+            if(res.status !== 1) {
+                history.push('/');
+            }
             else setProperties(res.properties);
 
             const popSearchObj = { city, from, to, guests, maxPrice, minPrice, types };
@@ -173,8 +177,15 @@ const PropertiesResults = props => {
 
     }, [map, lat, lng, zoom, currentMarkers, location, properties]);
 
-    const handleSearch = async(city, from, to, guests) => {
-        console.log('make req');
+    const handleSearch = async(city, from, to, guests, minPrice, maxPrice, types) => {
+
+        const parsedTypes = types.map(type => `types[]=${encodeURIComponent(type)}`);
+        
+        let result; 
+        if(types.length > 0 ) result = await getProperties(from, to, guests, city, 0, minPrice, maxPrice, parsedTypes);
+            else result = await getProperties(from, to, guests, city, 0, minPrice, maxPrice);
+        
+        setProperties(result.properties);
     }
 
     const showMap = isLoading ? '0' : '1';

@@ -166,12 +166,12 @@ input[type=number]::-webkit-outer-spin-button {
    font-size: .9rem;
 }
 
-.SearchbarContainer .PrivateValueLabel-circle-202 {
-   color: var(--color-title);
+.SearchbarContainer .PrivateValueLabel-circle-202, .PrivateValueLabel-open-200, .PrivateValueLabel-thumb-199  {
+   color: var(--color-title) !important;
 }
 
 .SearchbarContainer .MuiSlider-thumb {
-   color: var(--color-title);
+   color: var(--color-title) !important;
 }
 
 .SearchbarContainer .MuiSlider-rail {

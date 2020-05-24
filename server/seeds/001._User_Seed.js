@@ -61,7 +61,7 @@ exports.seed = knex => {
       available_end: '2020-07-11', 
       price: 399, 
       capacity: 4, 
-      type: 'Studio', 
+      type: 'Private room', 
       rooms: 3,
       beds: 3,
       bathrooms: 2,

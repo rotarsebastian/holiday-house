@@ -116,6 +116,7 @@ const SearchbarComponents = props => {
    const [ types, setTypes ] = useState([]);
 
    // ====================== OTHER ======================
+   const [ queryLoaded, setQueryLoaded ] = useState(false);
    const [ showFilters, setShowFilters ] = useState(false);
    const [ isDisabled, setDisabled ] = useState(true);
    const [ searchResults, setSearchResults ] = useState([]);
@@ -123,42 +124,47 @@ const SearchbarComponents = props => {
 
    useEffect(() => {
       // ====================== POPULATE SEARCH BAR ======================
-      if(props.populateSearch && city.length === 0) {
+      if(props.populateSearch && !queryLoaded) {
          for(let prop in props.populateSearch) {
 
             // ====================== HANDLE TYPES ======================
             if(prop === 'types') {
-               const popTypes = props.populateSearch[prop].map(type => capitalize(decodeURIComponent(type.split('=')[1])));
-               setTypes(popTypes);
+               if(types.length > 0) {
+                  const popTypes = props.populateSearch[prop].map(type => capitalize(decodeURIComponent(type.split('=')[1])));
+                  setTypes(popTypes);
+               }
             } 
             // ====================== ALL OTHER CASES ======================
             else {
-               switch (prop) {
-                  case 'city':
-                     setCity(capitalize(props.populateSearch[prop]));
-                     break;
-                  case 'guests':
-                     setGuests(parseInt(props.populateSearch[prop]));
-                     break;
-                  case 'from':
-                     setFrom(moment(props.populateSearch[prop]).format('yyyy-MM-DD'));
-                     break;
-                  case 'to':
-                     setTo(moment(props.populateSearch[prop]).format('yyyy-MM-DD'));
-                     break;
-                  case 'minPrice':
-                     setMinPrice(parseInt(props.populateSearch[prop]));
-                     break;
-                  case 'maxPrice':
-                     setMaxPrice(parseInt(props.populateSearch[prop]));
-                     break;
-                  default:
-                     console.log(`No prop called ${prop}`);
-                     break;
+               if(props.populateSearch[prop] !== null) {
+                  switch (prop) {
+                     case 'city':
+                        setCity(capitalize(props.populateSearch[prop]));
+                        break;
+                     case 'guests':
+                        setGuests(parseInt(props.populateSearch[prop]));
+                        break;
+                     case 'from':
+                        setFrom(moment(props.populateSearch[prop]).format('yyyy-MM-DD'));
+                        break;
+                     case 'to':
+                        setTo(moment(props.populateSearch[prop]).format('yyyy-MM-DD'));
+                        break;
+                     case 'minPrice':
+                        setMinPrice(parseInt(props.populateSearch[prop]));
+                        break;
+                     case 'maxPrice':
+                        setMaxPrice(parseInt(props.populateSearch[prop]));
+                        break;
+                     default:
+                        console.log(`No prop called ${prop}`);
+                        break;
+                  }
                }
             }
          }
          if(props.populateSearch['city'].length > 0 && parseInt(props.populateSearch['guests']) > 0) setDisabled(false);
+         setQueryLoaded(true);
       }
 
    }, [props, city])
@@ -292,7 +298,7 @@ const SearchbarComponents = props => {
                      <SearchButton 
                         variant="contained" 
                         disabled={isDisabled}
-                        onClick={() => props.clickSearch(city, from, to, guests)}
+                        onClick={() => props.clickSearch(city, from, to, guests, minPrice, maxPrice, types)}
                      >
                      <FontAwesomeIcon icon={faSearch} />
                      Search
