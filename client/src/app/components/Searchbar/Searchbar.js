@@ -106,11 +106,16 @@ const SearchbarComponents = props => {
    const [ guests, setGuests ] = useState('');
    const [ isDisabled, setDisabled ] = useState(true);
    const [ searchResults, setSearchResults ] = useState([]);
+   const [ minDateTo, setMinDateTo ] = useState(moment().add(1, 'days').format('yyyy-MM-DD'));
    
    const changeDate = (newDate, label) => {
       const date = moment(newDate).format('yyyy-MM-DD');
    
-      if (label === "Check in") setFrom(date);
+      if (label === "Check in") {
+         setFrom(date);
+         setMinDateTo(moment(date).add(1, 'days').format('yyyy-MM-DD'));
+         setTo(moment(date).add(1, 'days').format('yyyy-MM-DD'));
+      }
       else setTo(date);
    };
 
@@ -185,6 +190,7 @@ const SearchbarComponents = props => {
                   <Datepicker 
                      newLabel="Check in" 
                      handleChange={changeDate}
+                     minDate={moment().format('yyyy-MM-DD')}
                      date={from}
                    />
                </div>   
@@ -192,6 +198,7 @@ const SearchbarComponents = props => {
                   <Datepicker 
                      newLabel="Check out"
                      handleChange={changeDate}
+                     minDate={minDateTo}
                      date={to}
                />
                </div>    

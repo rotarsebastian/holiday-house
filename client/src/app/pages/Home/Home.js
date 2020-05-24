@@ -80,7 +80,7 @@ const Home = props => {
         const isFormValid = validateForm(searchData);
         if(!isFormValid.formIsValid) return toastr.error(`Invalid ${isFormValid.invalids.join(', ')}`);
 
-        const queryString = `?from=${from}&to=${to}&guests=${guests}&city=${city}&offset=${0}`;
+        const queryString = `?from=${from}&to=${to}&guests=${guests}&city=${city}`;
 
         history.push(`/propertiesresults${queryString}`);
     }

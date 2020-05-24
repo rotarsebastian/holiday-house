@@ -13,7 +13,8 @@ class Property extends Model {
           type: 'object',
           required: [
             'title', 'description', 'available_start', 'available_end', 'price',
-            'capacity', 'type', 'rooms', 'beds', 'bathrooms', 'address', 'photos'
+            'capacity', 'type', 'rooms', 'beds', 'bathrooms', 'address', 'photos',
+            'coordinates'
         ],
     
           properties: {

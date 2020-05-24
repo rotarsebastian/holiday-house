@@ -42,7 +42,7 @@
     height: 15.5rem;
     width: 17rem;
     background-color: #fff;
-    border-radius: var(--border-radius);
+    border-radius: var(--radius);
     overflow: hidden;
     cursor: pointer;
     padding: 0;
@@ -60,7 +60,8 @@
 }
 
 .PropertiesResults .mapContainer .PopupContainer .PopupBottomContainer {
-    padding: .4rem;
+    padding: .5rem;
+    padding-bottom: 0;
 }
 
 .PropertiesResults .mapContainer .PopupContainer .PopupBottomContainer .PopupType {
@@ -68,9 +69,20 @@
     font-size: .8rem;
 }
 
-.PropertiesResults .mapContainer .PopupContainer .PopupBottomContainer .PopupType {
-    color: var(--grey);
+.PropertiesResults .mapContainer .PopupContainer .PopupBottomContainer .PopupTitle {
+    font-size: .95rem;
+}
+
+.PropertiesResults .mapContainer .PopupContainer .PopupBottomContainer .PopupPrice {
+    font-size: 1.1rem;
+    margin-top: .75rem;
+    text-align: right;
+    font-family: 'Quicksand SemiBold';
+}
+
+.PropertiesResults .mapContainer .PopupContainer .PopupBottomContainer .PopupPrice span {
     font-size: .8rem;
+    color: var(--grey);
 }
 
 .PropertiesResults .mapContainer .mapboxgl-popup-tip {

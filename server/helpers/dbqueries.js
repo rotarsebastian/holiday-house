@@ -43,7 +43,7 @@ const getPropertiesWithFilters = async(offset, city, from, to, guests, types, mi
     let max = maxPrice ? maxPrice : 999999;
     if(!types) {
         properties = await Property.query()
-            .select('title', 'beds', 'bathrooms', 'rooms', 'type', 'capacity', 'price', 'photos')
+            .select('title', 'beds', 'bathrooms', 'rooms', 'type', 'capacity', 'price', 'photos', 'coordinates')
             .where(ref('address:city').castText(), '=', city.toLowerCase())
             .andWhere('available_start', '<=' , from)
             .andWhere('available_end', '>=' , to)
@@ -53,20 +53,30 @@ const getPropertiesWithFilters = async(offset, city, from, to, guests, types, mi
             .limit(10)
             .offset(offset)
     } else {
+        const arrayTypes = JSON.parse(types);
         properties = await Property.query()
-            .select('title', 'beds', 'bathrooms', 'rooms', 'type', 'capacity', 'price', 'photos')
-            .where(ref('address:city').castText(), '=', city.toLowerCase())
+            .select('title', 'beds', 'bathrooms', 'rooms', 'type', 'capacity', 'price', 'photos', 'coordinates')
+            .andWhere(ref('address:city').castText(), '=', city.toLowerCase())
             .andWhere('available_start', '<=' , from)
             .andWhere('available_end', '>=' , to)
             .andWhere('capacity', '>=' , guests)
             .andWhere('price', '>=' , min)
             .andWhere('price', '<=' , max)
             .where(builder => {
-                builder
-                  .where(raw('LOWER("type") = ?', type.toLowerCase()))
-                  .orWhere(raw('LOWER("type") = ?', type1.toLowerCase()));
+                if(arrayTypes.length === 1){
+                    builder
+                      .where(raw('LOWER("type") = ?', arrayTypes[0].toLowerCase()))
+                } else if (arrayTypes.length === 2) {
+                    builder
+                      .where(raw('LOWER("type") = ?', arrayTypes[0].toLowerCase()))
+                      .orWhere(raw('LOWER("type") = ?', arrayTypes[1].toLowerCase()))
+                } else {
+                    builder
+                      .where(raw('LOWER("type") = ?', arrayTypes[0].toLowerCase()))
+                      .orWhere(raw('LOWER("type") = ?', arrayTypes[1].toLowerCase()))
+                      .orWhere(raw('LOWER("type") = ?', arrayTypes[2].toLowerCase()));
+                }
             })
-            // .andWhere(raw('LOWER("type") = ?', type.toLowerCase()))
             .limit(10)
             .offset(offset)      
     }

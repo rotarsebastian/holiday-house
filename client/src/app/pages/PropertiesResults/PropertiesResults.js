@@ -1,12 +1,16 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import ak from '../../assets/config';
 import mapboxgl from 'mapbox-gl';
 import ClipLoader from 'react-spinners/ClipLoader';
 import './PropertiesResults.css';
 import { getProperties }  from './../../helpers/properties';
 import Searchbar from '../../components/Searchbar/Searchbar';
+import toastr from 'toastr';
 
 const PropertiesResults = props => {
+
+    const location = useLocation();
     
     const [ properties, setProperties ] = useState(undefined);    
 
@@ -19,10 +23,21 @@ const PropertiesResults = props => {
     const mapContainer = useRef(null);
 
     useEffect(() => {
-        //TODO: continue 
         // ====================== GET SEARCH DATA ======================
-        // const res = await getProperties(from, to, parseInt(guests), city, 0);
-        // if(res.status !== 1) return toastr.error('Something went wrong!');
+        const fetchProperties = async() => {
+            // ====================== GET DATA ======================
+            const searchParams = new URLSearchParams(location.search);
+            const from = searchParams.get('from'); 
+            const to = searchParams.get('to'); 
+            const guests = searchParams.get('guests'); 
+            const city = searchParams.get('city'); 
+            console.log(from, to, guests, city)
+
+            const res = await getProperties(from, to, parseInt(guests), city, 0);
+            console.log(res)
+            if(res.status !== 1) return toastr.error('Something went wrong!');
+            else setProperties(res.properties);
+        }
 
 
         // ===================== FOR PRODUCTION =====================
@@ -72,11 +87,6 @@ const PropertiesResults = props => {
 
         // const addMarkers = (map, properties) => {
         const addMarkers = (map) => {
-            const properties = [ 
-                { coordinates: [ 12.57, 55.68 ], city: 'Copenhagen', price: 299, type: 'Entire place', title: '3 Room Apartment', img: 'https://holidayhouse1.s3.amazonaws.com/default.jpeg' }, 
-                { coordinates: [ 13.57, 57.68 ], city: 'Copenhagen', price: 299, type: 'Private room', title: 'Penthouse with sea view', img: 'https://holidayhouse1.s3.amazonaws.com/default.jpeg' }
-            ];
-            // const properties = await getProperties();
 
             properties.forEach(async (property)=> {
 
@@ -124,14 +134,14 @@ const PropertiesResults = props => {
             const popUpTitle = document.createElement('div');
             const popUpPrice = document.createElement('div');
 
-            popUpImage.setAttribute('src', property.img);
+            popUpImage.setAttribute('src', `https://holidayhouse1.s3.amazonaws.com/${property.photos[0]}`);
             popUpImage.setAttribute('alt', 'house-img');
             popUpImage.className = 'PopupImage';
             popUpType.textContent = property.type;
             popUpType.className = 'PopupType';
             popUpTitle.textContent = property.title;
             popUpTitle.className = 'PopupTitle';
-            popUpPrice.textContent = property.price;
+            popUpPrice.innerHTML = property.price + ' kr <span>/ night<span>';
             popUpPrice.className = 'PopupPrice';
 
             popUpBottomContainer.appendChild(popUpType);
@@ -160,9 +170,10 @@ const PropertiesResults = props => {
         //     });
         // }
 
-        if (!map) initializeMap({ setMap, mapContainer });
+        if(properties === undefined) fetchProperties();
+        if (!map && properties) initializeMap({ setMap, mapContainer });
 
-    }, [map, lat, lng, zoom, currentMarkers]);
+    }, [map, lat, lng, zoom, currentMarkers, location, properties]);
 
     const handleSearch = async(city, from, to, guests) => {
         console.log('make req');
@@ -172,7 +183,7 @@ const PropertiesResults = props => {
 
     return (
         <React.Fragment>
-            <div className="loading"><ClipLoader size={50} color={'#485877'} loading={isLoading}/></div>
+            <div className="loading"><ClipLoader size={50} color={'#E4215B'} loading={isLoading}/></div>
 
             <div className="PropertiesResults" style={{ opacity: showMap }}>
                 <Searchbar clickSearch={handleSearch} withFilters={true} />

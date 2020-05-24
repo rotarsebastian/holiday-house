@@ -27,6 +27,7 @@ exports.up = function(knex) {
             table.integer('beds').notNullable()
             table.integer('bathrooms').notNullable()
             table.json('address').notNullable()
+            table.json('coordinates').notNullable()
             table.json('photos').notNullable()
             table.integer('user_id').unsigned().notNullable()
             table.foreign('user_id').references('id').inTable('users').onDelete('CASCADE').onUpdate('CASCADE')

@@ -35,6 +35,7 @@ exports.seed = knex => {
       bathrooms: 2,
       address: '{"property_address":"mjolnerparken 108, 1. 3","city":"berlin","country":"germany","postal_code":"2300"}',
       photos: '["default.jpeg","default1.jpeg"]',
+      coordinates: '[12.57, 65.68]',
       user_id: 1
     },
     { 
@@ -50,6 +51,7 @@ exports.seed = knex => {
       bathrooms: 2,
       address: '{"property_address":"mjolnerparken 108, 1. 3","city":"berlin","country":"germany","postal_code":"2300"}',
       photos: '["default.jpeg","default1.jpeg"]',
+      coordinates: '[15.57, 60.68]',
       user_id: 1
     },
     { 
@@ -65,6 +67,7 @@ exports.seed = knex => {
       bathrooms: 2,
       address: '{"property_address":"mjolnerparken 108, 1. 3","city":"copenhagen","country":"denmark","postal_code":"2300"}',
       photos: '["default.jpeg","default1.jpeg"]',
+      coordinates: '[13.57, 57.68]',
       user_id: 1
     },
     { 
@@ -79,7 +82,8 @@ exports.seed = knex => {
       beds: 6,
       bathrooms: 3,
       address: '{"property_address":"amagerbrogade 172, 1. 3","city":"copenhagen","country":"denmark","postal_code":"2300"}',
-      photos: '["default.jpeg","default1.jpeg"]',
+      photos: '["default1.jpeg","default.jpeg"]',
+      coordinates: '[12.57, 55.68]',
       user_id: 1
     },
     { 
@@ -95,6 +99,7 @@ exports.seed = knex => {
       bathrooms: 2,
       address: '{"property_address":"15 avenue road","city":"new york","country":"usa","postal_code":"2200"}',
       photos: '["default.jpeg","default1.jpeg"]',
+      coordinates: '[14.57, 50.68]',
       user_id: 2
     },
   ];
