@@ -86,7 +86,100 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .SearchbarContainer .FiltersContainer {
-   margin-bottom: .7rem;
+   margin-bottom: 1.5rem;
+   display: flex;
+}
+
+.SearchbarContainer .PriceRanger {
+   width: 50%;
+   display: flex;
+   justify-content: space-between;
+}
+
+.SearchbarContainer .PriceRanger .MinPrice, .MaxPrice {
+   width: 12.5%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   font-size: .8rem;
+   color: var(--grey);
+}
+
+.SearchbarContainer .PriceRanger .Ranger {
+   width: 75%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+}
+
+.SearchbarContainer .PriceRanger .Ranger #range-slider {
+   font-size: .9rem;
+}
+
+.SearchbarContainer .ShowFilters {
+   margin: .5rem;
+   color: var(--grey);
+   font-size: .8rem;
+   cursor: pointer;
+}
+
+.SearchbarContainer .ShowFilters.Active i {
+   transform: rotate(180deg);
+}
+
+.SearchbarContainer .ShowFilters i {
+   color: var(--grey);
+   transition: .3s;
+}
+
+.SearchbarContainer .FiltersContainer .HouseTypes {
+   width: 50%;
+   display: flex;
+   justify-content: space-between;
+}
+
+.SearchbarContainer .FiltersContainer .HouseTypes .Title {
+   width: 20%;
+   font-size: .9rem;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   color: var(--grey);
+   border: none;
+}
+
+.SearchbarContainer .FiltersContainer .HouseTypes .TypesCheckboxesContainer {
+   width: 80%;
+   display: flex;
+   justify-content: space-around;
+   border: none;
+}
+
+.SearchbarContainer .FiltersContainer .HouseTypes .TypesCheckboxesContainer label span svg {
+   fill: #E4215B !important;
+}
+
+.SearchbarContainer .MuiTypography-body1 {
+   font-family: 'Quicksand Medium';
+   margin-left: .3rem;
+   font-size: .9rem;
+}
+
+.SearchbarContainer .PrivateValueLabel-circle-202 {
+   color: var(--color-title);
+}
+
+.SearchbarContainer .MuiSlider-thumb {
+   color: var(--color-title);
+}
+
+.SearchbarContainer .MuiSlider-rail {
+   color: var(--grey);
+}
+
+.SearchbarContainer .MuiSlider-track {
+   color: var(--color-title);
 }
 
 /* #outlined-search-input-label label {

@@ -1,7 +1,11 @@
-import React, { useState, useCallback } from 'react';
-import TextField from '@material-ui/core/TextField';
+import React, { useState, useCallback, useEffect } from 'react';
 import './Searchbar.css';
+import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import Slider from '@material-ui/core/Slider';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { withStyles } from '@material-ui/core/styles';
@@ -99,14 +103,67 @@ const SearchButton = withStyles({
 })(Button);
 
 const SearchbarComponents = props => {
-         
+
+   // ====================== STANDARD ======================
    const [ city, setCity ] = useState('');
    const [ from, setFrom ] = useState(moment().format('yyyy-MM-DD'));
    const [ to, setTo ] = useState(moment().add(1, 'days').format('yyyy-MM-DD'));
    const [ guests, setGuests ] = useState('');
+
+   // ====================== CUSTOM ======================
+   const [ minPrice, setMinPrice ] = useState(0);
+   const [ maxPrice, setMaxPrice ] = useState(99999);
+   const [ types, setTypes ] = useState([]);
+
+   // ====================== OTHER ======================
+   const [ showFilters, setShowFilters ] = useState(false);
    const [ isDisabled, setDisabled ] = useState(true);
    const [ searchResults, setSearchResults ] = useState([]);
    const [ minDateTo, setMinDateTo ] = useState(moment().add(1, 'days').format('yyyy-MM-DD'));
+
+   useEffect(() => {
+      // ====================== POPULATE SEARCH BAR ======================
+      if(props.populateSearch && city.length === 0) {
+         for(let prop in props.populateSearch) {
+
+            // ====================== HANDLE TYPES ======================
+            if(prop === 'types') {
+               const popTypes = props.populateSearch[prop].map(type => capitalize(decodeURIComponent(type.split('=')[1])));
+               setTypes(popTypes);
+            } 
+            // ====================== ALL OTHER CASES ======================
+            else {
+               switch (prop) {
+                  case 'city':
+                     setCity(capitalize(props.populateSearch[prop]));
+                     break;
+                  case 'guests':
+                     setGuests(parseInt(props.populateSearch[prop]));
+                     break;
+                  case 'from':
+                     setFrom(moment(props.populateSearch[prop]).format('yyyy-MM-DD'));
+                     break;
+                  case 'to':
+                     setTo(moment(props.populateSearch[prop]).format('yyyy-MM-DD'));
+                     break;
+                  case 'minPrice':
+                     setMinPrice(parseInt(props.populateSearch[prop]));
+                     break;
+                  case 'maxPrice':
+                     setMaxPrice(parseInt(props.populateSearch[prop]));
+                     break;
+                  default:
+                     console.log(`No prop called ${prop}`);
+                     break;
+               }
+            }
+         }
+         if(props.populateSearch['city'].length > 0 && parseInt(props.populateSearch['guests']) > 0) setDisabled(false);
+      }
+
+   }, [props, city])
+
+   const capitalize = text => text.charAt(0).toUpperCase() + text.slice(1);
    
    const changeDate = (newDate, label) => {
       const date = moment(newDate).format('yyyy-MM-DD');
@@ -153,7 +210,26 @@ const SearchbarComponents = props => {
       setSearchResults([]);
    }
 
+   const handleChangePrice = (e, newValue) => {
+      setMinPrice(newValue[0]);
+      if(newValue[1] === 5000) setMaxPrice(99999);
+      else setMaxPrice(newValue[1]);
+   }
+
+   const handleTypesChange = type => {
+      const typeIndex = types.indexOf(type);
+      if(typeIndex >= 0) {
+         const newTypes = [ ...types ];
+         newTypes.splice(typeIndex, 1);
+         setTypes(newTypes);
+      } else setTypes([ ...types, type ]);
+   }
+
    const changeBorder = searchResults.length > 0 ? ' ChangeBorder' : '';
+
+   let animation = '';
+
+   if(props.withFilters && showFilters) animation = ' animated fadeInDown fast';
       
    return (
       <React.Fragment>
@@ -224,9 +300,66 @@ const SearchbarComponents = props => {
                   </div>  
                </div>   
             </div>
-            <div className="FiltersContainer">
-               Filters
-            </div>
+            {
+               props.withFilters 
+                  ?
+                  <React.Fragment>
+                     <div onClick={() => setShowFilters(!showFilters)} className={`ShowFilters${showFilters ? ' Active' : ''}`}>{ showFilters ? 'Hide' : 'Show' } filters <i className="fas fa-caret-down"></i></div>
+                     {
+                        showFilters 
+                           ?
+                           <div className={`FiltersContainer${animation}`}>
+                              <div className="PriceRanger">
+                                 <div className="MinPrice">0 kr</div>
+                                 <div className="Ranger">
+                                    <Typography id="range-slider" gutterBottom>
+                                       Price per night
+                                    </Typography>
+                                    <Slider
+                                       min={0}
+                                       max={5000}
+                                       value={[ minPrice, maxPrice > 5000 ? 5000 : maxPrice ]}
+                                       onChange={handleChangePrice}
+                                       valueLabelDisplay="auto"
+                                       aria-labelledby="range-slider"
+                                       // getAriaValueText={valuetext}
+                                    />
+                                 </div>
+                                 <div className="MaxPrice">5000 kr</div>
+                              </div>
+                              <div className="HouseTypes">
+                                 <div className="Title">House type:</div>
+                                 <div className="TypesCheckboxesContainer">
+                                    <FormControlLabel
+                                       value="Entire place"
+                                       control={<Checkbox color="primary" checked={types.indexOf('Entire place') >= 0 ? true : false} onChange={() => handleTypesChange('Entire place')} />}
+                                       label="Entire place"
+                                       labelPlacement="end"
+                                    />
+
+                                    <FormControlLabel
+                                       value="Private room"
+                                       control={<Checkbox color="primary" checked={types.indexOf('Private room') >= 0 ? true : false} onChange={() => handleTypesChange('Private room')} />}
+                                       label="Private room"
+                                       labelPlacement="end"
+                                    />
+                                    
+                                    <FormControlLabel
+                                       value="Shared room"
+                                       control={<Checkbox color="primary" checked={types.indexOf('Shared room') >= 0 ? true : false} onChange={() => handleTypesChange('Shared room')} />}
+                                       label="Shared room"
+                                       labelPlacement="end"
+                                    />
+                                 </div>
+                              </div>
+                           </div>
+                           : 
+                           undefined
+                     }
+                  </React.Fragment>
+                  :
+                  undefined
+            }
          </div>
       </React.Fragment>
    )

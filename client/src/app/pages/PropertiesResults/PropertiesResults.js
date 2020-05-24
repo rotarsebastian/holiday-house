@@ -20,33 +20,31 @@ const PropertiesResults = props => {
     const [ zoom, setZoom ] = useState(3.5);    
     const [ currentMarkers ] = useState([]);    
     const [ isLoading, setIsLoading ] = useState(true);
+    const [ populateSearch, setPopulateSearch ] = useState(undefined);
     const mapContainer = useRef(null);
 
     useEffect(() => {
-        // ====================== GET SEARCH DATA ======================
         const fetchProperties = async() => {
-            // ====================== GET DATA ======================
+            // ====================== GET SEARCH DATA ======================
             const searchParams = new URLSearchParams(location.search);
             const from = searchParams.get('from'); 
             const to = searchParams.get('to'); 
-            const guests = searchParams.get('guests'); 
             const city = searchParams.get('city'); 
-            console.log(from, to, guests, city)
+            const guests = searchParams.get('guests'); 
+            const maxPrice = searchParams.get('maxprice'); 
+            const minPrice = searchParams.get('minprice'); 
+            const types = location.search.split('&').filter(el => el.includes('types[]'));
 
-            const res = await getProperties(from, to, parseInt(guests), city, 0);
-            console.log(res)
+            const res = await getProperties(from, to, parseInt(guests), city, 0, minPrice, maxPrice, types);
             if(res.status !== 1) return toastr.error('Something went wrong!');
             else setProperties(res.properties);
+
+            const popSearchObj = { city, from, to, guests, maxPrice, minPrice, types };
+            setPopulateSearch(popSearchObj);
         }
 
-
-        // ===================== FOR PRODUCTION =====================
-        // mapboxgl.accessToken = process.env.REACT_APP_MAP;
-        // ===================== END PRODUCTION =====================
-
         // ===================== FOR DEVELOPMENT =====================
-        mapboxgl.accessToken = ak('map');
-        // ===================== END DEVELOPMENT =====================
+        mapboxgl.accessToken = process.env.MAP_KEY || ak('map');
 
         const initializeMap = ({ setMap, mapContainer }) => {
             const map = new mapboxgl.Map({
@@ -186,7 +184,7 @@ const PropertiesResults = props => {
             <div className="loading"><ClipLoader size={50} color={'#E4215B'} loading={isLoading}/></div>
 
             <div className="PropertiesResults" style={{ opacity: showMap }}>
-                <Searchbar clickSearch={handleSearch} withFilters={true} />
+                <Searchbar clickSearch={handleSearch} withFilters={true} populateSearch={populateSearch} />
                 <div className="MapResultsContainer">
                     <div className="PropertiesList">List</div>
                     <div ref={el => mapContainer.current = el} className="mapContainer" />

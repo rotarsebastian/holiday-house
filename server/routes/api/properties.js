@@ -128,11 +128,8 @@ router.get('/', async(req, res) => {
         if(!Number.isInteger(Number(guests))) return res.json({ status: 0, message: 'Guests should be a number', code: 404 });
         if(!Number.isInteger(Number(offset))) return res.json({ status: 0, message: 'Offset should be a number', code: 404 });
 
-        if(minprice && !maxprice) return res.json({ status: 0, message: 'Max price missing!'});
-        if(!minprice && maxprice) return res.json({ status: 0, message: 'Min price missing!'});
-
         if(city.length > 85 || !/^[\p{L} .'-]+$/u.test(city)) return res.json({ status: 0, message: 'City name invalid'});
-        if(types && !isJSON(types)) return res.json({ status: 0, message: 'House types are invalid'});
+        if(types && !Array.isArray(types)) return res.json({ status: 0, message: 'House types are invalid'});
 
         // ====================== CHECK IF IS DATES ARE VALID ======================
         const today_date = moment().format('YYYY-MM-DD');
@@ -145,7 +142,7 @@ router.get('/', async(req, res) => {
         if(isSameDate) return res.json({ status: 0, message: 'Your start date cannot be the same with your end date!', code: 404 });
 
         if(minprice && (!Number.isInteger(Number(minprice)) || Number(minprice) < 0)) return res.json({ status: 0, message: 'Min price should be a number', code: 404 });
-        if(maxprice && (!Number.isInteger(Number(maxprice)) || Number(maxprice) > 999999)) return res.json({ status: 0, message: 'Max price should be a number', code: 404 });
+        if(maxprice && (!Number.isInteger(Number(maxprice)) || Number(maxprice) > 99999)) return res.json({ status: 0, message: 'Max price should be a number or is too big', code: 404 });
 
         const properties = await getPropertiesWithFilters(offset, city, from, to, guests, types, minprice, maxprice);
 
