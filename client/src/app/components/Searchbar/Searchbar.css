@@ -8,6 +8,9 @@
    border-radius: var(--radius);
    box-shadow: 0px 4px 7px 1px rgba(0, 0, 0, 0.08) !important;
 }
+.SearchbarBody.ChangeBorder {
+   border-bottom-left-radius: 0;
+}
 
 .SearchbarContainer .SearchbarBody .MuiOutlinedInput-notchedOutline {
    border: none !important;
@@ -43,6 +46,44 @@ input[type=number]::-webkit-outer-spin-button {
     justify-content: space-between;
     width: 100%;
     align-items: center;
+}
+
+.SearchInputContainer {
+   position: relative;
+}
+
+.SearchResults {
+   position: absolute;
+   top: 4.5rem;
+   width: 99%;
+   left: 0;
+   /* border: 1px solid #222; */
+   background-color: #fff;
+   box-shadow: 0px 4px 7px 1px rgba(0, 0, 0, 0.08);
+   border-radius: var(--radius);
+   border-top-left-radius: 0;
+   border-top-right-radius: 0;
+   z-index: 100;
+   overflow: hidden;
+}
+
+.SearchResults .Result {
+   color: var(--grey);
+   margin: 0 14px;
+   padding: 18.5px;
+   cursor: pointer;
+   border-bottom: 1px solid #2222220a;
+   transition: .3s;
+}
+
+.SearchResults .Result:hover {
+   background-color: #2222220a;
+   margin: 0;
+   padding: 18.5px 14px;
+}
+
+.SearchResults .Result:last-of-type {
+   border-bottom: none;
 }
 
 /* #outlined-search-input-label label {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react';
 import TextField from '@material-ui/core/TextField';
 import './Searchbar.css';
 import Button from '@material-ui/core/Button';
@@ -7,6 +7,8 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { withStyles } from '@material-ui/core/styles';
 import Datepicker from '../Datepicker/Datepicker';
 import moment from 'moment';
+import { debounce } from 'lodash';
+import { citySearch } from './../../helpers/properties';
 
 const CityTextField = withStyles({
    root: {
@@ -40,6 +42,7 @@ const GuestsTextField = withStyles({
    root: {
       textTransform: "uppercase",
       fontSize: "1rem",
+      width: '70%',
       '& label.Mui-focused': {
          color: '#E4215B',
       },
@@ -102,6 +105,7 @@ const SearchbarComponents = props => {
    const [ to, setTo ] = useState(moment().add(1, 'days').format('yyyy-MM-DD'));
    const [ guests, setGuests ] = useState('');
    const [ isDisabled, setDisabled ] = useState(true);
+   const [ searchResults, setSearchResults ] = useState([]);
    
    const changeDate = (newDate, label) => {
       const date = moment(newDate).format('yyyy-MM-DD');
@@ -109,6 +113,13 @@ const SearchbarComponents = props => {
       if (label === "Check in") setFrom(date);
       else setTo(date);
    };
+
+   const handleSearchRequest = async(city) => {
+      const results = await citySearch(city);
+      setSearchResults(results);
+   }
+
+   const handler = useCallback(debounce(text => handleSearchRequest(text), 400), []);
 
    const handleChangeInput = (e, input) => {
       if(input === 'guests') {
@@ -120,16 +131,30 @@ const SearchbarComponents = props => {
       } else {
          setCity(e.target.value);
 
-         if(e.target.value.length > 1 && parseInt(guests) > 0) setDisabled(false);
-         else setDisabled(true);
+         if(e.target.value.length > 1) {
+            handler(e.target.value);
+            if(parseInt(guests) > 0) setDisabled(false);
+         }
+         else {
+            setDisabled(true);
+            setSearchResults([]);
+         }
+
       }
    }
+
+   const handleClickOnResult = result => {
+      setCity(result);
+      setSearchResults([]);
+   }
+
+   const changeBorder = searchResults.length > 0 ? ' ChangeBorder' : '';
       
    return (
       <React.Fragment>
          <div className="SearchbarContainer">
-            <div className="SearchbarBody">
-               <div>
+            <div className={"SearchbarBody" + changeBorder}>
+               <div className="SearchInputContainer">
                   <CityTextField 
                      id="outlined-search-input" 
                      label="Location" 
@@ -137,7 +162,24 @@ const SearchbarComponents = props => {
                      placeholder="Where are you going?" 
                      variant="outlined" 
                      value={city}
-                     onChange={e => handleChangeInput(e, 'city')} />
+                     onChange={e => handleChangeInput(e, 'city')} 
+                  />
+                  { searchResults.length > 0 
+                     ? 
+                     <div className="SearchResults">
+                        {
+                           searchResults.map(result => {
+                              return(
+                                 <div key={result} className="Result" onClick={() => handleClickOnResult(result)}>
+                                    { result }
+                                 </div>
+                              )
+                           })
+                        }
+                     </div>
+                     : 
+                     undefined
+                  }
                </div>   
                <div>
                   <Datepicker 

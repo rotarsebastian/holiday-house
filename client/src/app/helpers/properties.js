@@ -94,10 +94,26 @@ export const deleteProperty = async(id) => {
             headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({})
+          }
         };
         const response = await fetch(endpoint + '/' + id, options);
+        const data = await response.json();
+        return data;
+    }
+    catch(err) {
+        return { status: 0, message: 'Can not connect to the server', code: 999 };
+    }
+};
+
+export const citySearch = async(city) => {
+    try {
+        const options = {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        };
+        const response = await fetch(endpoint + `/city/search?city=${city}`, options);
         const data = await response.json();
         return data;
     }

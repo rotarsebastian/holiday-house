@@ -7,11 +7,59 @@ const User = require(__dirname + '/../../models/User');
 const Property = require(__dirname + '/../../models/Property');
 const PropertyFacilities = require(__dirname + '/../../models/PropertyFacilities');
 const { editProperty, getPropertiesWithFilters } = require(__dirname + '/../../helpers/dbqueries');
-const { raw, fn } = require('objection');
+const { raw, fn, ref } = require('objection');
 const { upload, removeImages } = require(__dirname + '/../../helpers/handleImages');
 const moment = require('moment');
 
 const multipleUpload = upload.array('image', 10); // MAXIMUM 10 IMAGES AT ONCE
+
+// ====================== GET A SPECIFIC PROPERTY ======================
+router.get('/city/search', async(req, res) => {
+    try {
+        // ====================== GET THE PROPERTY ID ======================
+        const { city } = req.query;
+        if(!city) return res.json({ status: 0, message: 'Missing id!', code: 404 });
+
+        // ====================== GET THE PROPERTY ======================
+        const cities = await Property.query()
+            .select(ref('address:city').castText().as('city'))
+            .where(ref('address:city').castText(), 'like', `%${city.toLowerCase()}%`)
+        
+        // ====================== REMOVE DUPLICATES ======================
+        const citiesNoDup = Array.from(new Set(cities.map(a => a.city))).map(city => {
+            return cities.find(a => a.city === city)
+        })
+
+        // ====================== TAKE OUT OBJECT ======================
+        const citiesRes = citiesNoDup.map(el => el.city.charAt(0).toUpperCase() + el.city.slice(1));
+
+        return res.json(citiesRes);
+
+    } catch (err) {
+        return res.json({ status: 0, message: 'Error getting properties!'});
+    }
+});
+
+// ====================== GET RANDOM PROPERTIES ======================
+router.get('/random/10', async(req, res) => {
+    try {
+        // ====================== CHECK IF IS DATES ARE VALID ======================
+        const oneMonthOn = moment().add(120, 'days').format('YYYY-MM-DD');
+
+        // ====================== GET PROPERTIES ======================
+        const properties = await Property.query()
+            .select('id', 'title', 'beds', 'bathrooms', 'rooms', 'type', 'capacity', 'price', 'photos')
+            .where('available_end', '>' , oneMonthOn)
+            .orderBy(raw('random()'))
+            .limit(10)
+
+        // ====================== EVERYTHING OK ======================s
+        return res.json({ status: 1, message: 'Properties retrieved successfully!', data: properties });
+
+    } catch (err) {
+        return res.json({ status: 0, message: 'Error getting properties!'});
+    }
+});
 
 // ====================== GET A SPECIFIC PROPERTY ======================
 router.get('/:id', async(req, res) => {
@@ -34,27 +82,6 @@ router.get('/:id', async(req, res) => {
 
     } catch (err) {
         return res.json({ status: 0, message: 'Error getting property!'});
-    }
-});
-
-// ====================== GET RANDOM PROPERTIES ======================
-router.get('/random/10', async(req, res) => {
-    try {
-        // ====================== CHECK IF IS DATES ARE VALID ======================
-        const oneMonthOn = moment().add(120, 'days').format('YYYY-MM-DD');
-
-        // ====================== GET PROPERTIES ======================
-        const properties = await Property.query()
-            .select('id', 'title', 'beds', 'bathrooms', 'rooms', 'type', 'capacity', 'price', 'photos')
-            .where('available_end', '>' , oneMonthOn)
-            .orderBy(raw('random()'))
-            .limit(10)
-
-        // ====================== EVERYTHING OK ======================s
-        return res.json({ status: 1, message: 'Properties retrieved successfully!', data: properties });
-
-    } catch (err) {
-        return res.json({ status: 0, message: 'Error getting properties!'});
     }
 });
 
