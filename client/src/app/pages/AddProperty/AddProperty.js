@@ -2,9 +2,48 @@ import React, { useRef, useEffect, useState } from 'react';
 import ak from '../../assets/config';
 import mapboxgl from 'mapbox-gl';
 import ClipLoader from 'react-spinners/ClipLoader';
+import Button from '@material-ui/core/Button'
 import DragAndDrop from '../../components/DragAndDrop/DragAndDrop';
 import './AddProperty.css';
 import AddEditHouseTop from '../../components/AddEditComponents/AddEditHouseTop'
+import AddEditHouseBottomLeft from '../../components/AddEditComponents/AddEditHouseBottomLeft'
+import AddEditHouseBottomRight from '../../components/AddEditComponents/AddEditHouseBottomRight'
+import {withStyles} from '@material-ui/core/styles'
+
+const AddPropertyButton = withStyles({
+    root: {
+       width: '30%',
+       height: '56px',
+       fontWeight: 'bold',
+       borderRadius: '0.9rem',
+       fontSize: '13.5px',
+       backgroundColor: '#E4215B',
+       boxShadow: 'none',
+       '&:hover': {
+          boxShadow: 'none',
+          backgroundColor: '#f02551'
+       },
+       '&:focused': {
+          boxShadow: 'none',
+          backgroundColor: 'black'
+       },
+       '&:active': {
+          boxShadow: 'none',
+          transition: '0.1s',
+          color: 'pink',
+          
+       },
+       '& .MuiButton-label': {
+          color: 'white' 
+       },
+       textTransform: 'none',
+       '@media (min-width: 1024px)': {
+          button: {
+            width: 200
+          }
+       },
+    }
+ })(Button);
 
 const AddProperty = props => {
     
@@ -131,12 +170,20 @@ const AddProperty = props => {
                     </div>
 
                     <div className="SecondRow">
-                        <div className="Availability">AddEditHouseBottomLeft</div>
-                        <div className="Facilities">AddEditHouseBottomRight</div>
+
+                        <div><AddEditHouseBottomLeft /></div>
+                        <div className="Facilities"><AddEditHouseBottomRight /></div>
                     </div>
 
                     <div className="ThirdRow">
                         <DragAndDrop files={files} setNewFiles={setNewFiles} />
+                    </div>
+                    
+                    <div className="FourthRow">
+                        <AddPropertyButton
+                        variant="contained"
+
+                        >Add property</AddPropertyButton>
                     </div>
 
                 </div>

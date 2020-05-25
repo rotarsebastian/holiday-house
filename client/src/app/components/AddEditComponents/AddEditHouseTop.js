@@ -123,17 +123,19 @@ const CountryTextField = withStyles({
       width: '100%',
       marginTop: '10px',
       color:'red',
+      maxHeight: '1.1876em',
       '& label.Mui-focused': {
          color: '#E4215B',
       },
-      '& .MuiOutlinedInput-notchedOutline': {
-         borderColor: 'rgb(212, 212, 212)',
+      '& .MuiSelect-selectMenu': {
+         height:'10px',
       },
       '& .MuiOutlinedInput-root': {
          borderTopLeftRadius: '0px',
          borderBottomLeftRadius: '0px',
          marginLeft: '-1px',
          height: '56px',
+
          '&.Mui-focused fieldset': {
             border: '2px solid #E4215B',
          },
@@ -165,7 +167,7 @@ const AddEditHouseTop = () => {
                      label="Title" 
                      type="text" 
                      required={true}
-                     placeholder="Add A Title" 
+                     placeholder="Add a title" 
                      variant="outlined" 
 
                      />

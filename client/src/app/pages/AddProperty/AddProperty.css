@@ -53,11 +53,19 @@
 
 .AddPropertyContainer .FirstRow .addPropertyMap h3 {
     color: #e4215b;
+    font-size: 1.50em !important;
+    padding-bottom: .5rem;
 }
 
 .AddPropertyContainer .SecondRow .Availability, .Facilities {
     width: 50%;
     height: 17rem;
+}
+
+.AddPropertyContainer .FourthRow {
+    margin-top: .8rem;
+    display: flex;
+    justify-content: center;
 }
 
 h1.AddPropertyTitle {
