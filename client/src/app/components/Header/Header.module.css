@@ -2,7 +2,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 2.5rem;
+    padding: .6rem 5rem;
+    position: fixed;
+    z-index: 100;
+    background-color: #FFF;
+    width: 100%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
 }
 
 .HeaderContainer .Logo {
