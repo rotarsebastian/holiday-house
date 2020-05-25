@@ -17,7 +17,7 @@ const PropertiesResults = props => {
     const [ properties, setProperties ] = useState(undefined);    
     // const [ offset, setOffset ] = useState(0);    
 
-    const [ map, setMap ] = useState(null);    
+    const [ map, setMap ] = useState(undefined);    
     const [ lng, setLng ] = useState(9.8694);    
     const [ lat, setLat ] = useState(52.3082);    
     const [ zoom, setZoom ] = useState(3.5);    
@@ -42,16 +42,17 @@ const PropertiesResults = props => {
             if(res.status !== 1) {
                 history.push('/');
             }
-            else setProperties(res.properties);
-
-            const popSearchObj = { city, from, to, guests, maxPrice, minPrice, types };
-            setPopulateSearch(popSearchObj);
+            else {
+                const popSearchObj = { city, from, to, guests, maxPrice, minPrice, types };
+                setPopulateSearch(popSearchObj);
+                setProperties(res.properties);
+            }
         }
 
         // ===================== FOR DEVELOPMENT =====================
         mapboxgl.accessToken = process.env.MAP_KEY || ak('map');
 
-        const initializeMap = ({ setMap, mapContainer }) => {
+        const initializeMap = () => {
             const map = new mapboxgl.Map({
                 container: mapContainer.current,
                 style: 'mapbox://styles/mapbox/streets-v11',
@@ -89,7 +90,7 @@ const PropertiesResults = props => {
         };
 
         if(properties === undefined) fetchProperties();
-        if (!map && properties) initializeMap({ setMap, mapContainer });
+        if (!map && properties) initializeMap();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [map, lat, lng, zoom, currentMarkers, location, properties, history]);
@@ -122,8 +123,13 @@ const PropertiesResults = props => {
                 currentMarkers.push(oneMarker);
 
             popup.on('close', () => clearActiveMarker());
+
+            popup._content.children[0].addEventListener('click', () => openPropertyPage(property.id))
+
         });
     }
+
+    const openPropertyPage = id => history.push(`/property/${id}?from=${populateSearch.from}&to=${populateSearch.to}&guests=${populateSearch.guests}`);
 
     const clearActiveMarker = () => {
         Array.from(mapContainer.current.querySelectorAll('.markerContainer')).find(e => e.classList.contains('active') ? e.classList.remove('active') : false);
@@ -158,8 +164,6 @@ const PropertiesResults = props => {
         popUpContainer.appendChild(popUpImage);
         popUpContainer.appendChild(popUpBottomContainer);
 
-        popUpContainer.addEventListener('click', () => console.log('message'));
-
         return popUpContainer.outerHTML;
     }
 
@@ -170,16 +174,21 @@ const PropertiesResults = props => {
         const parsedTypes = types.map(type => `types[]=${encodeURIComponent(type)}`);
         
         let result; 
-        if(types.length > 0 ) result = await getProperties(from, to, guests, city, 0, minPrice, maxPrice, parsedTypes);
-            else result = await getProperties(from, to, guests, city, 0, minPrice, maxPrice);
-        
+        let queryString = `?from=${from}&to=${to}&guests=${guests}&city=${city}&minprice=${minPrice}&maxprice=${maxPrice}`; 
+
+        if(types.length > 0 ) { 
+            result = await getProperties(from, to, guests, city, 0, minPrice, maxPrice, parsedTypes);
+            parsedTypes.map(type => queryString += `&${type}`);
+        } else result = await getProperties(from, to, guests, city, 0, minPrice, maxPrice);
+
+        const popSearchObj = { city, from, to, guests, maxPrice, minPrice, types };
+
         setProperties(result.properties);
         hideMarkers();
         addMarkers(map, result.properties);
-    }
+        setPopulateSearch(popSearchObj);
 
-    const openPropertyPage = id => {
-        console.log(id);
+        history.replace(`/propertiesresults${queryString}`);
     }
 
     const showMap = isLoading ? '0' : '1';

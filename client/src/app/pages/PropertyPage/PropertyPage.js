@@ -35,7 +35,7 @@ const Property = props => {
         <React.Fragment>
             <div className={classes.PropertyTopContainer}>
                 <SlideShow photos={property.photos} />
-                <PropertyDetails property={property} from={props.history.location.state} />
+                <PropertyDetails property={property} />
             </div>
 
             <div className={classes.PropertyBottomContainer}>
