@@ -5,7 +5,15 @@ import classes from './AddEditComponents.module.css';
 import { withStyles } from '@material-ui/core/styles';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-
+const StyledFormControlLabel = withStyles({
+   root: {
+      '& .MuiFormControlLabel-label': {
+         fontFamily: 'Quicksand Medium',
+         marginLeft: '1vw',
+         fontSize: '1rem',
+      },
+   },
+})(FormControlLabel);
 
 const AddEditBottomRight = () => {
    return (
@@ -14,98 +22,101 @@ const AddEditBottomRight = () => {
             <div className={classes.AddEditHouseRightBody}>
                <h3 className={classes.FacilitiesTitle}>Facilities</h3>
                <div className={classes.CheckboxBody}>
-                  <div className={classes.CheckboxLeft}>
+                  <div className={classes.CheckboxOne}>
                      <div>
-                        <FormControlLabel
+                        <StyledFormControlLabel
                         control={<Checkbox color="primary" name="Essentials" />}
                         label="Essentials"
                         />
                      </div>
                      <div>
-                        <FormControlLabel
+                        <StyledFormControlLabel
                         control={<Checkbox name="WiFi" />}
                         label="WiFi"
                         />
                      </div>
                      <div>
-                        <FormControlLabel
-                        control={<Checkbox name="TV" />}
-                        label="TV"
-                        />
-                     </div>
-                     <div>
-                        <FormControlLabel
+                        <StyledFormControlLabel
                         control={<Checkbox name="Heat" />}
                         label="Heat"
                         />
                      </div>
                      <div>
-                        <FormControlLabel
+                        <StyledFormControlLabel
                         control={<Checkbox name="Air conditioning" />}
                         label="Air conditioning"
                         />
                      </div>
+               
                      <div>
-                        <FormControlLabel
-                        control={<Checkbox name="Iron" />}
-                        label="Iron"
+                        <StyledFormControlLabel
+                        control={<Checkbox name="Parking" />}
+                        label="Parking"
+                        />
+                     </div>
+                  </div>
+
+                  <div className={classes.CheckboxTwo}>
+                     <div>
+                        <StyledFormControlLabel
+                        control={<Checkbox name="TV" />}
+                        label="TV"
                         />
                      </div>
                      <div>
-                        <FormControlLabel
+                        <StyledFormControlLabel
+                        control={<Checkbox name="Kitchen" />}
+                        label="Kitchen"
+                        />
+                     </div>
+                     <div>
+                        <StyledFormControlLabel
+                        control={<Checkbox name="Workspace" />}
+                        label="Workspace"
+                        />
+                     </div>
+                     <div>
+                        <StyledFormControlLabel
+                        control={<Checkbox name="Closets" />}
+                        label="Closet/Drawers"
+                        />
+                     </div>
+                     <div>
+                        <StyledFormControlLabel
+                        control={<Checkbox name="Kid-friendly" />}
+                        label="Kid-friendly"
+                        />
+                     </div>
+                  </div>
+                  <div className={classes.CheckboxThree}>
+                     <div>
+                        <StyledFormControlLabel
                         control={<Checkbox name="Shampoo" />}
                         label="Shampoo"
                         />
                      </div>
                      <div>
-                        <FormControlLabel
-                        control={<Checkbox name="Kitchen" />}
-                        label="Kitchen"
-                        />
-                     </div>
-                  </div>
-
-                  <div className={classes.CheckboxRight}>
-                     <div>
-                        <FormControlLabel
-                        control={<Checkbox name="Kid-friendly" />}
-                        label="Kid-friendly"
+                        <StyledFormControlLabel
+                        control={<Checkbox name="Iron" />}
+                        label="Iron"
                         />
                      </div>
                      <div>
-                        <FormControlLabel
-                        control={<Checkbox name="Parking" />}
-                        label="Parking"
-                        />
-                     </div>
-                     <div>
-                        <FormControlLabel
-                        control={<Checkbox name="Hair dryer" />}
-                        label="Hair dryer"
-                        />
-                     </div>
-                     <div>
-                        <FormControlLabel
-                        control={<Checkbox name="Breakfast" />}
-                        label="Breakfast"
-                        />
-                     </div>
-                     <div>
-                        <FormControlLabel
-                        control={<Checkbox name="Desk/Workspace" />}
-                        label="Desk/Workspace"
-                        />
-                     </div>
-                     <div>
-                        <FormControlLabel
+                        <StyledFormControlLabel
                         control={<Checkbox name="Fireplace" />}
                         label="Fireplace"
                         />
                      </div>
                      <div>
-                        <FormControlLabel
-                        control={<Checkbox name="Closet/Drawers" />}
-                        label="Closet/Drawers"
+                        <StyledFormControlLabel
+                        control={<Checkbox name="Hair dryer" />}
+                        label="Hair dryer"
+                        />
+                     </div>
+                     <div>
+                        <StyledFormControlLabel
+                        control={<Checkbox name="Breakfast" />}
+                        label="Breakfast"
                         />
                      </div>
                   </div>

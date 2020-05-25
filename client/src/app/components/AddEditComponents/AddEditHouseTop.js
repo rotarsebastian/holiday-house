@@ -127,9 +127,6 @@ const CountryTextField = withStyles({
       '& label.Mui-focused': {
          color: '#E4215B',
       },
-      '& .MuiOutlinedInput-notchedOutline': {
-         borderColor: 'rgb(212, 212, 212)',
-       },
       '& .MuiSelect-selectMenu': {
          height:'10px',
       },
