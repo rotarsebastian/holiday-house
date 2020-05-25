@@ -1,30 +1,51 @@
-.ProfileContainer {
-    display: grid;
-    grid-template-columns: 40% 60%;
+/* .ProfileContainer {
+    margin: 0 auto;
+} */
+.ListsContainer {
+    display: flex;
+    flex-direction: column;
 }
-
+body.profile {
+    overflow-y: hidden;
+}
 .TitleHistory {
     font-size: 2.5rem;
     color: var(--color-title);
-    margin-bottom: .5rem;
-    margin-left: 1rem;
+    margin-bottom: 2rem;
 }
 
 .ProfileCard {
-    display: grid;
+    display: flex;
     justify-content: center;
-    margin-top: 9vh;
 }
 
 .PropertyCard {
     margin: .5rem 1rem;
 }
 
-.ListContainer {
+.MyPropertiesList {
     width: fit-content;
     height: 70vh;
     overflow: hidden;
     overflow-y: scroll;
-    scroll-behavior: smooth;
-    
+    scroll-behavior: smooth; 
+}
+.MyReservationsList {
+    width: fit-content;
+    height: 70vh;
+    overflow: hidden;
+    overflow-y: scroll;
+    scroll-behavior: smooth; 
+}
+.MyReservationsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+}
+.MyPropertiesContainer {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
