@@ -205,7 +205,7 @@ router.post('/', isAuthenticated, (req, res) => {
             }
 
             //  ====================== HANDLE INITIAL CHECK FOR STRING DATA ======================
-            const initialCheckRes = handleInitialFormCheck(JSON.parse(req.body.data), 'addProperty', 12);
+            const initialCheckRes = handleInitialFormCheck(JSON.parse(req.body.data), 'addProperty', 13);
             if(initialCheckRes.status !== 1) {
                 if(errorRemoveImgs.length > 0) removeImages(errorRemoveImgs);
                 return res.json(initialCheckRes);
