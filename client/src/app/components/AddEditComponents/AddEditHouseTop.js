@@ -123,20 +123,25 @@ const CountryTextField = withStyles({
       width: '100%',
       marginTop: '10px',
       color:'red',
+      maxHeight: '1.1876em',
       '& label.Mui-focused': {
          color: '#E4215B',
        },
-     '& .MuiOutlinedInput-root': {
-        borderTopLeftRadius: '0px',
-        borderBottomLeftRadius: '0px',
-        marginLeft: '-1px',
-       '&.Mui-focused fieldset': {
-         border: '2px solid #E4215B',
-       },
-       '& label.Mui-focused': {
-         color: 'black',
-       },
-     }, 
+      '& .MuiSelect-selectMenu': {
+         height:'10px',
+      },
+      '& .MuiOutlinedInput-root': {
+         borderTopLeftRadius: '0px',
+         borderBottomLeftRadius: '0px',
+         marginLeft: '-1px',
+
+         '&.Mui-focused fieldset': {
+            border: '2px solid #E4215B',
+         },
+         '& label.Mui-focused': {
+            color: 'black',
+         },
+      }, 
      '& .MuiInputLabel-asterisk': {
       color: 'var(--color-title)',
       },
@@ -163,7 +168,7 @@ const AddEditHouseTop = () => {
                      label="Title" 
                      type="text" 
                      required={true}
-                     placeholder="Add A Title" 
+                     placeholder="Add a title" 
                      variant="outlined" 
 
                      />
@@ -185,7 +190,7 @@ const AddEditHouseTop = () => {
                   label="Address" 
                   type="text" 
                   required={true}
-                  placeholder="Where is it?" 
+                  placeholder="What street?" 
                   variant="outlined" 
                   />
                </div>      
@@ -202,10 +207,10 @@ const AddEditHouseTop = () => {
                <div className={classes.CityCountryContainer}>
                   <CityTextField 
                   id="outlined-required" 
-                  label="Address" 
+                  label="City" 
                   type="text" 
                   required={true}
-                  placeholder="Where is it?" 
+                  placeholder="What city?" 
                   variant="outlined" 
                   />
 
