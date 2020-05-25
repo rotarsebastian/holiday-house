@@ -129,7 +129,7 @@ const SearchbarComponents = props => {
 
             // ====================== HANDLE TYPES ======================
             if(prop === 'types') {
-               if(types.length > 0) {
+               if(props.populateSearch[prop].length > 0) {
                   const popTypes = props.populateSearch[prop].map(type => capitalize(decodeURIComponent(type.split('=')[1])));
                   setTypes(popTypes);
                }
@@ -251,7 +251,7 @@ const SearchbarComponents = props => {
                      value={city}
                      onChange={e => handleChangeInput(e, 'city')} 
                   />
-                  { searchResults.length > 0 
+                  { searchResults.length > 0 && city.length > 0
                      ? 
                      <div className="SearchResults">
                         {
