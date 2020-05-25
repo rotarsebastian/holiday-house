@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
 import './AddEditComponents.module.css';
 import classes from './AddEditComponents.module.css';
 import { withStyles } from '@material-ui/core/styles';
@@ -185,16 +186,23 @@ const BathroomsTextField = withStyles({
 
 
 const AddEditHouseBottomLeft = () => {
-         
+   
    const [ from, setFrom ] = useState(moment().format('yyyy-MM-DD'));
    const [ to, setTo ] = useState(moment().format('yyyy-MM-DD'));
- 
+   const [ types, setTypes ] = useState('');
+   
    const changeDate = (newDate, label) => {
       const date = moment(newDate).format('yyyy-MM-DD');
    
       if (label === "Available from") setFrom(date);
       else setTo(date);
-   }
+   };
+
+   const typesChange = e => {
+      setTypes(e.target.value);
+   };
+
+   const typesOptions = ["Entire place", "Private room", "Shared room"]
       
    return (
       <React.Fragment>
@@ -237,13 +245,14 @@ const AddEditHouseBottomLeft = () => {
                   // value={country}
                   // onChange={handleChange}
                   variant="outlined" 
+                  onChange={typesChange}
                   >
 
-                  {/* {countries.map(country => (
-                     <MenuItem key={country} value={country}>
-                     {country}
+                  {typesOptions.map(option => (
+                     <MenuItem key={option} value={option}>
+                     {option}
                      </MenuItem>
-                  ))}  */}
+                  ))} 
                   </TypeTextField>
                </div>  
                <div className={classes.LeftSelectContainer}> 
