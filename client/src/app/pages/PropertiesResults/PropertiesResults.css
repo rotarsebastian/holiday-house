@@ -97,6 +97,24 @@
 .PropertiesResults .MapResultsContainer .PropertiesList {
     width: 50%;
 }
+
+.PropertiesResults .MapResultsContainer .PropertiesList .PropertyCard {
+    margin: .75rem;
+    margin-left: 0;
+}
+
+.PropertiesResults .MapResultsContainer .PropertiesList .PropertyCard:first-of-type {
+    margin: .75rem;
+    margin-left: 0;
+    margin-top: 0;
+}
+
+.PropertiesResults .MapResultsContainer .PropertiesList .PropertyCard:last-of-type {
+    margin: .75rem;
+    margin-left: 0;
+    margin-bottom: 0;
+}
+
 /* @media only screen and (max-width: 415px) {
     .mapContainer {
         height: 92vh;

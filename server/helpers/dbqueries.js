@@ -43,7 +43,7 @@ const getPropertiesWithFilters = async(offset, city, from, to, guests, types, mi
     let max = maxPrice ? maxPrice : 99999;
     if(!types) {
         properties = await Property.query()
-            .select('title', 'beds', 'bathrooms', 'rooms', 'type', 'capacity', 'price', 'photos', 'coordinates')
+            .select('id', 'title', 'beds', 'bathrooms', 'rooms', 'type', 'capacity', 'price', 'photos', 'coordinates')
             .where(ref('address:city').castText(), '=', city.toLowerCase())
             .andWhere('available_start', '<=' , from)
             .andWhere('available_end', '>=' , to)
@@ -54,7 +54,7 @@ const getPropertiesWithFilters = async(offset, city, from, to, guests, types, mi
             .offset(offset)
     } else {
         properties = await Property.query()
-            .select('title', 'beds', 'bathrooms', 'rooms', 'type', 'capacity', 'price', 'photos', 'coordinates')
+            .select('id', 'title', 'beds', 'bathrooms', 'rooms', 'type', 'capacity', 'price', 'photos', 'coordinates')
             .andWhere(ref('address:city').castText(), '=', city.toLowerCase())
             .andWhere('available_start', '<=' , from)
             .andWhere('available_end', '>=' , to)

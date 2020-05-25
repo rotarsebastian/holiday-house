@@ -6,6 +6,7 @@ import ClipLoader from 'react-spinners/ClipLoader';
 import './PropertiesResults.css';
 import { getProperties }  from './../../helpers/properties';
 import Searchbar from '../../components/Searchbar/Searchbar';
+import PropertyCard from './../../components/PropertyCard/PropertyCard';
 // import toastr from 'toastr';
 
 const PropertiesResults = props => {
@@ -157,6 +158,8 @@ const PropertiesResults = props => {
         popUpContainer.appendChild(popUpImage);
         popUpContainer.appendChild(popUpBottomContainer);
 
+        popUpContainer.addEventListener('click', () => console.log('message'));
+
         return popUpContainer.outerHTML;
     }
 
@@ -175,6 +178,10 @@ const PropertiesResults = props => {
         addMarkers(map, result.properties);
     }
 
+    const openPropertyPage = id => {
+        console.log(id);
+    }
+
     const showMap = isLoading ? '0' : '1';
 
     return (
@@ -184,7 +191,20 @@ const PropertiesResults = props => {
             <div className="PropertiesResults" style={{ opacity: showMap }}>
                 <Searchbar clickSearch={handleSearch} withFilters={true} populateSearch={populateSearch} />
                 <div className="MapResultsContainer">
-                    <div className="PropertiesList">List</div>
+                    <div className="PropertiesList">
+                        {   !isLoading 
+                                ?
+                                properties.map(property => {
+                                    return (
+                                        <div key={property.id} className="PropertyCard">
+                                            <PropertyCard property={property} click={openPropertyPage} />
+                                        </div>
+                                    )
+                                })
+                                :
+                                undefined
+                        }
+                    </div>
                     <div ref={el => mapContainer.current = el} className="mapContainer" />
                 </div>
             </div>

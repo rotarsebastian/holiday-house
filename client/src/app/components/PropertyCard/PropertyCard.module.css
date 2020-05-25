@@ -1,6 +1,6 @@
 .CardContainer {
     display: flex;
-    width: 35rem;
+    width: 100%;
     height: 11rem;
     box-shadow: var(--box-shadow);
     border-radius: var(--radius);
