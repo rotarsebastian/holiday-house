@@ -221,9 +221,9 @@ const AddEditHouseBottomLeft = () => {
                </div>  
                <div className={classes.LeftSelectContainer}> 
                   <PriceTextField 
-                     id="outlined-select"
-                  select
+                  id="outlined-select"
                   label="Price per night" 
+                  type="number"
                   required={true}
                   // value={country}
                   // onChange={handleChange}
@@ -237,7 +237,7 @@ const AddEditHouseBottomLeft = () => {
                   ))}  */}
                   </PriceTextField>
                   <TypeTextField 
-                       id="outlined-select"
+                  id="outlined-select"
                   select
                   label="Type of rental" 
                   required={true}
@@ -255,8 +255,8 @@ const AddEditHouseBottomLeft = () => {
                </div>  
                <div className={classes.LeftSelectContainer}> 
                   <CapacityTextField 
-                      id="outlined-select"
-                  select
+                  id="outlined-select"
+                  type="number"
                   label="Capacity" 
                   required={true}
                   // value={country}
@@ -271,8 +271,8 @@ const AddEditHouseBottomLeft = () => {
                   ))}  */}
                   </CapacityTextField>
                   <RoomsTextField 
-                    id="outlined-select"
-                  select
+                  id="outlined-select"
+                  type="number"
                   label="Rooms" 
                   required={true}
                   // value={country}
@@ -289,8 +289,8 @@ const AddEditHouseBottomLeft = () => {
                </div>   
                <div className={classes.LeftSelectContainer}> 
                   <BedsTextField 
-                       id="outlined-select"
-                  select
+                  id="outlined-select"
+                  type="number"
                   label="Beds" 
                   required={true}
                   // value={country}
@@ -305,8 +305,8 @@ const AddEditHouseBottomLeft = () => {
                   ))}  */}
                   </BedsTextField>
                   <BathroomsTextField 
-                       id="outlined-select"
-                  select
+                  id="outlined-select"
+                  type="number"
                   label="Bathrooms" 
                   required={true}
                   // value={country}

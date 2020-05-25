@@ -41,6 +41,12 @@ input[type=number]::-webkit-outer-spin-button {
    margin-top: 2rem;
 }
 
+.AddEditHouseLeftContainer input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
 .AddEditHouseLeftContainer .AddEditHouseLeftBody {
    width:100%;
 }
@@ -90,10 +96,14 @@ input[type=number]::-webkit-outer-spin-button {
    display: flex;
 }
 
-.CheckboxLeft {
+.AddEditHouseRightContainer .CheckboxLeft {
    width:100%;
 }
 
-.CheckboxRight {
+.AddEditHouseRightContainer .CheckboxRight {
    width:100%;
+}
+
+.AddEditHouseRightContainer .CheckboxBody label span svg {
+   fill: #E4215B !important;
 }
