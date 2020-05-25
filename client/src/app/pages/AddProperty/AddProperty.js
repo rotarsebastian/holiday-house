@@ -5,6 +5,8 @@ import ClipLoader from 'react-spinners/ClipLoader';
 import DragAndDrop from '../../components/DragAndDrop/DragAndDrop';
 import './AddProperty.css';
 import AddEditHouseTop from '../../components/AddEditComponents/AddEditHouseTop'
+import AddEditHouseBottomLeft from '../../components/AddEditComponents/AddEditHouseBottomLeft'
+import AddEditHouseBottomRight from '../../components/AddEditComponents/AddEditHouseBottomRight'
 
 const AddProperty = props => {
     
@@ -131,8 +133,9 @@ const AddProperty = props => {
                     </div>
 
                     <div className="SecondRow">
-                        <div className="Availability">AddEditHouseBottomLeft</div>
-                        <div className="Facilities">AddEditHouseBottomRight</div>
+
+                        <div><AddEditHouseBottomLeft /></div>
+                        <div className="Facilities"><AddEditHouseBottomRight /></div>
                     </div>
 
                     <div className="ThirdRow">

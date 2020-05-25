@@ -9,25 +9,101 @@
    width:100%;
 }
 
-span.MuiFormLabel-asterisk.MuiInputLabel-asterisk {
+.AddEditHouseTopContainer span.MuiFormLabel-asterisk.MuiInputLabel-asterisk {
    color: var(--color-title);
 }
 
-.CityCountryContainer {
+.AddEditHouseTopContainer input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+.AddEditHouseTopContainer .CityCountryContainer {
    display: flex;
    justify-content: center;
 }
 
-#root > div > div.AddPropertyContainer > div.FirstRow > div:nth-child(1) > div > div > div.AddEditComponents_CityCountryContainer__1jDMp > div.MuiFormControl-root.MuiTextField-root.WithStyles\(ForwardRef\(TextField\)\)-root-68 > div > svg.MuiSvgIcon-root.MuiSelect-icon.MuiSelect-iconOutlined {
+.AddEditHouseTopContainer #root > div > div.AddPropertyContainer > div.FirstRow > div:nth-child(1) > div > div > div.AddEditComponents_CityCountryContainer__1jDMp > div.MuiFormControl-root.MuiTextField-root.WithStyles\(ForwardRef\(TextField\)\)-root-68 > div > svg.MuiSvgIcon-root.MuiSelect-icon.MuiSelect-iconOutlined {
    display: none !important;
 }
 
+.AddEditHouseTopContainer .MuiSelect-root .MuiSelect-select .MuiSelect-selectMenu .MuiSelect-outlined .MuiInputBase-input .MuiOutlinedInput-input {
+   height: 10px;
+}
 
 
 /* ################ AddEditHouseBottomLeft ################ */
 
+.AddEditHouseLeftContainer {
+   width:42vw;
+   padding-right: 1rem;
+   margin-top: 2rem;
+}
 
+.AddEditHouseLeftContainer input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
 
+.AddEditHouseLeftContainer .AddEditHouseLeftBody {
+   width:100%;
+}
 
+.AddEditHouseLeftContainer span.MuiFormLabel-asterisk.MuiInputLabel-asterisk {
+   color: var(--color-title);
+}
+
+.AddEditHouseLeftContainer .LeftDateContainer {
+   display: flex;
+   justify-content: center;
+   margin-bottom: -3px;
+}
+
+.AddEditHouseLeftContainer .LeftDateContainer > div {
+   width: 100%;
+}
+
+.AddEditHouseLeftContainer .LeftSelectContainer {
+   display: flex;
+   justify-content: center;
+   margin-bottom: 2.2rem;
+}
+
+.LeftDateContainer> div:nth-child(1) > div {
+   border-top-right-radius: 0px;
+   border-bottom-right-radius: 0px;
+}
+
+.LeftDateContainer> div:nth-child(2) > div {
+   border-top-left-radius: 0px;
+   border-bottom-left-radius: 0px;
+   margin-left: -1px;
+}
 
 /* ################ AddEditHouseBottomRight ################ */
+.AddEditHouseRightContainer > div > h3 {
+   color: #e4215b;
+   margin-bottom: 1rem;
+}
+
+.AddEditHouseRightContainer{
+   margin-top: 2.5rem; 
+}
+
+.AddEditHouseRightContainer > div > .CheckboxBody {
+   display: flex;
+}
+
+.AddEditHouseRightContainer .CheckboxLeft {
+   width:100%;
+}
+
+.AddEditHouseRightContainer .CheckboxRight {
+   width:100%;
+}
+
+.AddEditHouseRightContainer .CheckboxBody label span svg {
+   fill: #E4215B !important;
+}
