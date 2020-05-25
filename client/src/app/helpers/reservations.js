@@ -1,11 +1,5 @@
 const endpoint = 'http://localhost:5555/api/reservations';
 
-const auth = {
-    isAuthenticated: false,
-    email: undefined,
-    userID: undefined
-}
-
 export const getUserReservation = async(id) => {
     try {
         const options = {
@@ -73,7 +67,7 @@ export const createReservation = async(id, from_date, to_date, persons_count) =>
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({from_date, to_date, persons_count})
+          body: JSON.stringify([{ from_date }, { to_date }, { persons_count }])
         };
         const response = await fetch(endpoint + '/' + id, options);
         const data = await response.json();

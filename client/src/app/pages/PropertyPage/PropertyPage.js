@@ -2,21 +2,19 @@ import React, { useState, useEffect } from "react";
 import classes from './PropertyPage.module.css';
 import SlideShow from '../../components/SlideShow/SlideShow';
 import PropertyDetails from '../../components/PropertyDetails/PropertyDetails'
-import { useStoreValue } from 'react-context-hook';
 import { getOneProperty }  from './../../helpers/properties';
 import toastr from 'toastr';
 import ClipLoader from 'react-spinners/ClipLoader';
 
 const Property = props => {
     
-    const user_data = useStoreValue('user');
+    // const user_data = useStoreValue('user');
     const [property, setProperty] = useState(undefined);
     
     useEffect(() => {
         const id = window.location.pathname.split('/')[2];
-
         const fetchProperty = async() => {
-            if(property === undefined && user_data) {
+            if(property === undefined) {
                 const response = await getOneProperty(id);
                 if(response.status === 1) setProperty(response.data);
                     else toastr.error('Something went wrong!');
@@ -24,11 +22,11 @@ const Property = props => {
         }
 
        fetchProperty();
-    }, [property, user_data]) // component didmount - []  || componentWillUpdate - [yourDependency]
+    }, [property]) // component didmount - []  || componentWillUpdate - [yourDependency]
     
-    if(property === undefined) return <div className="loading"><ClipLoader size={50} color={'#e83251'} /></div>
-
     const capitalize = text => text.charAt(0).toUpperCase() + text.slice(1);
+
+    if(property === undefined) return <div className="loading"><ClipLoader size={50} color={'#e83251'} /></div>
 
     const { description } = property;
     const facilities = property.facilities !== null ? JSON.parse(property.facilities.facilities_list) : undefined;
@@ -37,7 +35,7 @@ const Property = props => {
         <React.Fragment>
             <div className={classes.PropertyTopContainer}>
                 <SlideShow photos={property.photos} />
-                <PropertyDetails property={property} />
+                <PropertyDetails property={property} from={props.history.location.state} />
             </div>
 
             <div className={classes.PropertyBottomContainer}>
