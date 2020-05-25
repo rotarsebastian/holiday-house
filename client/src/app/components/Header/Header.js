@@ -9,6 +9,7 @@ import { logout } from '../../helpers/auth';
 
 const Header = props => {
 
+    
     const history = useHistory();
 
     const [isAuthenticated, setIsAuthenticated] = useStore('isAuthenticated');

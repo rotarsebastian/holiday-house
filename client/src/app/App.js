@@ -52,6 +52,7 @@ const App = () => {
         <Router basename='/'> 
           <Header />
           {/* <Test /> */}
+          <div className={classes.Root}>
           <Switch>
             <Route exact path='/' component={props => <Home {...props} />} />
             <Route path='/propertiesresults' component={props => <PropertiesResults {...props} />} />
@@ -59,7 +60,9 @@ const App = () => {
             <PrivateRoute path='/profile' component={props => <Profile {...props}/>} />
             <Route path='/property/:id' component={props => <Property {...props} />} />
           </Switch>
+          </div>
         </Router>
+        
       </div>
     );
   }
