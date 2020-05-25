@@ -4,6 +4,11 @@ import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTags, faCoins } from '@fortawesome/free-solid-svg-icons';
+import { useSetAndDelete } from 'react-context-hook';
+// import { createReservation }  from './../../helpers/reservations';
+import { useStoreValue } from 'react-context-hook';
+import { useHistory } from 'react-router-dom';
+import moment from 'moment';
 
 const OrderButton = withStyles({
     root: {
@@ -33,10 +38,49 @@ const OrderButton = withStyles({
 
 const PropertyDetails = props => {
 
-    const { title, price, capacity, type, rooms, beds, bathrooms, address, first_name, last_name } = props.property;
+    const history = useHistory();
+ 
+    const [setShowModal] = useSetAndDelete('showModal');
+    const user_data = useStoreValue('user');
+
+    const { id, title, price, capacity, type, rooms, beds, bathrooms, address, first_name, last_name, user_id } = props.property;
 
     const capitalize = text => text.charAt(0).toUpperCase() + text.slice(1);
- 
+
+    const handleCreateBooking = async(id) => {
+        const { from } = props.from;
+
+        if(user_data) {
+            if(from && from === 'Home') {
+                history.push(`/propertiesresults?from=${moment().format('yyyy-MM-DD')}&to=${moment().add(1, 'days').format('yyyy-MM-DD')}&guests=1&city=${encodeURIComponent(address.city)}`);
+            } else {
+                // CHECK IF IT IS FROM PROPERTIESRESULTS & MAKE RESERVATION
+            }
+        } else setShowModal('Log in');
+    }
+
+    let bookButton;
+
+    if(user_data && user_data.id !== user_id) {
+        bookButton = (
+            <React.Fragment>
+                <OrderButton onClick={() => handleCreateBooking(id)}><span className={classes.BookButtonText}>Book it</span></OrderButton>
+                <div>
+                    <div className={classes.PropertyPrice}>{price} DKK<span className={classes.PropertyPriceNight}> / night</span></div>
+                </div>
+            </React.Fragment>
+        )
+    } else if(!user_data) {
+        bookButton = (
+            <React.Fragment>
+                <OrderButton onClick={() => handleCreateBooking(id)}><span className={classes.BookButtonText}>Book it</span></OrderButton>
+                <div>
+                    <div className={classes.PropertyPrice}>{price} DKK<span className={classes.PropertyPriceNight}> / night</span></div>
+                </div>
+            </React.Fragment>
+        )
+    }
+
     return (
         <div className={classes.PropertyDetailsContainer}>
             <div  className={classes.PropertyInfo}>{type ? capitalize(type) : ''}</div>
@@ -79,10 +123,7 @@ const PropertyDetails = props => {
             </div>
 
             <div className={classes.PropertyOrderContainer} >
-                <OrderButton><span className={classes.BookButtonText}>Book it</span></OrderButton>
-                <div>
-                    <div className={classes.PropertyPrice}>{price} DKK<span className={classes.PropertyPriceNight}> / night</span></div>
-                </div>
+                { bookButton }
             </div>
         </div>
     )
