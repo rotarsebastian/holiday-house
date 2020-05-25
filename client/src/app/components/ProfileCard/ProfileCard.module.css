@@ -2,24 +2,47 @@
     box-shadow: var(--box-shadow);
     border-radius: var(--radius);
     padding: 1.5rem;
-    height: 65vh;
-    width: 40vh;
+    width: 50vw;
+    height: fit-content;
 }
 
 .UserIcon {
     display: block;
     width: 4rem;
-    margin: auto;
+    margin: 10px;
 }
-
+.UserTitle {
+    
+}
 .ProfileTitle {
     font-size: 2rem;
     color: var(--color-title);
 }
 
 .ProfileDetails {
-    padding: 1.5rem 0;
-    border-top: 1px solid rgba(112, 112, 112, 0.3);
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.User {
+    display: grid;
+    grid-template-columns: 35% 65%;
+}
+
+.UserDetails {
+    padding: 1.5rem 3em 1.5em 0;
+    border-right: 1px solid rgba(112, 112, 112, 0.3);
+}
+
+.EmailDetails {
+    padding: 1.5rem 0 1.5em 3em;
+}
+.ProfileEmail {
+    display: flex;
+    flex-direction: column;
+    font-size: .95rem;
+    padding: .5rem 0;
+    line-height: 2;
 }
 
 .ProfileParag {
@@ -29,3 +52,20 @@
     padding: .5rem 0;
 }
 
+.DeleteProfileButton {
+    padding: .5rem 1rem;
+    color: #FFF;
+    background-color: var(--pink-color);
+    border-radius: .5rem;
+    font-family: 'Quicksand Bold';
+    outline: none;
+    border: none;
+    cursor: pointer;
+    transition: .3s;
+    margin-top: .5rem;
+}
+
+.DeleteProfileButton:hover {
+    background-color: #f02551;
+    transform: scale(1.04);
+}

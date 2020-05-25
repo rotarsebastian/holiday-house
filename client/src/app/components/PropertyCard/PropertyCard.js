@@ -2,13 +2,14 @@ import React, {useState} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt} from '@fortawesome/free-solid-svg-icons';
 import classes from "./PropertyCard.module.css";
-import YesNoModal from '../YesNoModal/YesNoModal'
+import YesNoModal from '../YesNoModal/YesNoModal';
 
 const PropertyCard = (props) => {
 
     const homeClass = props.from === 'Home' ? ` ${classes.Home}` : '';
     
     const [showDialog, setShowDialog] = useState(false);
+    // const [ showPage, setShowPage ] = useState(props.from);
 
     const handleAnswer = (e, answer) => {
         e.stopPropagation();
@@ -19,6 +20,7 @@ const PropertyCard = (props) => {
     const openModal = e => {
         e.stopPropagation();
         setShowDialog(true)
+        // setShowPage("Profile")
     }
 
     const goToEditProperty = e => {
@@ -45,7 +47,7 @@ const PropertyCard = (props) => {
                         <span className={classes.Icon} onClick={e => openModal(e)}>
                             <FontAwesomeIcon icon={faTrashAlt} size="2x" /> 
                         </span>
-                        <YesNoModal sendAnswer={handleAnswer} open={showDialog} close={() => setShowDialog(!showDialog)} /> 
+                        <YesNoModal sendAnswer={handleAnswer} open={showDialog} close={() => setShowDialog(!showDialog)} from={'Delete property'}/> 
                     </React.Fragment>  
                     :
                     undefined
