@@ -3,6 +3,11 @@
     filter: invert(24%) sepia(71%) saturate(4448%) hue-rotate(330deg) brightness(91%) contrast(95%);
 }
 
+.mapboxgl-canvas {
+    outline: none;
+}
+
+
 .AddPropertyContainer .markerPick {
     width: 2.5rem;
     height: 2.5rem;
@@ -37,7 +42,7 @@
 }
 
 .AddPropertyContainer .mapboxgl-ctrl-top-right {
-    margin-top: 1rem;
+    margin-top: 1.75rem;
 }
 
 .AddPropertyContainer .FirstRow, .SecondRow {

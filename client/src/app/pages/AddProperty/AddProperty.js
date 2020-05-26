@@ -127,12 +127,6 @@ const AddProperty = props => {
                 map.resize();
                 setIsLoading(false);
             });
-        
-            map.on('move', () => {
-                setLng(map.getCenter().lng.toFixed(4));
-                setLat(map.getCenter().lat.toFixed(4));
-                setZoom(map.getZoom().toFixed(2));
-            });
 
             map.on('click', e => addMarker(e, map));
             
@@ -194,7 +188,7 @@ const AddProperty = props => {
             { type: 'beds', val: parseInt(bottomLeftData[6]) },
             { type: 'bathrooms', val: parseInt(bottomLeftData[7]) },
             { type: 'coordinates', val: JSON.stringify(currentMarkerCoords) }, 
-            { type: 'address', val: JSON.stringify([ addressObject ]) },
+            { type: 'address', val: JSON.stringify(addressObject) },
             { type: 'facilities', val: JSON.stringify(bottomRightData) },
         ];
 

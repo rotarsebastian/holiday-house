@@ -121,7 +121,7 @@ const validateForm = (form, formType) => {
         // ====================== PUSH VALID ELEMENTS TO VALID ELEMENTS ARRAY ======================
         else {
             if(input.type === 'address') {
-                const [ addressObj ] = JSON.parse(input.val);
+                const addressObj = JSON.parse(input.val);
                 
                 for (let prop in addressObj) {
                     if (Object.prototype.hasOwnProperty.call(addressObj, prop)) {

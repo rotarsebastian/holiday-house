@@ -21,9 +21,9 @@ const PropertiesResults = props => {
     // const [ offset, setOffset ] = useState(0);    
 
     const [ map, setMap ] = useState(undefined);    
-    const [ lng, setLng ] = useState(9.8694);    
-    const [ lat, setLat ] = useState(52.3082);    
-    const [ zoom, setZoom ] = useState(3.5);    
+    const [ lng, setLng ] = useState(12.5718);    
+    const [ lat, setLat ] = useState(55.6466);    
+    const [ zoom, setZoom ] = useState(10.48);    
     const [ currentMarkers ] = useState([]);    
     const [ isLoading, setIsLoading ] = useState(true);
     const [ populateSearch, setPopulateSearch ] = useState(undefined);

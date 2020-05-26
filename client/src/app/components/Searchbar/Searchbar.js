@@ -121,6 +121,7 @@ const SearchbarComponents = props => {
    const [ isDisabled, setDisabled ] = useState(true);
    const [ searchResults, setSearchResults ] = useState([]);
    const [ minDateTo, setMinDateTo ] = useState(moment().add(1, 'days').format('yyyy-MM-DD'));
+   const [ disableSameDate, setDisableSameDate ] = useState(moment().subtract(1, 'day').format('yyyy-MM-DD'));
 
    useEffect(() => {
       // ====================== POPULATE SEARCH BAR ======================
@@ -181,7 +182,10 @@ const SearchbarComponents = props => {
          if(moment(to).isBefore(date, 'day')) setTo(moment(date).add(1, 'days').format('yyyy-MM-DD'));
          setMinDateTo(moment(date).add(1, 'days').format('yyyy-MM-DD'));
       }
-      else setTo(date);
+      else { 
+         setTo(date);
+         setDisableSameDate(moment(date).format('yyyy-MM-DD'));
+      }
    };
 
    const handleSearchRequest = async(city) => {
@@ -280,6 +284,7 @@ const SearchbarComponents = props => {
                      newLabel="Check in" 
                      handleChange={changeDate}
                      minDate={moment().format('yyyy-MM-DD')}
+                     disableDay={disableSameDate}
                      date={from}
                    />
                </div>   
