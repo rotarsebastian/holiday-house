@@ -1,15 +1,19 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt} from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import classes from "./PropertyCard.module.css";
 import YesNoModal from '../YesNoModal/YesNoModal';
+import { useStore } from 'react-context-hook';
 
 const PropertyCard = props => {
 
     const homeClass = props.from === 'Home' ? ` ${classes.Home}` : '';
     
-    const [showDialog, setShowDialog] = useState(false);
-    // const [ showPage, setShowPage ] = useState(props.from);
+    const [ showDialog, setShowDialog ] = useState(false);
+
+    const [ countLoadedProperties, setCountLoadedProperties ] = useStore('countLoadedProperties');
+
+    const setImgLoaded = () => setCountLoadedProperties(countLoadedProperties + 1);
 
     const handleAnswer = (e, answer) => {
         e.stopPropagation();
@@ -36,7 +40,7 @@ const PropertyCard = props => {
     return (
         <div className={classes.CardContainer + homeClass + highlighted} onClick={() => props.click(id)} onMouseEnter={() => props.mouseOver(id)} onMouseLeave={() => props.mouseLeave(id, 'stop')}>
             <div className={classes.PropertyImageContainer}>
-                <img src={'https://holidayhouse1.s3.amazonaws.com/' + photos[0] } className={classes.PropertyImage} alt={photos[0]}  />
+                <img src={'https://holidayhouse1.s3.amazonaws.com/' + photos[0] } className={classes.PropertyImage} alt={photos[0]} onLoad={setImgLoaded} />
             </div>
 
             <div className={classes.PropertyDetails}>

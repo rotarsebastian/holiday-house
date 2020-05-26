@@ -6,7 +6,8 @@ const auth = {
 
   showModal: undefined,
   redirectTo: undefined,
-  changeKey: undefined
+  changeKey: undefined,
+  countLoadedProperties: 0
 }
 
 export const login = async(loginData) => {

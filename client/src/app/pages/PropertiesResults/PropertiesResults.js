@@ -7,6 +7,7 @@ import './PropertiesResults.css';
 import { getProperties }  from './../../helpers/properties';
 import Searchbar from '../../components/Searchbar/Searchbar';
 import PropertyCard from './../../components/PropertyCard/PropertyCard';
+import { useStore } from 'react-context-hook';
 // import toastr from 'toastr';
 
 const PropertiesResults = props => {
@@ -15,6 +16,8 @@ const PropertiesResults = props => {
     const location = useLocation();
     
     const [ properties, setProperties ] = useState(undefined);    
+    const [ newProperties, setNewProperties ] = useState(undefined);    
+    const [ showPage, setShowPage ] = useState('0');    
     // const [ offset, setOffset ] = useState(0);    
 
     const [ map, setMap ] = useState(undefined);    
@@ -27,6 +30,7 @@ const PropertiesResults = props => {
     const [ highlightProperty, setHighlightProperty ] = useState(undefined);
 
     const mapContainer = useRef(null);
+    const [ countLoadedProperties, setCountLoadedProperties ] = useStore('countLoadedProperties');
 
     useEffect(() => {
         const fetchProperties = async() => {
@@ -48,6 +52,7 @@ const PropertiesResults = props => {
                 const popSearchObj = { city, from, to, guests, maxPrice, minPrice, types };
                 setPopulateSearch(popSearchObj);
                 setProperties(res.properties);
+                setNewProperties(res.properties.length)
             }
         }
 
@@ -188,7 +193,11 @@ const PropertiesResults = props => {
 
         const popSearchObj = { city, from, to, guests, maxPrice, minPrice, types };
 
+        const newProperties = result.properties.filter(prop => properties.findIndex(p => p.id === prop.id) === -1).length;
+        
+        setNewProperties(newProperties);
         setProperties(result.properties);
+        setShowPage('0');
         hideMarkers();
         addMarkers(map, result.properties);
         setPopulateSearch(popSearchObj);
@@ -201,23 +210,34 @@ const PropertiesResults = props => {
         else mapContainer.current.querySelector(`.markerContainer.marker-${id}`).classList.add('active');
     }
 
-    const showMap = isLoading ? '0' : '1';
+    if(showPage !== '1' && properties && countLoadedProperties === newProperties) {
+        setTimeout(() => setCountLoadedProperties(0), 500); 
+        setShowPage('1');
+    } 
 
     return (
         <React.Fragment>
-            <div className="loading"><ClipLoader size={50} color={'#E4215B'} loading={isLoading}/></div>
+            <div className="loading"><ClipLoader size={50} color={'#E4215B'} loading={showPage === '1' ? false : true}/></div>
 
-            <div className="PropertiesResults" style={{ opacity: showMap }}>
+            <div className="PropertiesResults" style={{ opacity: showPage }}>
                 <Searchbar clickSearch={handleSearch} withFilters={true} populateSearch={populateSearch} />
                 <div className="MapResultsContainer">
                     <div className="PropertiesList">
-                        {   !isLoading 
+                        {   !isLoading
                                 ?
                                 properties.map(property => {
                                     return (
-                                        <div key={property.id} className="PropertyCard">
-                                            <PropertyCard highlighted={highlightProperty} property={property} click={openPropertyPage} mouseOver={toggleHighlightMarker} mouseLeave={toggleHighlightMarker}  />
-                                        </div>
+                                        <React.Fragment key={property.id}>                                            
+                                            <div style={{ opacity: showPage }} className="PropertyCard">
+                                                <PropertyCard 
+                                                    highlighted={highlightProperty} 
+                                                    property={property} 
+                                                    click={openPropertyPage} 
+                                                    mouseOver={toggleHighlightMarker} 
+                                                    mouseLeave={toggleHighlightMarker}  
+                                                />
+                                            </div>
+                                        </React.Fragment>
                                     )
                                 })
                                 :
