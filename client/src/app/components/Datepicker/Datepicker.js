@@ -4,7 +4,9 @@ import  { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/picke
 import './Datepicker.css';
 import moment from 'moment';
 
-const Datepicker = ({ newLabel, handleChange, page, date, minDate }) => {
+const Datepicker = ({ newLabel, handleChange, page, date, minDate }, props) => {
+
+   const reservationCardClass = props.from === 'Reservation card' ? ' ReservationCard' : '';
 
    const handleDateChange = date => {
       handleChange(date, newLabel);
@@ -16,7 +18,7 @@ const Datepicker = ({ newLabel, handleChange, page, date, minDate }) => {
    // else minimumDay = moment().add(1, 'days');
       
    return (
-      <div className='DatePickerContainer'>
+      <div className='DatePickerContainer reservationCardClass' >
          <MuiPickersUtilsProvider utils={DateFnsUtils}>
          { page && page === "Sign up" ? 
             <KeyboardDatePicker

@@ -1,7 +1,7 @@
 .CardContainer {
     display: flex;
     width: 100%;
-    height: 11rem;
+    height: 13rem;
     box-shadow: var(--box-shadow);
     border-radius: var(--radius);
     overflow: hidden;
@@ -70,19 +70,20 @@
 }
 
 .PropertyImageContainer {
-    width: 35rem;
-    height: 11rem;
+    width: 45%;
+    height: 100%;
 }
 
 .PropertyImage {
     display: block;
     width: 100%;
     height: 100%;
+    object-fit: cover;
 }
 
 .PropertyDetails {
     position: relative;
-    width: 100%;
+    width: 55%;
     margin: 1.5rem;
 }
 
