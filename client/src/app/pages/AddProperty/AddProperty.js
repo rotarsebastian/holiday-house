@@ -174,15 +174,6 @@ const AddProperty = props => {
 
     const submitForm = async() => {
 
-    //     { "type": "capacity", "val": 5 },
-    //     { "type": "type", "val": "Summer house" },
-    //     { "type": "rooms", "val": 5 },
-    //     { "type": "beds", "val": 6 },
-    //     { "type": "bathrooms", "val": 2 },{ "type": "coordinates", "val": "[56.34, 61.12]" },
-    //     { "type": "address", "val": "[{\"property_address\":\"Mjolnerparken 108, 1. 3\",\"city\":\"Copenhagen\",\"country\":\"Denmark\",\"postal_code\":\"2300\"}]" },
-    //   { "type": "facilities", "val": "[\"WiFi\",\"Kitchen\",\"Parking\"]" }
-    //   ]
-
         const addressObject = {
             property_address: topData[2],
             city: topData[4],
@@ -207,20 +198,25 @@ const AddProperty = props => {
             { type: 'facilities', val: JSON.stringify(bottomRightData) },
         ];
 
-        // const isFormValid = validateForm(addPropertyData);
-        // if(!isFormValid.formIsValid) return toastr.error(`Invalid ${isFormValid.invalids.join(', ')}`);
+        const isFormValid = validateForm(addPropertyData);
+        if(!isFormValid.formIsValid) return toastr.error(`Invalid ${isFormValid.invalids.join(', ')}`);
 
-        //  setLoadingButton(true);
-        //  const res = await createProperty(addPropertyData);
-        //  setLoadingButton(false);
+        const requestData = new FormData();
 
-        //  // ====================== RESPONSE ======================
-        //  if(res.status === 1) {
-        //     toastr.success('Follow the email instructions to validate your account', 'Your account is now created!');
-            
-        //     // setRedirectTo(undefined);
-        //     props.closeModal();
-        //  } else return toastr.error(res.message);
+        requestData.append('data', JSON.stringify(addPropertyData));
+
+        files.map(file => requestData.append('image', file, file.name))
+
+        setLoadingButton(true);
+        const res = await createProperty(requestData);
+        setLoadingButton(false);
+
+        // ====================== RESPONSE ======================
+        if(res.status === 1) {
+            toastr.success('Property created successfully!');
+            // history.push('profile');
+            // setRedirectTo(undefined);
+        } else return toastr.error(res.message);
     } 
     
     return (

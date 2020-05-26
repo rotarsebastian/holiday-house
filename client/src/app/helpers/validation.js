@@ -61,6 +61,8 @@ export const validateInputValue = (type, value) => {
             return typeof value === 'string' && isJSON(value)
         case 'facilities':
             return typeof value === 'string' && isJSON(value)
+        case 'coordinates':
+            return typeof value === 'string' && isJSON(value)
         case 'photos':
             return typeof value === 'string' && isJSON(value)
         case 'country':
