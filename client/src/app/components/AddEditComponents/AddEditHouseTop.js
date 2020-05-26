@@ -149,13 +149,22 @@ const CountryTextField = withStyles({
    },
 })(TextField);
 
-const AddEditHouseTop = () => {
+const AddEditHouseTop = props => {
 
-   const [country, setCountry] = useState('');
+   const setNewData = (e, type) => {
+      const newData = [ ...props.data ];
 
-   const handleChange = e => {
-      setCountry(e.target.value);
+      if(type === 'title') newData[0] = e.target.value;
+      if(type === 'description') newData[1] = e.target.value;
+      if(type === 'address') newData[2] = e.target.value;
+      if(type === 'postalcode') newData[3] = e.target.value;
+      if(type === 'city') newData[4] = e.target.value;
+      if(type === 'country') newData[5] = e.target.value;
+      
+      props.setData(newData);
    };
+
+
 
    return (
       <React.Fragment>
@@ -169,8 +178,9 @@ const AddEditHouseTop = () => {
                      required={true}
                      placeholder="Add a title" 
                      variant="outlined" 
-
-                     />
+                     value={props.data[0]}
+                     onChange={e => setNewData(e, 'title')}
+                  />
                </div>      
                <div>
                   <DescriptionTextField 
@@ -181,6 +191,8 @@ const AddEditHouseTop = () => {
                      required={true}
                      placeholder="Tell us about your property!"
                      variant="outlined"
+                     value={props.data[1]}
+                     onChange={e => setNewData(e, 'description')}
                   />
                </div>  
                <div>
@@ -191,6 +203,8 @@ const AddEditHouseTop = () => {
                      required={true}
                      placeholder="Where is it?" 
                      variant="outlined" 
+                     value={props.data[2]}
+                     onChange={e => setNewData(e, 'address')}
                   />
                </div>      
                <div>
@@ -201,16 +215,20 @@ const AddEditHouseTop = () => {
                      required={true}
                      placeholder="eg. 2100, 2300" 
                      variant="outlined" 
+                     value={props.data[3]}
+                     onChange={e => setNewData(e, 'postalcode')}
                   />
                </div>      
                <div className={classes.CityCountryContainer}>
                   <CityTextField 
                      id="outlined-required-city" 
-                     label="Address" 
+                     label="City" 
                      type="text" 
                      required={true}
                      placeholder="Where is it?" 
                      variant="outlined" 
+                     value={props.data[4]}
+                     onChange={e => setNewData(e, 'city')}
                   />
 
                   <CountryTextField 
@@ -218,23 +236,15 @@ const AddEditHouseTop = () => {
                      select
                      label="Country" 
                      required={true}
-                     // SelectProps={{
-                     //    IconComponent: () => <KeyboardArrowDown />,
-                     // }}
-                     value={country}
-                     onChange={handleChange}
+                     value={props.data[5]}
+                     onChange={e => setNewData(e, 'country')}
                      variant="outlined" 
-                     // InputProps={{
-                     //    endAdornment: icon
-                     // }}
                   >
-
                      { countries.map(country => (
                         <MenuItem key={country} value={country}>
                            { country } 
                         </MenuItem>
                      ))} 
-
                   </CountryTextField>
                </div>      
             </div>
