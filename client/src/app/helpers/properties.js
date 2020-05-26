@@ -122,18 +122,17 @@ export const citySearch = async(city) => {
     }
 };
 
-export const createProperty = async() => {
+export const createProperty = async(addPropertyData) => {
     try {
         const options = {
             method: 'POST',
             credentials: 'include',
             headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Accept': '*/*',
             },
-            body: JSON.stringify({})
+            body: addPropertyData
         };
-        const response = await fetch(endpoint + '/', options);
+        const response = await fetch(endpoint, options);
         const data = await response.json();
         return data;
     }
