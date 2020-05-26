@@ -185,24 +185,50 @@ const BathroomsTextField = withStyles({
 })(TextField);
 
 
-const AddEditHouseBottomLeft = () => {
+const AddEditHouseBottomLeft = props => {
    
-   const [ from, setFrom ] = useState(moment().format('yyyy-MM-DD'));
-   const [ to, setTo ] = useState(moment().format('yyyy-MM-DD'));
-   const [ types, setTypes ] = useState('');
+   // ====================== DATES ======================
+   // const [ from, setFrom ] = useState(props.data[0]);
+   // const [ to, setTo ] = useState(props.data[1]);
+   const [ minDateTo, setMinDateTo ] = useState(moment().add(1, 'days').format('yyyy-MM-DD'));
    
-   const changeDate = (newDate, label) => {
+   // ====================== OTHERS ======================
+   const [ option, setTypeOptions ] = useState('');
+   
+   const changeDate = (newDate, newLabel) => {
       const date = moment(newDate).format('yyyy-MM-DD');
-   
-      if (label === "Available from") setFrom(date);
-      else setTo(date);
+
+      if (newLabel === "Available from") {
+         const newData = [ ...props.data ];
+         newData[0] = date;
+
+         if(moment(newData[1]).isBefore(date, 'day')) newData[1]= moment(date).add(1, 'days').format('yyyy-MM-DD');
+
+         props.setData(newData)
+
+         setMinDateTo(moment(date).add(1, 'days').format('yyyy-MM-DD'));
+      } else {
+         const newData = [ ...props.data ];
+         newData[1] = date;
+         props.setData(newData);
+      }
    };
 
-   const typesChange = e => {
-      setTypes(e.target.value);
+   const setNewData = (e, type) => {
+      const newData = [ ...props.data ];
+
+      if(type === 'price') newData[2] = e.target.value;
+      if(type === 'type') newData[3] = e.target.value;
+      if(type === 'capacity') newData[4] = e.target.value;
+      if(type === 'rooms') newData[5] = e.target.value;
+      if(type === 'beds') newData[6] = e.target.value;
+      if(type === 'bathrooms') newData[7] = e.target.value;
+
+      props.setData(newData);
    };
 
-   const typesOptions = ["Entire place", "Private room", "Shared room"]
+
+   const typesOptions = ["Entire place", "Private room", "Shared room"];
       
    return (
       <React.Fragment>
@@ -212,40 +238,35 @@ const AddEditHouseBottomLeft = () => {
                   <Datepicker 
                      newLabel="Available from" 
                      handleChange={changeDate}
-                     date={from}
+                     date={props.data[0]}
+                     minDate={moment().format('yyyy-MM-DD')}
                   />
                   <Datepicker 
                      newLabel="Available until"
                      handleChange={changeDate}
-                     date={to}
+                     date={props.data[1]}
+                     minDate={minDateTo}
                   />
                </div>  
                <div className={classes.LeftSelectContainer}> 
                   <PriceTextField 
-                  id="outlined-select"
-                  label="Price per night" 
-                  type="number"
-                  required={true}
-                  // value={country}
-                  // onChange={handleChange}
-                  variant="outlined" 
-                  >
+                     id="outlined-select"
+                     label="Price per night" 
+                     type="number"
+                     required={true}
+                     variant="outlined" 
+                     value={props.data[2]}
+                     onChange={e => setNewData(e, 'price')}
+                  />
 
-                  {/* {countries.map(country => (
-                     <MenuItem key={country} value={country}>
-                     {country}
-                     </MenuItem>
-                  ))}  */}
-                  </PriceTextField>
                   <TypeTextField 
-                  id="outlined-select"
-                  select
-                  label="Type of rental" 
-                  required={true}
-                  // value={country}
-                  // onChange={handleChange}
-                  variant="outlined" 
-                  onChange={typesChange}
+                     id="outlined-select"
+                     select
+                     label="Type of rental" 
+                     required={true}
+                     value={props.data[3]}
+                     onChange={e => setNewData(e, 'type')}
+                     variant="outlined" 
                   >
 
                   {typesOptions.map(option => (
@@ -257,71 +278,45 @@ const AddEditHouseBottomLeft = () => {
                </div>  
                <div className={classes.LeftSelectContainer}> 
                   <CapacityTextField 
-                  id="outlined-select"
-                  type="number"
-                  label="Capacity" 
-                  required={true}
-                  // value={country}
-                  // onChange={handleChange}
-                  variant="outlined" 
-                  >
+                     id="outlined-select"
+                     type="number"
+                     label="Capacity" 
+                     required={true}
+                     variant="outlined" 
+                     value={props.data[4]}
+                     onChange={e => setNewData(e, 'capacity')}
+                  />
 
-                  {/* {countries.map(country => (
-                     <MenuItem key={country} value={country}>
-                     {country}
-                     </MenuItem>
-                  ))}  */}
-                  </CapacityTextField>
                   <RoomsTextField 
-                  id="outlined-select"
-                  type="number"
-                  label="Rooms" 
-                  required={true}
-                  // value={country}
-                  // onChange={handleChange}
-                  variant="outlined" 
-                  >
-
-                  {/* {countries.map(country => (
-                     <MenuItem key={country} value={country}>
-                     {country}
-                     </MenuItem>
-                  ))}  */}
-                  </RoomsTextField>
+                     id="outlined-select"
+                     type="number"
+                     label="Rooms" 
+                     required={true}
+                     variant="outlined" 
+                     value={props.data[5]}
+                     onChange={e => setNewData(e, 'rooms')}
+                  />
                </div>   
                <div className={classes.LeftSelectContainer}> 
                   <BedsTextField 
-                  id="outlined-select"
-                  type="number"
-                  label="Beds" 
-                  required={true}
-                  // value={country}
-                  // onChange={handleChange}
-                  variant="outlined" 
-                  >
+                     id="outlined-select"
+                     type="number"
+                     label="Beds" 
+                     required={true}
+                     variant="outlined" 
+                     value={props.data[6]}
+                     onChange={e => setNewData(e, 'beds')}
+                  />
 
-                  {/* {countries.map(country => (
-                     <MenuItem key={country} value={country}>
-                     {country}
-                     </MenuItem>
-                  ))}  */}
-                  </BedsTextField>
                   <BathroomsTextField 
-                  id="outlined-select"
-                  type="number"
-                  label="Bathrooms" 
-                  required={true}
-                  // value={country}
-                  // onChange={handleChange}
-                  variant="outlined" 
-                  >
-
-                  {/* {countries.map(country => (
-                     <MenuItem key={country} value={country}>
-                     {country}
-                     </MenuItem>
-                  ))}  */}
-                  </BathroomsTextField>
+                     id="outlined-select"
+                     type="number"
+                     label="Bathrooms" 
+                     required={true}
+                     variant="outlined" 
+                     value={props.data[7]}
+                     onChange={e => setNewData(e, 'bathrooms')}
+                  />
                </div>          
             </div>
          </div>
