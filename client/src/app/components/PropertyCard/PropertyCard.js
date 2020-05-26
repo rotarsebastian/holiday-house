@@ -33,12 +33,20 @@ const PropertyCard = props => {
         // history.push('/')
     }
 
+    const mouseEnterCard = () => {
+        if(props.mouseOver) props.mouseOver(id)
+    }
+
+    const mouseLeaveCard = () => {
+        if(props.mouseLeave) props.mouseLeave(id, 'stop')
+    }
+
     const { id, photos, title, type, price, capacity, rooms, beds, bathrooms } = props.property;
 
     const highlighted = props.highlighted === id ? ` ${classes.Highlighted}` : '';
 
     return (
-        <div className={classes.CardContainer + homeClass + highlighted} onClick={() => props.click(id)} onMouseEnter={() => props.mouseOver(id)} onMouseLeave={() => props.mouseLeave(id, 'stop')}>
+        <div className={classes.CardContainer + homeClass + highlighted} onClick={() => props.click(id)} onMouseEnter={mouseEnterCard} onMouseLeave={mouseLeaveCard}>
             <div className={classes.PropertyImageContainer}>
                 <img src={'https://holidayhouse1.s3.amazonaws.com/' + photos[0] } className={classes.PropertyImage} alt={photos[0]} onLoad={setImgLoaded} />
             </div>

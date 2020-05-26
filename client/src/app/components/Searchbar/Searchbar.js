@@ -231,6 +231,12 @@ const SearchbarComponents = props => {
       } else setTypes([ ...types, type ]);
    }
 
+   const handleClickSearchButton = () => {
+      setDisabled(true);
+      setTimeout(() => setDisabled(false), 500);
+      props.clickSearch(city, from, to, guests, minPrice, maxPrice, types)
+   }
+
    const changeBorder = searchResults.length > 0 ? ' ChangeBorder' : '';
 
    let animation = '';
@@ -298,7 +304,7 @@ const SearchbarComponents = props => {
                      <SearchButton 
                         variant="contained" 
                         disabled={isDisabled}
-                        onClick={() => props.clickSearch(city, from, to, guests, minPrice, maxPrice, types)}
+                        onClick={handleClickSearchButton}
                      >
                      <FontAwesomeIcon icon={faSearch} />
                      Search
