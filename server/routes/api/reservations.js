@@ -6,6 +6,7 @@ const User = require(__dirname + '/../../models/User');
 const Reservation = require(__dirname + '/../../models/Reservation');
 const Property = require(__dirname + '/../../models/Property');
 const moment = require('moment');
+const { ref } = require('objection');
 
 // ====================== GET USER RESERVATION ======================
 router.get('/:id', isAuthenticated, async(req, res) => {
@@ -15,18 +16,18 @@ router.get('/:id', isAuthenticated, async(req, res) => {
         if(!id) return res.json({ status: 0, message: 'Missing id!', code: 404 });
 
         // ====================== GET THE RESERVATION ======================
-        const reservation = await Reservation.query().select('id', 'from_date', 'to_date', 'persons_count', 'property_id', 'reserved_by').where({ id });
-        const property = await Property.query().select('id', 'title', 'photos').where({ id: reservation[0].property_id });
+        const reservation = await Property.query()
+            .select('properties.photos', 'properties.price', 'properties.type', 'properties.title', 'reservations.*')
+            .join('reservations', 'properties.id', 'reservations.property_id')
+            .where('reservations.id', id)
+
         if(reservation.length === 0) return res.json({ status: 0, message: 'Reservation does not exists!', code: 404 });
 
         // ====================== CHECK IF IT IS THE RIGHT USER ======================
         if(reservation[0].reserved_by !== req.session.user.id) return res.json({ status: 0, message: 'Unauthorized!', code: 404 });
-        
-        // ====================== CONSTRUCT DATA ======================
-        const reservationObj = { ...reservation[0], property_title: property[0].title, property_photos: property[0].photos };
 
         // ====================== EVERYTHING OK ======================s
-        return res.json({ status: 1, message: 'Reservation retrieved successfully!', data: reservationObj });
+        return res.json({ status: 1, message: 'Reservation retrieved successfully!', data: reservation });
 
     } catch (err) {
         return res.json({ status: 0, message: 'Error getting reservation!'});
@@ -42,17 +43,13 @@ router.get('/', isAuthenticated, async(req, res) => {
 
         if(!Number.isInteger(Number(offset))) return res.json({ status: 0, message: 'Offset should be a number', code: 404 });
 
-        // ====================== GET THE RESERVATIONS ======================
-        const user = User.query().where({ id: req.session.user.id });
-        const reservations = await User.relatedQuery('reservations')
-            .for(user)
-            .select('id', 'from_date', 'to_date', 'persons_count', 'property_id')
-            .orderBy('from_date')
-            .limit(10)
-            .offset(offset)
-
-        // ====================== EVERYTHING OK ======================s
-        return res.json({ status: 1, message: 'Reservation retrieved successfully!', data: reservations });
+        const reservations = await Property.query()
+            .select('properties.photos', 'properties.price', 'properties.type', 'properties.title', 'reservations.*')
+            .join('reservations', 'properties.id', 'reservations.property_id')
+            .where('reservations.reserved_by', req.session.user.id)
+ 
+        // ====================== EVERYTHING OK ======================
+        return res.json({ status: 1, message: 'Reservations retrieved successfully!', data: reservations });
 
     } catch (err) {
         return res.json({ status: 0, message: 'Error getting reservations!'});

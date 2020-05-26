@@ -45,6 +45,8 @@ const validateInput = (type, value) => {
             return Number.isInteger(value);
         case 'address':
             return typeof value === 'string' && isJSON(value)
+        case 'coordinates':
+            return typeof value === 'string' && isJSON(value)
         case 'facilities':
             return typeof value === 'string' && isJSON(value)
         case 'photos':
@@ -90,7 +92,9 @@ const validateFormType = (validFormElements, type) => {
   
         // ====================== PROPERTY VALIDATION ======================
         case 'addProperty':
-            return JSON.stringify(validFormElements) === JSON.stringify([ 'title', 'description', 'available_start', 'available_end', 'price', 'capacity', 'type', 'rooms', 'beds', 'bathrooms', 'property_address', 'city', 'country', 'postal_code', 'facilities' ]);
+            return JSON.stringify(validFormElements) === JSON.stringify(
+                [ 'title', 'description', 'available_start', 'available_end', 'price', 'capacity', 'type', 'rooms', 'beds', 
+                  'bathrooms', 'coordinates', 'property_address', 'city', 'country', 'postal_code', 'facilities' ]);
         
         // ====================== RESERVATION VALIDATION ======================
         case 'addReservation':

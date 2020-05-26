@@ -7,6 +7,7 @@ import './PropertiesResults.css';
 import { getProperties }  from './../../helpers/properties';
 import Searchbar from '../../components/Searchbar/Searchbar';
 import PropertyCard from './../../components/PropertyCard/PropertyCard';
+import { useStore } from 'react-context-hook';
 // import toastr from 'toastr';
 
 const PropertiesResults = props => {
@@ -15,16 +16,21 @@ const PropertiesResults = props => {
     const location = useLocation();
     
     const [ properties, setProperties ] = useState(undefined);    
+    const [ newProperties, setNewProperties ] = useState(undefined);    
+    const [ showPage, setShowPage ] = useState('0');    
     // const [ offset, setOffset ] = useState(0);    
 
-    const [ map, setMap ] = useState(null);    
+    const [ map, setMap ] = useState(undefined);    
     const [ lng, setLng ] = useState(9.8694);    
     const [ lat, setLat ] = useState(52.3082);    
     const [ zoom, setZoom ] = useState(3.5);    
     const [ currentMarkers ] = useState([]);    
     const [ isLoading, setIsLoading ] = useState(true);
     const [ populateSearch, setPopulateSearch ] = useState(undefined);
+    const [ highlightProperty, setHighlightProperty ] = useState(undefined);
+
     const mapContainer = useRef(null);
+    const [ countLoadedProperties, setCountLoadedProperties ] = useStore('countLoadedProperties');
 
     useEffect(() => {
         const fetchProperties = async() => {
@@ -42,16 +48,18 @@ const PropertiesResults = props => {
             if(res.status !== 1) {
                 history.push('/');
             }
-            else setProperties(res.properties);
-
-            const popSearchObj = { city, from, to, guests, maxPrice, minPrice, types };
-            setPopulateSearch(popSearchObj);
+            else {
+                const popSearchObj = { city, from, to, guests, maxPrice, minPrice, types };
+                setPopulateSearch(popSearchObj);
+                setProperties(res.properties);
+                setNewProperties(res.properties.length)
+            }
         }
 
         // ===================== FOR DEVELOPMENT =====================
         mapboxgl.accessToken = process.env.MAP_KEY || ak('map');
 
-        const initializeMap = ({ setMap, mapContainer }) => {
+        const initializeMap = () => {
             const map = new mapboxgl.Map({
                 container: mapContainer.current,
                 style: 'mapbox://styles/mapbox/streets-v11',
@@ -89,7 +97,7 @@ const PropertiesResults = props => {
         };
 
         if(properties === undefined) fetchProperties();
-        if (!map && properties) initializeMap({ setMap, mapContainer });
+        if (!map && properties) initializeMap();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [map, lat, lng, zoom, currentMarkers, location, properties, history]);
@@ -103,7 +111,7 @@ const PropertiesResults = props => {
             const markerHTML = document.createElement('div');
             const markerDIV = document.createElement('div');
             markerHTML.className = 'marker';
-            markerDIV.className = 'markerContainer';
+            markerDIV.className = `markerContainer marker-${property.id}`;
             markerDIV.textContent = `${property.price} kr`;
             markerHTML.appendChild(markerDIV);
 
@@ -111,6 +119,9 @@ const PropertiesResults = props => {
                 clearActiveMarker();
                 setTimeout(() => e.target.classList.add('active', 'visited'), 100);
             });
+
+            markerHTML.addEventListener('mouseenter', () => setHighlightProperty(property.id));
+            markerHTML.addEventListener('mouseleave', () => setHighlightProperty(undefined));
 
             let popup = new mapboxgl.Popup({ closeButton: false, offset: 20 });
 
@@ -122,8 +133,13 @@ const PropertiesResults = props => {
                 currentMarkers.push(oneMarker);
 
             popup.on('close', () => clearActiveMarker());
+
+            popup._content.children[0].addEventListener('click', () => openPropertyPage(property.id))
+
         });
     }
+
+    const openPropertyPage = id => history.push(`/property/${id}?from=${populateSearch.from}&to=${populateSearch.to}&guests=${populateSearch.guests}`);
 
     const clearActiveMarker = () => {
         Array.from(mapContainer.current.querySelectorAll('.markerContainer')).find(e => e.classList.contains('active') ? e.classList.remove('active') : false);
@@ -158,8 +174,6 @@ const PropertiesResults = props => {
         popUpContainer.appendChild(popUpImage);
         popUpContainer.appendChild(popUpBottomContainer);
 
-        popUpContainer.addEventListener('click', () => console.log('message'));
-
         return popUpContainer.outerHTML;
     }
 
@@ -170,35 +184,60 @@ const PropertiesResults = props => {
         const parsedTypes = types.map(type => `types[]=${encodeURIComponent(type)}`);
         
         let result; 
-        if(types.length > 0 ) result = await getProperties(from, to, guests, city, 0, minPrice, maxPrice, parsedTypes);
-            else result = await getProperties(from, to, guests, city, 0, minPrice, maxPrice);
+        let queryString = `?from=${from}&to=${to}&guests=${guests}&city=${city}&minprice=${minPrice}&maxprice=${maxPrice}`; 
+
+        if(types.length > 0 ) { 
+            result = await getProperties(from, to, guests, city, 0, minPrice, maxPrice, parsedTypes);
+            parsedTypes.map(type => queryString += `&${type}`);
+        } else result = await getProperties(from, to, guests, city, 0, minPrice, maxPrice);
+
+        const popSearchObj = { city, from, to, guests, maxPrice, minPrice, types };
+
+        const newProperties = result.properties.filter(prop => properties.findIndex(p => p.id === prop.id) === -1).length;
         
+        setNewProperties(newProperties);
         setProperties(result.properties);
+        setShowPage('0');
         hideMarkers();
         addMarkers(map, result.properties);
+        setPopulateSearch(popSearchObj);
+
+        history.replace(`/propertiesresults${queryString}`);
     }
 
-    const openPropertyPage = id => {
-        console.log(id);
+    const toggleHighlightMarker = (id, stop) => {
+        if(stop) mapContainer.current.querySelector(`.markerContainer.marker-${id}`).classList.remove('active');
+        else mapContainer.current.querySelector(`.markerContainer.marker-${id}`).classList.add('active');
     }
 
-    const showMap = isLoading ? '0' : '1';
+    if(showPage !== '1' && properties && countLoadedProperties === newProperties) {
+        setTimeout(() => setCountLoadedProperties(0), 500); 
+        setShowPage('1');
+    } 
 
     return (
         <React.Fragment>
-            <div className="loading"><ClipLoader size={50} color={'#E4215B'} loading={isLoading}/></div>
+            <div className="loading"><ClipLoader size={50} color={'#E4215B'} loading={showPage === '1' ? false : true}/></div>
 
-            <div className="PropertiesResults" style={{ opacity: showMap }}>
+            <div className="PropertiesResults" style={{ opacity: showPage }}>
                 <Searchbar clickSearch={handleSearch} withFilters={true} populateSearch={populateSearch} />
                 <div className="MapResultsContainer">
                     <div className="PropertiesList">
-                        {   !isLoading 
+                        {   !isLoading
                                 ?
                                 properties.map(property => {
                                     return (
-                                        <div key={property.id} className="PropertyCard">
-                                            <PropertyCard property={property} click={openPropertyPage} />
-                                        </div>
+                                        <React.Fragment key={property.id}>                                            
+                                            <div style={{ opacity: showPage }} className="PropertyCard">
+                                                <PropertyCard 
+                                                    highlighted={highlightProperty} 
+                                                    property={property} 
+                                                    click={openPropertyPage} 
+                                                    mouseOver={toggleHighlightMarker} 
+                                                    mouseLeave={toggleHighlightMarker}  
+                                                />
+                                            </div>
+                                        </React.Fragment>
                                     )
                                 })
                                 :

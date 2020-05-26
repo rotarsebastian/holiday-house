@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import classes from './PropertyDetails.module.css'
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
@@ -7,7 +7,7 @@ import { faTags, faCoins } from '@fortawesome/free-solid-svg-icons';
 import { useSetAndDelete } from 'react-context-hook';
 // import { createReservation }  from './../../helpers/reservations';
 import { useStoreValue } from 'react-context-hook';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import moment from 'moment';
 
 const OrderButton = withStyles({
@@ -39,22 +39,38 @@ const OrderButton = withStyles({
 const PropertyDetails = props => {
 
     const history = useHistory();
+    const location = useLocation();
  
     const [setShowModal] = useSetAndDelete('showModal');
     const user_data = useStoreValue('user');
+    
+    const [ from, setFrom ] = useState(undefined);
+    const [ to, setTo ] = useState(undefined);
+    const [ guests, setGuests ] = useState(undefined);
 
-    const { id, title, price, capacity, type, rooms, beds, bathrooms, address, first_name, last_name, user_id } = props.property;
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search);
+
+        const from_url = searchParams.get('from'); 
+        const to_url = searchParams.get('to'); 
+        const guests_url = searchParams.get('guests'); 
+
+        if(from_url) setFrom(from_url);
+        if(to_url) setTo(to_url);
+        if(guests_url) setGuests(guests_url);
+
+    }, [location]); 
 
     const capitalize = text => text.charAt(0).toUpperCase() + text.slice(1);
+    
+    const { id, title, price, capacity, type, rooms, beds, bathrooms, address, first_name, last_name, user_id } = props.property;
 
     const handleCreateBooking = async(id) => {
-        const { from } = props.from;
-
         if(user_data) {
-            if(from && from === 'Home') {
-                history.push(`/propertiesresults?from=${moment().format('yyyy-MM-DD')}&to=${moment().add(1, 'days').format('yyyy-MM-DD')}&guests=1&city=${encodeURIComponent(address.city)}`);
+            if(from && to && guests) {
+                console.log(from, to, guests, 'MAKE RESERVATION');
             } else {
-                // CHECK IF IT IS FROM PROPERTIESRESULTS & MAKE RESERVATION
+                history.push(`/propertiesresults?from=${moment().format('yyyy-MM-DD')}&to=${moment().add(1, 'days').format('yyyy-MM-DD')}&guests=1&city=${encodeURIComponent(address.city)}`);
             }
         } else setShowModal('Log in');
     }

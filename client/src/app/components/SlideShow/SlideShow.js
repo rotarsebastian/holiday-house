@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./SlideShow.css";
 import { Fade } from 'react-slideshow-image';
+import { useStore } from 'react-context-hook';
 
 // const fadeImages = [
 //     './../../assets/img/LMM-Cover-Images-2.jpg',
@@ -17,6 +18,8 @@ const fadeProperties = {
 }
 
 const Slideshow = props => {
+
+  const [ countLoadedProperties, setCountLoadedProperties ] = useStore('countLoadedProperties');
 
   const [ imgPath ] = useState('https://holidayhouse1.s3.amazonaws.com/');
   const { photos } = props;

@@ -124,6 +124,13 @@ exports.seed = knex => {
       property_id: 1
     },
     { 
+      from_date: '2021-07-11', 
+      to_date: '2021-08-11', 
+      persons_count: 3, 
+      reserved_by: 1,
+      property_id: 2
+    },
+    { 
       from_date: '2020-08-21', 
       to_date: '2020-08-29', 
       persons_count: 6, 

@@ -69,7 +69,7 @@ const Home = props => {
 
     }, [props.location.state, setRedirectTo, setShowModal, history, location, setChangeKey, recommendedProperties]); 
 
-    const showProperty = id => history.push(`/property/${id}`, { from: 'Home' } );
+    const showProperty = id => history.push(`/property/${id}`);
 
     const handleSearch = async(city, from, to, guests) => {
         const searchData = [ 
@@ -95,7 +95,7 @@ const Home = props => {
                     <h1>What is your next destination?</h1>
                     <div className="slideshowContainer">
                         { recommendedProperties.map((property, index) => {
-                            return <PropertyCard key={index} className="propertyCard" from={'Home'} property={property} click={showProperty} />
+                            return <PropertyCard key={index} className="propertyCard" property={property} from={'Home'} click={showProperty} />
                         })}                                   
                     </div>
                 </div>

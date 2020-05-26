@@ -10,3 +10,7 @@
   --radius: .9rem;
   --box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.14);
 }
+
+.Root {
+  padding: 7rem 5rem;
+}
