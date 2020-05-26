@@ -10,6 +10,7 @@ import toastr from 'toastr';
 import ClipLoader from 'react-spinners/ClipLoader';
 import { getRecommendedProperties }  from './../../helpers/properties';
 import { validateForm }  from './../../helpers/validation';
+import { useStore } from 'react-context-hook';
 
 const Home = props => {
 
@@ -21,6 +22,8 @@ const Home = props => {
     const [setChangeKey] = useSetAndDelete('changeKey');
 
     const [ recommendedProperties, setProperties ] = useState(undefined);
+
+    const [ countLoadedProperties, setCountLoadedProperties ] = useStore('countLoadedProperties');
 
     useEffect(() => {
 
@@ -84,6 +87,8 @@ const Home = props => {
 
         history.push(`/propertiesresults${queryString}`);
     }
+
+    setTimeout(() => setCountLoadedProperties(0), 500); 
 
     if(recommendedProperties === undefined) return <div className="loading"><ClipLoader size={50} color={'#e83251'} /></div>;
 
