@@ -24,6 +24,8 @@ const PropertiesResults = props => {
     const [ currentMarkers ] = useState([]);    
     const [ isLoading, setIsLoading ] = useState(true);
     const [ populateSearch, setPopulateSearch ] = useState(undefined);
+    const [ highlightProperty, setHighlightProperty ] = useState(undefined);
+
     const mapContainer = useRef(null);
 
     useEffect(() => {
@@ -104,7 +106,7 @@ const PropertiesResults = props => {
             const markerHTML = document.createElement('div');
             const markerDIV = document.createElement('div');
             markerHTML.className = 'marker';
-            markerDIV.className = 'markerContainer';
+            markerDIV.className = `markerContainer marker-${property.id}`;
             markerDIV.textContent = `${property.price} kr`;
             markerHTML.appendChild(markerDIV);
 
@@ -112,6 +114,9 @@ const PropertiesResults = props => {
                 clearActiveMarker();
                 setTimeout(() => e.target.classList.add('active', 'visited'), 100);
             });
+
+            markerHTML.addEventListener('mouseenter', () => setHighlightProperty(property.id));
+            markerHTML.addEventListener('mouseleave', () => setHighlightProperty(undefined));
 
             let popup = new mapboxgl.Popup({ closeButton: false, offset: 20 });
 
@@ -191,6 +196,11 @@ const PropertiesResults = props => {
         history.replace(`/propertiesresults${queryString}`);
     }
 
+    const toggleHighlightMarker = (id, stop) => {
+        if(stop) mapContainer.current.querySelector(`.markerContainer.marker-${id}`).classList.remove('active');
+        else mapContainer.current.querySelector(`.markerContainer.marker-${id}`).classList.add('active');
+    }
+
     const showMap = isLoading ? '0' : '1';
 
     return (
@@ -206,7 +216,7 @@ const PropertiesResults = props => {
                                 properties.map(property => {
                                     return (
                                         <div key={property.id} className="PropertyCard">
-                                            <PropertyCard property={property} click={openPropertyPage} />
+                                            <PropertyCard highlighted={highlightProperty} property={property} click={openPropertyPage} mouseOver={toggleHighlightMarker} mouseLeave={toggleHighlightMarker}  />
                                         </div>
                                     )
                                 })

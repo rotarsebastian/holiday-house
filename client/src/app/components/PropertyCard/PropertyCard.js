@@ -4,7 +4,7 @@ import { faTrashAlt} from '@fortawesome/free-solid-svg-icons';
 import classes from "./PropertyCard.module.css";
 import YesNoModal from '../YesNoModal/YesNoModal';
 
-const PropertyCard = (props) => {
+const PropertyCard = props => {
 
     const homeClass = props.from === 'Home' ? ` ${classes.Home}` : '';
     
@@ -31,8 +31,10 @@ const PropertyCard = (props) => {
 
     const { id, photos, title, type, price, capacity, rooms, beds, bathrooms } = props.property;
 
+    const highlighted = props.highlighted === id ? ` ${classes.Highlighted}` : '';
+
     return (
-        <div className={classes.CardContainer + homeClass} onClick={() => props.click(id)}>
+        <div className={classes.CardContainer + homeClass + highlighted} onClick={() => props.click(id)} onMouseEnter={() => props.mouseOver(id)} onMouseLeave={() => props.mouseLeave(id, 'stop')}>
             <div className={classes.PropertyImageContainer}>
                 <img src={'https://holidayhouse1.s3.amazonaws.com/' + photos[0] } className={classes.PropertyImage} alt={photos[0]}  />
             </div>

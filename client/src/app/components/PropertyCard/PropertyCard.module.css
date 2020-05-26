@@ -6,6 +6,12 @@
     border-radius: var(--radius);
     overflow: hidden;
     cursor: pointer;
+    transition: .3s;
+}
+
+.Highlighted {
+    box-shadow: 0 0 10px var(--grey);
+    transform: scale(1.02);
 }
 
 .Home {
