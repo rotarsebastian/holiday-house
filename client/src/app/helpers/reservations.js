@@ -26,8 +26,7 @@ export const getUserReservations = async(offset) => {
             headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({})
+          }
         };
         const response = await fetch(endpoint + '?offset=' + offset, options);
         const data = await response.json();

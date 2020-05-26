@@ -9,24 +9,22 @@ const PropertyCard = (props) => {
     const homeClass = props.from === 'Home' ? ` ${classes.Home}` : '';
     
     const [showDialog, setShowDialog] = useState(false);
-    // const [ showPage, setShowPage ] = useState(props.from);
 
-    const handleAnswer = (e, answer) => {
+    const handleAnswer = (e, answer, id) => {
         e.stopPropagation();
         console.log(answer)
+        if(answer === 'Yes') props.delete(id)
         setShowDialog(false)
     }
 
     const openModal = e => {
         e.stopPropagation();
         setShowDialog(true)
-        // setShowPage("Profile")
     }
 
     const goToEditProperty = e => {
         e.stopPropagation();
         console.log('go to edit page');
-        // history.push('/')
     }
 
     const { id, photos, title, type, price, capacity, rooms, beds, bathrooms } = props.property;
@@ -47,7 +45,13 @@ const PropertyCard = (props) => {
                         <span className={classes.Icon} onClick={e => openModal(e)}>
                             <FontAwesomeIcon icon={faTrashAlt} size="2x" /> 
                         </span>
-                        <YesNoModal sendAnswer={handleAnswer} open={showDialog} close={() => setShowDialog(!showDialog)} from={'Delete property'}/> 
+                        <YesNoModal 
+                            sendAnswer={handleAnswer} 
+                            id={id}
+                            open={showDialog} 
+                            close={() => setShowDialog(!showDialog)} 
+                            from={'Delete property'}  
+                        /> 
                     </React.Fragment>  
                     :
                     undefined
