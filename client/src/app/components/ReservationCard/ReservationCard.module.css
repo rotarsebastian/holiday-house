@@ -1,11 +1,12 @@
 .CardContainer {
     display: flex;
     width: 100%;
-    height: fit-content;
+    height: 13rem;
     box-shadow: var(--box-shadow);
     border-radius: var(--radius);
     overflow: hidden;
     cursor: pointer;
+    transition: .3s;
 }
 
 .Icon {  
@@ -54,20 +55,20 @@
 }
 
 .PropertyImageContainer {
-    width: 35rem;
-    height: 11rem;
-    background-color: #f02551;
+    width: 45%;
+    height: 100%;
 }
 
 .PropertyImage {
     display: block;
     width: 100%;
     height: 100%;
+    object-fit: cover;
 }
 
 .PropertyDetails {
     position: relative;
-    width: 100%;
+    width: 55%;
     margin: 1.5rem;
 }
 
@@ -76,6 +77,15 @@
     font-family: 'Quicksand Bold';
     padding: 1rem 0 .4rem 0;
 
+}
+.Price {
+    color: var(--black);
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-family: 'Quicksand Bold';
+    text-align: right;
+    padding: .8rem 0 0 0;
 }
 
 .Type {
@@ -86,5 +96,29 @@
 }
 .Datepicker {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+}
+ 
+.DatepickerContainer{
+    width: 45%;
+}
+
+.Button {
+    padding: .5rem 1rem;
+    color: #FFF;
+    background-color: var(--pink-color);
+    border-radius: .5rem;
+    font-family: 'Quicksand Bold';
+    outline: none;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: .3s;
+}
+
+.Button:hover {
+    background-color: #f02551;
+    transform: scale(1.04);
 }

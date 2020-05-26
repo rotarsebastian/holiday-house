@@ -59,7 +59,7 @@ const Datepicker = ({ newLabel, handleChange, page, date, minDate, disableDay })
    }
       
    return (
-      <div className='DatePickerContainer'>
+      <div className='DatePickerContainer reservationCardClass' >
          <MuiPickersUtilsProvider utils={DateFnsUtils}>
          { page && page === "Sign up" ? 
             <KeyboardDatePicker
