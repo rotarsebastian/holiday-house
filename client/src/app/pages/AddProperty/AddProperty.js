@@ -2,13 +2,17 @@ import React, { useRef, useEffect, useState } from 'react';
 import ak from '../../assets/config';
 import mapboxgl from 'mapbox-gl';
 import ClipLoader from 'react-spinners/ClipLoader';
-import Button from '@material-ui/core/Button'
+import Button from '@material-ui/core/Button';
 import DragAndDrop from '../../components/DragAndDrop/DragAndDrop';
 import './AddProperty.css';
+import { validateForm } from '../../helpers/validation';
 import AddEditHouseTop from '../../components/AddEditComponents/AddEditHouseTop'
-import AddEditHouseBottomLeft from '../../components/AddEditComponents/AddEditHouseBottomLeft'
-import AddEditHouseBottomRight from '../../components/AddEditComponents/AddEditHouseBottomRight'
-import {withStyles} from '@material-ui/core/styles'
+import AddEditHouseBottomLeft from '../../components/AddEditComponents/AddEditHouseBottomLeft';
+import AddEditHouseBottomRight from '../../components/AddEditComponents/AddEditHouseBottomRight';
+import {withStyles} from '@material-ui/core/styles';
+import moment from 'moment';
+import toastr from 'toastr';
+import { createProperty } from '../../helpers/properties';
 
 const AddPropertyButton = withStyles({
     root: {
@@ -56,7 +60,12 @@ const AddProperty = props => {
     const [ currentMarkerCoords, setCurrentMarkerCoords ] = useState([]);    
     const [ isLoading, setIsLoading ] = useState(true);
     const addPropertyMap = useRef(null);
+
+    // Property attributes
     const [files, setFiles] = useState([]);
+    const [topData, setTopData] = useState([ '', '', '', '', '', '' ]);
+    const [bottomLeftData, setBottomLeftData] = useState([ moment().format('yyyy-MM-DD'), moment().add(1, 'days').format('yyyy-MM-DD'), '', '', '', '', '', '' ]);
+    const [bottomRightData, setBottomRightData] = useState([]);
 
     useEffect(() => {
         // ===================== FOR DEVELOPMENT =====================
@@ -154,9 +163,65 @@ const AddProperty = props => {
 
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+    const [loadingButton, setLoadingButton] = useState(false);
+    
     const setNewFiles = files => setFiles(files);
+    const setData = data => setTopData(data);
+    const setLeftData = data => setBottomLeftData(data);
+    const setRightData = data => setBottomRightData(data);
 
     const showMap = isLoading ? '0' : '1';
+
+    const submitForm = async() => {
+
+    //     { "type": "capacity", "val": 5 },
+    //     { "type": "type", "val": "Summer house" },
+    //     { "type": "rooms", "val": 5 },
+    //     { "type": "beds", "val": 6 },
+    //     { "type": "bathrooms", "val": 2 },{ "type": "coordinates", "val": "[56.34, 61.12]" },
+    //     { "type": "address", "val": "[{\"property_address\":\"Mjolnerparken 108, 1. 3\",\"city\":\"Copenhagen\",\"country\":\"Denmark\",\"postal_code\":\"2300\"}]" },
+    //   { "type": "facilities", "val": "[\"WiFi\",\"Kitchen\",\"Parking\"]" }
+    //   ]
+
+        const addressObject = {
+            property_address: topData[2],
+            city: topData[4],
+            country: topData[5],
+            postal_code: topData[3],
+        }
+
+        // ====================== VALIDATION ======================
+        const addPropertyData = [
+            { type: 'title', val: topData[0] }, 
+            { type: 'description', val: topData[1] }, 
+            { type: 'available_start', val: bottomLeftData[0] }, 
+            { type: 'available_end', val: bottomLeftData[1] }, 
+            { type: 'price', val: parseInt(bottomLeftData[2]) }, 
+            { type: 'capacity', val: parseInt(bottomLeftData[4]) }, 
+            { type: 'type', val: bottomLeftData[3] }, 
+            { type: 'rooms', val: parseInt(bottomLeftData[5]) },
+            { type: 'beds', val: parseInt(bottomLeftData[6]) },
+            { type: 'bathrooms', val: parseInt(bottomLeftData[7]) },
+            { type: 'coordinates', val: JSON.stringify(currentMarkerCoords) }, 
+            { type: 'address', val: JSON.stringify([ addressObject ]) },
+            { type: 'facilities', val: JSON.stringify(bottomRightData) },
+        ];
+
+        // const isFormValid = validateForm(addPropertyData);
+        // if(!isFormValid.formIsValid) return toastr.error(`Invalid ${isFormValid.invalids.join(', ')}`);
+
+        //  setLoadingButton(true);
+        //  const res = await createProperty(addPropertyData);
+        //  setLoadingButton(false);
+
+        //  // ====================== RESPONSE ======================
+        //  if(res.status === 1) {
+        //     toastr.success('Follow the email instructions to validate your account', 'Your account is now created!');
+            
+        //     // setRedirectTo(undefined);
+        //     props.closeModal();
+        //  } else return toastr.error(res.message);
+    } 
     
     return (
         <React.Fragment>
@@ -164,17 +229,19 @@ const AddProperty = props => {
                 <h1 className="AddPropertyTitle">Rent your place in no time!</h1>
                 <div className="AddPropertyContainer" style={{ opacity: showMap }}>
                     <div className="FirstRow">
-                        <div><AddEditHouseTop /></div>
-                        
+                        <div>
+                            <AddEditHouseTop data={topData} setData={setData} />
+                        </div>
                         <div ref={addPropertyMap} className="addPropertyMap"><h3>Pick your address: *</h3></div>
                     </div>
-
                     <div className="SecondRow">
-
-                        <div><AddEditHouseBottomLeft /></div>
-                        <div className="Facilities"><AddEditHouseBottomRight /></div>
+                        <div>
+                            <AddEditHouseBottomLeft data={bottomLeftData} setData={setLeftData} />
+                        </div>
+                        <div className="Facilities">
+                            <AddEditHouseBottomRight data={bottomRightData} setData={setRightData} />
+                        </div>
                     </div>
-
                     <div className="ThirdRow">
                         <DragAndDrop files={files} setNewFiles={setNewFiles} />
                     </div>
@@ -182,10 +249,8 @@ const AddProperty = props => {
                     <div className="FourthRow">
                         <AddPropertyButton
                         variant="contained"
-
-                        >Add property</AddPropertyButton>
+                        onClick={submitForm}> {loadingButton ? <ClipLoader size={18} color={'#fff'} /> : 'Create property'}</AddPropertyButton>
                     </div>
-
                 </div>
         </React.Fragment>
     )
