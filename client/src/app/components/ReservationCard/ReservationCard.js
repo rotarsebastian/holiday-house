@@ -7,9 +7,13 @@ import Datepicker from '../Datepicker/Datepicker';
 import moment from 'moment';
 
 const PropertyCard = (props) => {
+    const { id, type, title, photos, price, from_date, to_date } = props.reservation;
+    const daysReserved = moment(to_date).diff(moment(from_date), 'days');
+    const totalPrice = price * daysReserved;
+
     const [ showDialog, setShowDialog ] = useState(false);
-    const [ from, setFrom ] = useState();
-    const [ to, setTo ] = useState();
+    const [ from, setFrom ] = useState(moment(from_date));
+    const [ to, setTo ] = useState(moment(to_date));
     const [ minDateTo, setMinDateTo ] = useState(moment().add(1, 'days').format('yyyy-MM-DD'));
 
     const handleAnswer = (e, answer, id) => {
@@ -34,17 +38,17 @@ const PropertyCard = (props) => {
         }
         else setTo(date);
      };
-    // const goToEditProperty = e => {
-    //     e.stopPropagation();
-    //     console.log('go to edit page');
-    // }
+    const saveChanges = e => {
+        e.stopPropagation();
+        console.log('saved');
+    }
 
-    const { id, type, title, from_date, to_date } = props.reservation;
+    
 
     return (
         <div className={classes.CardContainer}>
             <div className={classes.PropertyImageContainer}>
-                {/* <img src={'https://holidayhouse1.s3.amazonaws.com/' + photos[0] } className={classes.PropertyImage} alt={photos[0]}  /> */}
+                <img src={'https://holidayhouse1.s3.amazonaws.com/' + photos[0] } className={classes.PropertyImage} alt={photos[0]}  />
             </div>
 
             <div className={classes.PropertyDetails}>
@@ -65,24 +69,27 @@ const PropertyCard = (props) => {
 
             <div className={classes.PropertyTitle}>{title}</div>
             <div className={classes.Datepicker}>
-                <div>
+                <div className={classes.DatepickerContainer}>
                   <Datepicker 
                      newLabel="From" 
                      handleChange={changeDate}
                      minDate={moment().format('yyyy-MM-DD')}
                      date={from_date}
+                     from={'Reservation card'}
                    />
                </div>   
-               <div>
+               <div className={classes.DatepickerContainer}>
                   <Datepicker 
                      newLabel="To"
                      handleChange={changeDate}
                      minDate={minDateTo}
                      date={to_date}
+                     from={'Reservation card'}
                />
                </div> 
             </div>
-
+            <div className={classes.Price}>Total: {totalPrice} DKK</div>
+            <button className={classes.Button} onClick={e => saveChanges(e)}>Save</button>
                  
             </div>
         </div>

@@ -19,33 +19,21 @@ body.profile {
     justify-content: center;
 }
 
-.PropertyCard {
+.PropertyCard, .ReservationCard {
     margin: .5rem 1rem;
 }
 
-.MyPropertiesList {
-    width: fit-content;
-    height: 70vh;
+.MyPropertiesList, .MyReservationsList {
+    width: 55vw;
+    height: fit-content;
     overflow: hidden;
     overflow-y: scroll;
-    scroll-behavior: smooth; 
+    scroll-behavior: smooth;
 }
-.MyReservationsList {
-    width: fit-content;
-    height: 70vh;
-    overflow: hidden;
-    overflow-y: scroll;
-    scroll-behavior: smooth; 
-}
-.MyReservationsContainer {
+
+.MyReservationsContainer, .MyPropertiesContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 2rem;
-}
-.MyPropertiesContainer {
-    margin-top: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
