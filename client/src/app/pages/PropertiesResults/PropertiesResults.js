@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import ak from '../../assets/config';
+import ak from '../../assets/configFile';
 import mapboxgl from 'mapbox-gl';
 import ClipLoader from 'react-spinners/ClipLoader';
 import './PropertiesResults.css';

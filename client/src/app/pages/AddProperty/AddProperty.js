@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import ak from '../../assets/config';
+import ak from '../../assets/configFile';
 import mapboxgl from 'mapbox-gl';
 import ClipLoader from 'react-spinners/ClipLoader';
 import Button from '@material-ui/core/Button';
