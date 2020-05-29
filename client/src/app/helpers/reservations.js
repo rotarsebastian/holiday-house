@@ -57,7 +57,7 @@ export const deleteReservation = async(id) => {
     }
 };
 
-export const createReservation = async(id, from_date, to_date, persons_count) => {
+export const createReservation = async(id, reservationData) => {
     try {
         const options = {
             method: 'POST',
@@ -66,7 +66,7 @@ export const createReservation = async(id, from_date, to_date, persons_count) =>
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify([{ from_date }, { to_date }, { persons_count }])
+          body: JSON.stringify(reservationData)
         };
         const response = await fetch(endpoint + '/' + id, options);
         const data = await response.json();
@@ -77,7 +77,7 @@ export const createReservation = async(id, from_date, to_date, persons_count) =>
     }
 };
 
-export const editReservation = async(id, from_date, to_date, persons_count) => { 
+export const editReservation = async(id, editData) => { 
     try {
         const options = {
             method: 'PATCH',
@@ -86,7 +86,7 @@ export const editReservation = async(id, from_date, to_date, persons_count) => {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({from_date, to_date, persons_count})
+          body: JSON.stringify(editData)
         };
         const response = await fetch(endpoint + '/' + id, options);
         const data = await response.json();

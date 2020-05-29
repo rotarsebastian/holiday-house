@@ -13,6 +13,8 @@ import {withStyles} from '@material-ui/core/styles';
 import moment from 'moment';
 import toastr from 'toastr';
 import { createProperty } from '../../helpers/properties';
+import { editProperty, getOneProperty } from '../../helpers/properties';
+
 
 const AddPropertyButton = withStyles({
     root: {
@@ -72,8 +74,46 @@ const AddProperty = props => {
         // mapboxgl.accessToken = process.env.REACT_APP_MAP;
         mapboxgl.accessToken = ak('map');
 
-        const initializeMap = () => {
-            if ('geolocation' in navigator) { 
+        const populateForm = async(id) => {
+            const result = await getOneProperty(id);
+            if(result.status === 1) {
+                setTopData([
+                    capitalize(result.data.title), 
+                    capitalize(result.data.description), 
+                    capitalize(result.data.address.property_address),
+                    result.data.address.postal_code,
+                    capitalize(result.data.address.city),
+                    capitalize(result.data.address.country)
+                ])
+
+                setBottomLeftData([
+                    moment(result.data.available_start).format('yyyy-MM-DD'),
+                    moment(result.data.available_end).format('yyyy-MM-DD'),
+                    JSON.stringify(result.data.price),
+                    capitalize(result.data.type),
+                    JSON.stringify(result.data.capacity),
+                    JSON.stringify(result.data.rooms),
+                    JSON.stringify(result.data.beds),
+                    JSON.stringify(result.data.bathrooms)
+                ])
+
+                setLng(result.data.coordinates[0])
+                setLat(result.data.coordinates[1])
+
+                console.log(result.data)
+                const facilities = JSON.parse(result.data.facilities.facilities_list);
+                setBottomRightData(facilities);
+
+                return [result.data.coordinates[0], result.data.coordinates[1]]
+            }
+        }
+
+        const initPage = async() => {
+            if(props.from && props.from === 'Edit'){
+                const coords = await populateForm(props.match.params.id);
+                addMap(coords[0], coords[1]);
+            }
+            else if ('geolocation' in navigator) { 
                 navigator.geolocation.getCurrentPosition(position => addMap(position.coords.longitude, position.coords.latitude)) 
             } else addMap();
         };
@@ -122,7 +162,7 @@ const AddProperty = props => {
     
                 currentMarker.push(marker);
                 setCurrentMarkerCoords([ currentLng, currentLat ]);
-    
+
                 setMap(map);
                 map.resize();
                 setIsLoading(false);
@@ -151,7 +191,7 @@ const AddProperty = props => {
     
         const clearMarker = () => currentMarker.forEach(marker => marker.remove())
 
-        if (!map) initializeMap({ setMap, addPropertyMap });
+        if (!map) initPage();
 
         // return () => clearTimeout(timeout);
 
@@ -166,52 +206,62 @@ const AddProperty = props => {
 
     const showMap = isLoading ? '0' : '1';
 
+    const capitalize = text => text.charAt(0).toUpperCase() + text.slice(1);
+
     const submitForm = async() => {
 
-        const addressObject = {
-            property_address: topData[2],
-            city: topData[4],
-            country: topData[5],
-            postal_code: topData[3],
+        if(props.from && props.from === 'Edit'){
+            console.log('edit')
+        } else {
+            const addressObject = {
+                property_address: topData[2],
+                city: topData[4],
+                country: topData[5],
+                postal_code: topData[3],
+            }
+    
+            // ====================== VALIDATION ======================
+            const addPropertyData = [
+                { type: 'title', val: topData[0] }, 
+                { type: 'description', val: topData[1] }, 
+                { type: 'available_start', val: bottomLeftData[0] }, 
+                { type: 'available_end', val: bottomLeftData[1] }, 
+                { type: 'price', val: parseInt(bottomLeftData[2]) }, 
+                { type: 'capacity', val: parseInt(bottomLeftData[4]) }, 
+                { type: 'type', val: bottomLeftData[3] }, 
+                { type: 'rooms', val: parseInt(bottomLeftData[5]) },
+                { type: 'beds', val: parseInt(bottomLeftData[6]) },
+                { type: 'bathrooms', val: parseInt(bottomLeftData[7]) },
+                { type: 'coordinates', val: JSON.stringify(currentMarkerCoords) }, 
+                { type: 'address', val: JSON.stringify(addressObject) },
+                { type: 'facilities', val: JSON.stringify(bottomRightData) },
+            ];
+    
+            const isFormValid = validateForm(addPropertyData);
+            if(!isFormValid.formIsValid) return toastr.error(`Invalid ${isFormValid.invalids.join(', ')}`);
+    
+            const requestData = new FormData();
+    
+            requestData.append('data', JSON.stringify(addPropertyData));
+    
+            files.map(file => requestData.append('image', file, file.name))
+    
+            setLoadingButton(true);
+            const res = await createProperty(requestData);
+            setLoadingButton(false);
+    
+            // ====================== RESPONSE ======================
+            if(res.status === 1) {
+                toastr.success('Property created successfully!');
+                // history.push('profile');
+                // setRedirectTo(undefined);
+            } else return toastr.error(res.message);
         }
+    }
+    
+    const buttonName = props.from && props.from === 'Edit' ? 'Save Changes' : 'Add property';
 
-        // ====================== VALIDATION ======================
-        const addPropertyData = [
-            { type: 'title', val: topData[0] }, 
-            { type: 'description', val: topData[1] }, 
-            { type: 'available_start', val: bottomLeftData[0] }, 
-            { type: 'available_end', val: bottomLeftData[1] }, 
-            { type: 'price', val: parseInt(bottomLeftData[2]) }, 
-            { type: 'capacity', val: parseInt(bottomLeftData[4]) }, 
-            { type: 'type', val: bottomLeftData[3] }, 
-            { type: 'rooms', val: parseInt(bottomLeftData[5]) },
-            { type: 'beds', val: parseInt(bottomLeftData[6]) },
-            { type: 'bathrooms', val: parseInt(bottomLeftData[7]) },
-            { type: 'coordinates', val: JSON.stringify(currentMarkerCoords) }, 
-            { type: 'address', val: JSON.stringify(addressObject) },
-            { type: 'facilities', val: JSON.stringify(bottomRightData) },
-        ];
-
-        const isFormValid = validateForm(addPropertyData);
-        if(!isFormValid.formIsValid) return toastr.error(`Invalid ${isFormValid.invalids.join(', ')}`);
-
-        const requestData = new FormData();
-
-        requestData.append('data', JSON.stringify(addPropertyData));
-
-        files.map(file => requestData.append('image', file, file.name))
-
-        setLoadingButton(true);
-        const res = await createProperty(requestData);
-        setLoadingButton(false);
-
-        // ====================== RESPONSE ======================
-        if(res.status === 1) {
-            toastr.success('Property created successfully!');
-            // history.push('profile');
-            // setRedirectTo(undefined);
-        } else return toastr.error(res.message);
-    } 
+    console.log(bottomRightData)
     
     return (
         <React.Fragment>
@@ -222,15 +272,32 @@ const AddProperty = props => {
                         <div>
                             <AddEditHouseTop data={topData} setData={setData} />
                         </div>
-                        <div ref={addPropertyMap} className="addPropertyMap"><h3>Pick your address: *</h3></div>
+                        <div className="MapContainer">
+                            <h3>Pick your address: *</h3>
+                            <div ref={addPropertyMap} className="addPropertyMap"></div>
+                        </div>
                     </div>
                     <div className="SecondRow">
                         <div>
                             <AddEditHouseBottomLeft data={bottomLeftData} setData={setLeftData} />
                         </div>
+                        { bottomRightData.length > 0 
+                        ? 
+                        <div className="Facilities">
+                            <AddEditHouseBottomRight data={bottomRightData} setData={setRightData} populate={bottomRightData} />
+                        </div> 
+                        : 
+                        undefined
+                        }
+                        {!props.from 
+                        ? 
                         <div className="Facilities">
                             <AddEditHouseBottomRight data={bottomRightData} setData={setRightData} />
-                        </div>
+                        </div> 
+                        : 
+                        undefined
+                        }
+                        
                     </div>
                     <div className="ThirdRow">
                         <DragAndDrop files={files} setNewFiles={setNewFiles} />
@@ -239,7 +306,7 @@ const AddProperty = props => {
                     <div className="FourthRow">
                         <AddPropertyButton
                         variant="contained"
-                        onClick={submitForm}> {loadingButton ? <ClipLoader size={18} color={'#fff'} /> : 'Create property'}</AddPropertyButton>
+                        onClick={submitForm}> {loadingButton ? <ClipLoader size={18} color={'#fff'} /> : buttonName}</AddPropertyButton>
                     </div>
                 </div>
         </React.Fragment>

@@ -5,10 +5,11 @@ import { withStyles } from '@material-ui/core/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTags, faCoins } from '@fortawesome/free-solid-svg-icons';
 import { useSetAndDelete } from 'react-context-hook';
-// import { createReservation }  from './../../helpers/reservations';
+import { createReservation }  from './../../helpers/reservations';
 import { useStoreValue } from 'react-context-hook';
 import { useHistory, useLocation } from 'react-router-dom';
 import moment from 'moment';
+import toastr from 'toastr';
 
 const OrderButton = withStyles({
     root: {
@@ -63,16 +64,26 @@ const PropertyDetails = props => {
 
     const capitalize = text => text.charAt(0).toUpperCase() + text.slice(1);
     
-    const { id, title, price, capacity, type, rooms, beds, bathrooms, address, first_name, last_name, user_id } = props.property;
+    const { id, title, price, capacity, type, rooms, beds, bathrooms, address, first_name, last_name, user_id, available_start } = props.property;
 
     console.log(address)
 
     const handleCreateBooking = async(id) => {
         if(user_data) {
             if(from && to && guests) {
-                console.log(from, to, guests, 'MAKE RESERVATION');
+                const requestData = [
+                    { "type": "from_date", "val": from },
+                    { "type": "to_date", "val": to },
+                    { "type": "persons_count", "val": parseInt(guests) }
+                ];
+                const response = await createReservation(id, requestData);
+                if(response.status === 1){
+                    toastr.success('Reservation created successfully!');
+                    history.push('/profile');
+                } else toastr.error(response.message);
+    
             } else {
-                history.push(`/propertiesresults?from=${moment().format('yyyy-MM-DD')}&to=${moment().add(1, 'days').format('yyyy-MM-DD')}&guests=1&city=${encodeURIComponent(address.city)}`);
+                history.push(`/propertiesresults?from=${moment(available_start).format('yyyy-MM-DD')}&to=${moment(available_start).add(1, 'days').format('yyyy-MM-DD')}&guests=1&city=${encodeURIComponent(address.city)}`);
             }
         } else setShowModal('Log in');
     }

@@ -17,19 +17,22 @@ const StyledFormControlLabel = withStyles({
 
 const AddEditBottomRight = props => {
 
-   const [ facilities, setFacilities ] = useState([]);
+   const [ facilities, setFacilities ] = useState(props.populate !== undefined ? props.populate : []);
 
    const handleCheckboxes = facility => {
-      const facilityIndex = facilities.indexOf(facility);
+      const facilityObject = { name: facility, icon: facility.toLowerCase() };
+      const facilityIndex = facilities.findIndex(el => el.name === facility);;
       if (facilityIndex >= 0) {
          const newFacilities = [...facilities];
          newFacilities.splice(facilityIndex, 1);
          setFacilities(newFacilities);
          props.setData(newFacilities);
-      } else { setFacilities([ ...facilities, facility ])
-         props.setData([ ...facilities, facility ]);
+      } else { setFacilities([ ...facilities, facilityObject ])
+         props.setData([ ...facilities, facilityObject ]);
       }
    }
+
+   console.log(facilities)
 
    return (
       <React.Fragment>
@@ -41,28 +44,28 @@ const AddEditBottomRight = props => {
                      <div>
                         <StyledFormControlLabel
                         control={<Checkbox color="primary" name="Essentials" 
-                        checked={facilities.indexOf('Essentials') >= 0 ? true : false} onChange={() => handleCheckboxes('Essentials')}  />}
+                        checked={facilities.findIndex(el => el.name === 'Essentials') >= 0 ? true : false} onChange={() => handleCheckboxes('Essentials')}  />}
                         label="Essentials"
                         />
                      </div>
                      <div>
                         <StyledFormControlLabel
                         control={<Checkbox name="WiFi"
-                        checked={facilities.indexOf('WiFi') >= 0 ? true : false} onChange={() => handleCheckboxes('WiFi')} />}
+                        checked={facilities.findIndex(el => el.name === 'WiFi') >= 0 ? true : false} onChange={() => handleCheckboxes('WiFi')} />}
                         label="WiFi"
                         />
                      </div>
                      <div>
                         <StyledFormControlLabel
                         control={<Checkbox name="Heat"
-                        checked={facilities.indexOf('Heat') >= 0 ? true : false} onChange={() => handleCheckboxes('Heat')} />}
+                        checked={facilities.findIndex(el => el.name === 'Heat') >= 0 ? true : false} onChange={() => handleCheckboxes('Heat')} />}
                         label="Heat"
                         />
                      </div>
                      <div>
                         <StyledFormControlLabel
                         control={<Checkbox name="Air conditioning"
-                        checked={facilities.indexOf('Air conditioning') >= 0 ? true : false} onChange={() => handleCheckboxes('Air conditioning')} />}
+                        checked={facilities.findIndex(el => el.name === 'Air conditioning') >= 0 ? true : false} onChange={() => handleCheckboxes('Air conditioning')} />}
                         label="Air conditioning"
                         />
                      </div>
@@ -70,7 +73,7 @@ const AddEditBottomRight = props => {
                      <div>
                         <StyledFormControlLabel
                         control={<Checkbox name="Parking"
-                        checked={facilities.indexOf('Parking') >= 0 ? true : false} onChange={() => handleCheckboxes('Parking')} />}
+                        checked={facilities.findIndex(el => el.name === 'Parking') >= 0 ? true : false} onChange={() => handleCheckboxes('Parking')} />}
                         label="Parking"
                         />
                      </div>
@@ -80,35 +83,35 @@ const AddEditBottomRight = props => {
                      <div>
                         <StyledFormControlLabel
                         control={<Checkbox name="TV"
-                        checked={facilities.indexOf('TV') >= 0 ? true : false} onChange={() => handleCheckboxes('TV')} />}
+                        checked={facilities.findIndex(el => el.name === 'TV') >= 0 ? true : false} onChange={() => handleCheckboxes('TV')} />}
                         label="TV"
                         />
                      </div>
                      <div>
                         <StyledFormControlLabel
                         control={<Checkbox name="Kitchen"
-                        checked={facilities.indexOf('Kitchen') >= 0 ? true : false} onChange={() => handleCheckboxes('Kitchen')} />}
+                        checked={facilities.findIndex(el => el.name === 'Kitchen') >= 0 ? true : false} onChange={() => handleCheckboxes('Kitchen')} />}
                         label="Kitchen"
                         />
                      </div>
                      <div>
                         <StyledFormControlLabel
                         control={<Checkbox name="Workspace"
-                        checked={facilities.indexOf('Workspace') >= 0 ? true : false} onChange={() => handleCheckboxes('Workspace')} />}
+                        checked={facilities.findIndex(el => el.name === 'Workspace') >= 0 ? true : false} onChange={() => handleCheckboxes('Workspace')} />}
                         label="Workspace"
                         />
                      </div>
                      <div>
                         <StyledFormControlLabel
                         control={<Checkbox name="Closets"
-                        checked={facilities.indexOf('Closets') >= 0 ? true : false} onChange={() => handleCheckboxes('Closets')} />}
+                        checked={facilities.findIndex(el => el.name === 'Closets') >= 0 ? true : false} onChange={() => handleCheckboxes('Closets')} />}
                         label="Closet/Drawers"
                         />
                      </div>
                      <div>
                         <StyledFormControlLabel
                         control={<Checkbox name="Kid-friendly"
-                        checked={facilities.indexOf('Kid-friendly') >= 0 ? true : false} onChange={() => handleCheckboxes('Kid-friendly')} />}
+                        checked={facilities.findIndex(el => el.name === 'Kid-friendly') >= 0 ? true : false} onChange={() => handleCheckboxes('Kid-friendly')} />}
                         label="Kid-friendly"
                         />
                      </div>
@@ -117,35 +120,35 @@ const AddEditBottomRight = props => {
                      <div>
                         <StyledFormControlLabel
                         control={<Checkbox name="Shampoo"
-                        checked={facilities.indexOf('Shampoo') >= 0 ? true : false} onChange={() => handleCheckboxes('Shampoo')} />}
+                        checked={facilities.findIndex(el => el.name === 'Shampoo') >= 0 ? true : false} onChange={() => handleCheckboxes('Shampoo')} />}
                         label="Shampoo"
                         />
                      </div>
                      <div>
                         <StyledFormControlLabel
                         control={<Checkbox name="Iron"
-                        checked={facilities.indexOf('Iron') >= 0 ? true : false} onChange={() => handleCheckboxes('Iron')} />}
+                        checked={facilities.findIndex(el => el.name === 'Iron') >= 0 ? true : false} onChange={() => handleCheckboxes('Iron')} />}
                         label="Iron"
                         />
                      </div>
                      <div>
                         <StyledFormControlLabel
                         control={<Checkbox name="Fireplace"
-                        checked={facilities.indexOf('Fireplace') >= 0 ? true : false} onChange={() => handleCheckboxes('Fireplace')} />}
+                        checked={facilities.findIndex(el => el.name === 'Fireplace') >= 0 ? true : false} onChange={() => handleCheckboxes('Fireplace')} />}
                         label="Fireplace"
                         />
                      </div>
                      <div>
                         <StyledFormControlLabel
                         control={<Checkbox name="Hair dryer"
-                        checked={facilities.indexOf('Hair dryer') >= 0 ? true : false} onChange={() => handleCheckboxes('Hair dryer')} />}
+                        checked={facilities.findIndex(el => el.name === 'Hair dryer') >= 0 ? true : false} onChange={() => handleCheckboxes('Hair dryer')} />}
                         label="Hair dryer"
                         />
                      </div>
                      <div>
                         <StyledFormControlLabel
                         control={<Checkbox name="Breakfast"
-                        checked={facilities.indexOf('Breakfast') >= 0 ? true : false} onChange={() => handleCheckboxes('Breakfasts')} />}
+                        checked={facilities.findIndex(el => el.name === 'Breakfast') >= 0 ? true : false} onChange={() => handleCheckboxes('Breakfasts')} />}
                         label="Breakfast"
                         />
                      </div>

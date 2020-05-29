@@ -4,7 +4,7 @@ import ProfileCard from './../../components/ProfileCard/ProfileCard'
 import PropertyCard from './../../components/PropertyCard/PropertyCard'
 import ReservationCard from  './../../components/ReservationCard/ReservationCard'
 import { getUserProperties, deleteProperty }  from './../../helpers/properties';
-import { getUserReservations, deleteReservation} from './../../helpers/reservations'
+import { getUserReservations, deleteReservation, editReservation} from './../../helpers/reservations'
 import { useStoreValue } from 'react-context-hook';
 import { useHistory } from 'react-router-dom';
 
@@ -47,10 +47,11 @@ const Profile = props => {
             setProperties(newProperties);
         }  
     }
+    
     const handleDeleteReservation = async(id) => {
-        console.log(id);
-
+        
         const result = await deleteReservation(id);
+        console.log(id);
         if(result.status === 1) {
             const newReservations = [...reservations];
             const indexDeleted = newReservations.findIndex(reservation => reservation.id === id);
@@ -58,7 +59,31 @@ const Profile = props => {
             setReservations(newReservations);
         }  
     }
-    
+    const handleEditReservation = async(id, from, to) => {
+
+        const newReservations = [...reservations];
+        const updatedReservation = newReservations.findIndex(el => el.id === id);
+
+        const requestObject = [
+            { "type": "from_date", "val": from },
+            { "type": "to_date", "val": to },
+            { "type": "persons_count", "val": reservations[updatedReservation].persons_count }
+        ];
+
+        const result = await editReservation(id, requestObject);
+        console.log(result);
+        if(result.status === 1) {
+            if(updatedReservation >= 0) {
+                const newReservation = {...newReservations[updatedReservation]};
+                newReservation.from_date = from;
+                newReservation.to_date = to;
+                newReservations[updatedReservation] = newReservation;
+                console.log(newReservations);
+                setReservations(newReservations);
+            }
+        }
+    }
+
     return (
         <React.Fragment>
             <div className={classes.ProfileContainer}>
@@ -84,7 +109,7 @@ const Profile = props => {
                         { reservations.map(reservation => {
                             return (
                                 <div className={classes.ReservationCard} key={reservation.id}>
-                                    <ReservationCard reservation={reservation} click={openPropertyPage} delete={handleDeleteReservation} />
+                                    <ReservationCard reservation={reservation} click={openPropertyPage} delete={handleDeleteReservation} edit={handleEditReservation} />
                                 </div>
                             )
                         })}

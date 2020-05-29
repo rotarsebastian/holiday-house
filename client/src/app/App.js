@@ -56,7 +56,8 @@ const App = () => {
           <Switch>
             <Route exact path='/' component={props => <Home {...props} />} />
             <Route path='/propertiesresults' component={props => <PropertiesResults {...props} />} />
-            <PrivateRoute path='/addproperty' component={props => <AddProperty {...props} />} />
+            <PrivateRoute exact path='/handleproperty' component={props => <AddProperty {...props} />} />
+            <PrivateRoute exact path='/handleproperty/:id' component={props => <AddProperty from={'Edit'} {...props} />} />
             <PrivateRoute path='/profile' component={props => <Profile {...props}/>} />
             <Route path='/property/:id' component={props => <Property {...props} />} />
           </Switch>

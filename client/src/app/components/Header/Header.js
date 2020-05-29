@@ -47,7 +47,7 @@ const Header = props => {
                 </div>
                 
                 <div className={classes.NavbarRight}>
-                    <NavLink exact to="/addproperty" activeClassName={classes.active}>
+                    <NavLink exact to="/handleproperty" activeClassName={classes.active}>
                         <span className={classes.Button}>Host your home</span> 
                     </NavLink>
 

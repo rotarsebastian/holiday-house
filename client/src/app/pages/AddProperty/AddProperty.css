@@ -41,19 +41,13 @@
     outline: none;
 }
 
-.AddPropertyContainer .mapboxgl-ctrl-top-right {
-    margin-top: 1.75rem;
-}
-
 .AddPropertyContainer .FirstRow, .SecondRow {
     display: flex;
     justify-content: space-between;
 }
 
 .AddPropertyContainer .FirstRow .addPropertyMap {
-    width: 50%;
     height: 23.5rem;
-    margin-top: -0.6rem;
 }
 
 .AddPropertyContainer .FirstRow .addPropertyMap h3 {
@@ -76,4 +70,7 @@
 h1.AddPropertyTitle {
     color: #e4215b;
     padding-bottom: .4em;
+}
+.AddPropertyContainer .FirstRow .MapContainer {
+    width: 50%;
 }
