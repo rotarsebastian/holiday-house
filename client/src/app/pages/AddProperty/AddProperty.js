@@ -291,7 +291,7 @@ const AddProperty = props => {
                         <div>
                             <AddEditHouseBottomLeft data={bottomLeftData} setData={setLeftData} />
                         </div>
-                        { props.from && bottomRightData.length >= 0
+                        { props.from && bottomRightData.length > 0
                             ? 
                             <div className="Facilities">
                                 <AddEditHouseBottomRight data={bottomRightData} setData={setRightData} populate={bottomRightData} />
@@ -299,6 +299,15 @@ const AddProperty = props => {
                             : 
                             undefined
                         }
+
+                        { props.from && bottomRightData.length === 0
+                            ? 
+                            <div className="Facilities">
+                                <AddEditHouseBottomRight data={bottomRightData} setData={setRightData} populate={bottomRightData} />
+                            </div> 
+                            : 
+                            undefined
+                        }       
 
                         { !props.from
                             ? 
