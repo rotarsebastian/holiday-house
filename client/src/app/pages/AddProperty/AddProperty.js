@@ -105,11 +105,14 @@ const AddProperty = props => {
                     JSON.stringify(result.data.bathrooms)
                 ])
 
-                setLng(result.data.coordinates[0])
-                setLat(result.data.coordinates[1])
+                setLng(result.data.coordinates[0]);
+                setLat(result.data.coordinates[1]);
 
-                const facilities = JSON.parse(result.data.facilities.facilities_list);
-                setBottomRightData(facilities);
+                if(result.data.facilities !== null) {
+                    const facilities = JSON.parse(result.data.facilities.facilities_list);
+                    setBottomRightData(facilities);
+                }
+
 
                 setOldImages(result.data.photos);
 
@@ -288,7 +291,7 @@ const AddProperty = props => {
                         <div>
                             <AddEditHouseBottomLeft data={bottomLeftData} setData={setLeftData} />
                         </div>
-                        { props.from && bottomRightData.length > 0
+                        { props.from && bottomRightData.length >= 0
                             ? 
                             <div className="Facilities">
                                 <AddEditHouseBottomRight data={bottomRightData} setData={setRightData} populate={bottomRightData} />
