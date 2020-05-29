@@ -183,11 +183,9 @@ router.patch('/:id', isAuthenticated, async(req, res) => {
         if(isSameDate) return res.json({ status: 0, message: 'Your start date cannot be the same with your end date!', code: 404 });
 
         // ====================== CHECK IF THE PROPERTY IS AVAILABLE AT CHOSEN DATES ======================
-        const user = User.query().where({ id: req.session.user.id });
-        const property = await User.relatedQuery('properties')
-            .for(user)
+        const property = await Property.query()
             .select('id', 'capacity')
-            .where({ id: reservationDB.property_id })
+            .where({ id })
             .andWhere('available_start', '<=' , from_date)
             .andWhere('available_end', '>=' , to_date)
 

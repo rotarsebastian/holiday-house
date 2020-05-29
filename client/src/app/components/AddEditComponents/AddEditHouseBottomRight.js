@@ -32,8 +32,6 @@ const AddEditBottomRight = props => {
       }
    }
 
-   console.log(facilities)
-
    return (
       <React.Fragment>
           <div className={classes.AddEditHouseRightContainer}>

@@ -26,7 +26,7 @@ const validateInput = (type, value) => {
         case 'title':
             return value.length >= 4 && value.length <= 60;
         case 'description':
-            return value.length >= 4 && value.length <= 550;
+            return value.length >= 4 && value.length <= 800;
         case 'type':
             return value.length >= 4 && value.length <= 60;
         case 'available_start':

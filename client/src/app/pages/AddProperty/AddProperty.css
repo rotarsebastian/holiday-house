@@ -74,3 +74,51 @@ h1.AddPropertyTitle {
 .AddPropertyContainer .FirstRow .MapContainer {
     width: 50%;
 }
+
+.ThumbsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.ThumbsContainer .Thumb {
+    display: inline-flex;
+    margin: 8px;
+    width: auto;
+    height: 200px;
+    position: relative;
+}
+
+.ThumbsContainer .ThumbInner {
+    width: 15rem;
+}
+
+.ThumbsContainer .ThumbInner img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+.ThumbsContainer .CloseContainer {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    background-color: rgba(255, 255, 255, 0.86);
+    padding: 0 6px;
+    border-radius: 50%;
+    cursor: pointer;
+    filter: brightness(1.8);
+    transition: .3s;
+}
+
+.ThumbsContainer .CloseContainer:hover {
+    opacity: 1;
+    background-color: #fff;
+    transform: scale(1.03);
+}
+
+.ThumbsContainer .CloseButton {
+    width: .5rem !important;
+}

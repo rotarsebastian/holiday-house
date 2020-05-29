@@ -3,7 +3,7 @@ import classes from "./ProfileCard.module.css";
 import UserIcon from '../../assets/img/user_icon.svg';
 import YesNoModal from '../YesNoModal/YesNoModal';
 import ClipLoader from 'react-spinners/ClipLoader';
-import { deleteUser, logout } from './../../helpers/auth';
+import { deleteUser } from './../../helpers/auth';
 import { useSetStoreValue, useSetAndDelete } from 'react-context-hook';
 import { useHistory } from 'react-router-dom';
 

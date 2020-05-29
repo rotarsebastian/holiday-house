@@ -11,11 +11,12 @@ const ReservationCard = (props) => {
     const daysReserved = moment(to_date).diff(moment(from_date), 'days');
     const totalPrice = price * daysReserved;
 
+    const [ buttonIsDisabled, setButtonIsDisabled ] = useState(true);
     const [ showDialog, setShowDialog ] = useState(false);
     const [ from, setFrom ] = useState(from_date);
     const [ to, setTo ] = useState(to_date);
     const [ minDateTo, setMinDateTo ] = useState(moment(from_date).add(1, 'days').format('yyyy-MM-DD'));
-    const [ disableSameDate, setDisableSameDate ] = useState(moment().subtract(1, 'day').format('yyyy-MM-DD'));
+    const [ disableSameDate, setDisableSameDate ] = useState(moment(to_date).format('yyyy-MM-DD'));
 
     const handleAnswer = (e, answer, id) => {
         e.stopPropagation();
@@ -31,6 +32,7 @@ const ReservationCard = (props) => {
 
     const changeDate = (newDate, label) => {
         const date = moment(newDate).format('yyyy-MM-DD');
+        setButtonIsDisabled(false);
      
         if (label === 'From') {
            setFrom(date);
@@ -44,6 +46,7 @@ const ReservationCard = (props) => {
 
     const saveChanges = e => {
         e.stopPropagation();
+        setButtonIsDisabled(true);
         props.edit(id, from, to);
     }
 
@@ -89,7 +92,13 @@ const ReservationCard = (props) => {
                </div> 
             </div>
             <div className={classes.Price}>Total: {totalPrice} DKK</div>
-            <button className={classes.Button} onClick={e => saveChanges(e)}>Save</button>
+            <button 
+                disabled={buttonIsDisabled} 
+                className={`${classes.Button} ${buttonIsDisabled ? classes.Disabled : ''}`}
+                onClick={e => saveChanges(e)}
+                >
+                    Save
+            </button>
                  
             </div>
         </div>

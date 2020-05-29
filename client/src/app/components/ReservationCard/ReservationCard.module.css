@@ -118,7 +118,13 @@
     transition: .3s;
 }
 
+.Disabled {
+    background-color: rgba(0, 0, 0, 0.12) !important;
+    transform: none !important;
+}
+
 .Button:hover {
     background-color: #f02551;
     transform: scale(1.04);
 }
+

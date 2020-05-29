@@ -23,6 +23,7 @@ const Home = props => {
 
     const [ recommendedProperties, setProperties ] = useState(undefined);
 
+    // eslint-disable-next-line
     const [ countLoadedProperties, setCountLoadedProperties ] = useStore('countLoadedProperties');
 
     useEffect(() => {

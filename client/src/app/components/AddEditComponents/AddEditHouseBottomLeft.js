@@ -193,9 +193,6 @@ const AddEditHouseBottomLeft = props => {
    const [ minDateTo, setMinDateTo ] = useState(moment().add(1, 'days').format('yyyy-MM-DD'));
    const [ disableSameDate, setDisableSameDate ] = useState(moment().subtract(1, 'day').format('yyyy-MM-DD'));
    
-   // ====================== OTHERS ======================
-   const [ option, setTypeOptions ] = useState('');
-   
    const changeDate = (newDate, newLabel) => {
       const date = moment(newDate).format('yyyy-MM-DD');
 

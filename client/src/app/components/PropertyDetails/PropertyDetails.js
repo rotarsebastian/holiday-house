@@ -66,8 +66,6 @@ const PropertyDetails = props => {
     
     const { id, title, price, capacity, type, rooms, beds, bathrooms, address, first_name, last_name, user_id, available_start } = props.property;
 
-    console.log(address)
-
     const handleCreateBooking = async(id) => {
         if(user_data) {
             if(from && to && guests) {

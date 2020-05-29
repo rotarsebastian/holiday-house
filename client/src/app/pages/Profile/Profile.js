@@ -7,6 +7,7 @@ import { getUserProperties, deleteProperty }  from './../../helpers/properties';
 import { getUserReservations, deleteReservation, editReservation} from './../../helpers/reservations'
 import { useStoreValue } from 'react-context-hook';
 import { useHistory } from 'react-router-dom';
+import toastr from 'toastr';
 
 const Profile = props => {
     const history = useHistory();
@@ -19,14 +20,12 @@ const Profile = props => {
         const fetchProperties = async() => {
             if(user_data) {
                 const properties = await getUserProperties(user_data.id, 0);
-                // console.log(properties)
                 setProperties(properties.data);
             }
         }
         const fetchReservations = async() => {
             if(user_data) {
                 const reservations = await getUserReservations(0);
-                console.log(reservations)
                 setReservations(reservations.data);
             }
         }
@@ -37,7 +36,6 @@ const Profile = props => {
     const openPropertyPage = id => history.push(`/property/${id}`);
 
     const handleDeleteProperty = async(id) => {
-        console.log(id);
 
         const result = await deleteProperty(id);
         if(result.status === 1) {
@@ -51,7 +49,6 @@ const Profile = props => {
     const handleDeleteReservation = async(id) => {
         
         const result = await deleteReservation(id);
-        console.log(id);
         if(result.status === 1) {
             const newReservations = [...reservations];
             const indexDeleted = newReservations.findIndex(reservation => reservation.id === id);
@@ -71,17 +68,16 @@ const Profile = props => {
         ];
 
         const result = await editReservation(id, requestObject);
-        console.log(result);
         if(result.status === 1) {
             if(updatedReservation >= 0) {
                 const newReservation = {...newReservations[updatedReservation]};
                 newReservation.from_date = from;
                 newReservation.to_date = to;
                 newReservations[updatedReservation] = newReservation;
-                console.log(newReservations);
                 setReservations(newReservations);
-            }
-        }
+                toastr.success('Reservation edited successfully!')
+            } 
+        } else toastr.error(result.message);
     }
 
     return (

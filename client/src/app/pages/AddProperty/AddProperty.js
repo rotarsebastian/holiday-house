@@ -14,7 +14,9 @@ import moment from 'moment';
 import toastr from 'toastr';
 import { createProperty } from '../../helpers/properties';
 import { editProperty, getOneProperty } from '../../helpers/properties';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { useHistory } from 'react-router-dom';
 
 const AddPropertyButton = withStyles({
     root: {
@@ -52,11 +54,15 @@ const AddPropertyButton = withStyles({
  })(Button);
 
 const AddProperty = props => {
+
+    const history = useHistory();
+
+    const [ propertyID, setPropertyID ] = useState(undefined);
     
     const [ map, setMap ] = useState(null);    
     const [ lng, setLng ] = useState(12.5937767);    
     const [ lat, setLat ] = useState(55.657091699999995);    
-    const [ zoom, setZoom ] = useState(15);    
+    const [ zoom ] = useState(15);    
     const [ currentMarker ] = useState([]);    
     // eslint-disable-next-line
     const [ currentMarkerCoords, setCurrentMarkerCoords ] = useState([]);    
@@ -65,6 +71,7 @@ const AddProperty = props => {
 
     // Property attributes
     const [files, setFiles] = useState([]);
+    const [oldImages, setOldImages] = useState([]);
     const [topData, setTopData] = useState([ '', '', '', '', '', '' ]);
     const [bottomLeftData, setBottomLeftData] = useState([ moment().format('yyyy-MM-DD'), moment().add(1, 'days').format('yyyy-MM-DD'), '', '', '', '', '', '' ]);
     const [bottomRightData, setBottomRightData] = useState([]);
@@ -77,6 +84,7 @@ const AddProperty = props => {
         const populateForm = async(id) => {
             const result = await getOneProperty(id);
             if(result.status === 1) {
+                setPropertyID(result.data.id);
                 setTopData([
                     capitalize(result.data.title), 
                     capitalize(result.data.description), 
@@ -100,16 +108,17 @@ const AddProperty = props => {
                 setLng(result.data.coordinates[0])
                 setLat(result.data.coordinates[1])
 
-                console.log(result.data)
                 const facilities = JSON.parse(result.data.facilities.facilities_list);
                 setBottomRightData(facilities);
+
+                setOldImages(result.data.photos);
 
                 return [result.data.coordinates[0], result.data.coordinates[1]]
             }
         }
 
         const initPage = async() => {
-            if(props.from && props.from === 'Edit'){
+            if(props.from){
                 const coords = await populateForm(props.match.params.id);
                 addMap(coords[0], coords[1]);
             }
@@ -210,58 +219,56 @@ const AddProperty = props => {
 
     const submitForm = async() => {
 
-        if(props.from && props.from === 'Edit'){
-            console.log('edit')
-        } else {
-            const addressObject = {
-                property_address: topData[2],
-                city: topData[4],
-                country: topData[5],
-                postal_code: topData[3],
-            }
-    
-            // ====================== VALIDATION ======================
-            const addPropertyData = [
-                { type: 'title', val: topData[0] }, 
-                { type: 'description', val: topData[1] }, 
-                { type: 'available_start', val: bottomLeftData[0] }, 
-                { type: 'available_end', val: bottomLeftData[1] }, 
-                { type: 'price', val: parseInt(bottomLeftData[2]) }, 
-                { type: 'capacity', val: parseInt(bottomLeftData[4]) }, 
-                { type: 'type', val: bottomLeftData[3] }, 
-                { type: 'rooms', val: parseInt(bottomLeftData[5]) },
-                { type: 'beds', val: parseInt(bottomLeftData[6]) },
-                { type: 'bathrooms', val: parseInt(bottomLeftData[7]) },
-                { type: 'coordinates', val: JSON.stringify(currentMarkerCoords) }, 
-                { type: 'address', val: JSON.stringify(addressObject) },
-                { type: 'facilities', val: JSON.stringify(bottomRightData) },
-            ];
-    
-            const isFormValid = validateForm(addPropertyData);
-            if(!isFormValid.formIsValid) return toastr.error(`Invalid ${isFormValid.invalids.join(', ')}`);
-    
-            const requestData = new FormData();
-    
-            requestData.append('data', JSON.stringify(addPropertyData));
-    
-            files.map(file => requestData.append('image', file, file.name))
-    
-            setLoadingButton(true);
-            const res = await createProperty(requestData);
-            setLoadingButton(false);
-    
-            // ====================== RESPONSE ======================
-            if(res.status === 1) {
-                toastr.success('Property created successfully!');
-                // history.push('profile');
-                // setRedirectTo(undefined);
-            } else return toastr.error(res.message);
+        const addressObject = {
+            property_address: topData[2],
+            city: topData[4],
+            country: topData[5],
+            postal_code: topData[3],
         }
-    }
-    
-    const buttonName = props.from && props.from === 'Edit' ? 'Save Changes' : 'Add property';
 
-    console.log(bottomRightData)
+        // ====================== VALIDATION ======================
+        const addPropertyData = [
+            { type: 'title', val: topData[0] }, 
+            { type: 'description', val: topData[1] }, 
+            { type: 'available_start', val: bottomLeftData[0] }, 
+            { type: 'available_end', val: bottomLeftData[1] }, 
+            { type: 'price', val: parseInt(bottomLeftData[2]) }, 
+            { type: 'capacity', val: parseInt(bottomLeftData[4]) }, 
+            { type: 'type', val: bottomLeftData[3] }, 
+            { type: 'rooms', val: parseInt(bottomLeftData[5]) },
+            { type: 'beds', val: parseInt(bottomLeftData[6]) },
+            { type: 'bathrooms', val: parseInt(bottomLeftData[7]) },
+            { type: 'coordinates', val: JSON.stringify(currentMarkerCoords) }, 
+            { type: 'address', val: JSON.stringify(addressObject) },
+            { type: 'facilities', val: JSON.stringify(bottomRightData) },
+        ];
+
+        const isFormValid = validateForm(addPropertyData);
+        if(!isFormValid.formIsValid) return toastr.error(`Invalid ${isFormValid.invalids.join(', ')}`);
+
+        if(props.from) addPropertyData.push({ type: 'photos', val: JSON.stringify(oldImages) });
+
+        const requestData = new FormData();
+
+        requestData.append('data', JSON.stringify(addPropertyData));
+
+        files.map(file => requestData.append('image', file, file.name))
+
+        setLoadingButton(true);
+        const res = props.from ? await editProperty(propertyID, requestData) : await createProperty(requestData);
+        setLoadingButton(false);
+
+        // ====================== RESPONSE ======================
+        if(res.status === 1) {
+            if(props.from) toastr.success('Property edited successfully!');
+            else toastr.success('Property created successfully!');
+            history.push('/profile');
+        } else return toastr.error(res.message);
+    }
+
+    const removeOldImage = image => setOldImages(oldImages.filter(img => img !== image));
+    
+    const buttonName = props.from ? 'Save Changes' : 'Add property';
     
     return (
         <React.Fragment>
@@ -281,24 +288,48 @@ const AddProperty = props => {
                         <div>
                             <AddEditHouseBottomLeft data={bottomLeftData} setData={setLeftData} />
                         </div>
-                        { bottomRightData.length > 0 
-                        ? 
-                        <div className="Facilities">
-                            <AddEditHouseBottomRight data={bottomRightData} setData={setRightData} populate={bottomRightData} />
-                        </div> 
-                        : 
-                        undefined
+                        { props.from && bottomRightData.length > 0
+                            ? 
+                            <div className="Facilities">
+                                <AddEditHouseBottomRight data={bottomRightData} setData={setRightData} populate={bottomRightData} />
+                            </div> 
+                            : 
+                            undefined
                         }
-                        {!props.from 
-                        ? 
-                        <div className="Facilities">
-                            <AddEditHouseBottomRight data={bottomRightData} setData={setRightData} />
-                        </div> 
-                        : 
-                        undefined
+
+                        { !props.from
+                            ? 
+                            <div className="Facilities">
+                                <AddEditHouseBottomRight data={bottomRightData} setData={setRightData} />
+                            </div> 
+                            : 
+                            undefined
                         }
                         
                     </div>
+
+                    { props.from 
+                        ? 
+                        <div className="ThumbsContainer">
+                            {
+                                oldImages.map(image => {
+                                    return (
+                                        <div className="Thumb" key={image}>
+                                            <span className="CloseContainer" onClick={() => removeOldImage(image)}>
+                                                <FontAwesomeIcon className="CloseButton" icon={faTimes} />
+                                            </span>
+                                            <div className="ThumbInner">
+                                                <img src={'https://holidayhouse1.s3.amazonaws.com/' + image} alt={'thumb-img'} />
+                                            </div>
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>
+                        :
+                        undefined
+                    }
+
                     <div className="ThirdRow">
                         <DragAndDrop files={files} setNewFiles={setNewFiles} />
                     </div>
