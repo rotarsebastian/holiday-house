@@ -146,7 +146,7 @@ const AddEditBottomRight = props => {
                      <div>
                         <StyledFormControlLabel
                         control={<Checkbox name="Breakfast"
-                        checked={facilities.findIndex(el => el.name === 'Breakfast') >= 0 ? true : false} onChange={() => handleCheckboxes('Breakfasts')} />}
+                        checked={facilities.findIndex(el => el.name === 'Breakfast') >= 0 ? true : false} onChange={() => handleCheckboxes('Breakfast')} />}
                         label="Breakfast"
                         />
                      </div>
