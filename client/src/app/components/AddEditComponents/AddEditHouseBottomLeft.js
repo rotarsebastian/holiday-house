@@ -191,9 +191,7 @@ const AddEditHouseBottomLeft = props => {
    // const [ from, setFrom ] = useState(props.data[0]);
    // const [ to, setTo ] = useState(props.data[1]);
    const [ minDateTo, setMinDateTo ] = useState(moment().add(1, 'days').format('yyyy-MM-DD'));
-   
-   // ====================== OTHERS ======================
-   const [ option, setTypeOptions ] = useState('');
+   const [ disableSameDate, setDisableSameDate ] = useState(moment().subtract(1, 'day').format('yyyy-MM-DD'));
    
    const changeDate = (newDate, newLabel) => {
       const date = moment(newDate).format('yyyy-MM-DD');
@@ -211,6 +209,7 @@ const AddEditHouseBottomLeft = props => {
          const newData = [ ...props.data ];
          newData[1] = date;
          props.setData(newData);
+         setDisableSameDate(moment(date).format('yyyy-MM-DD'));
       }
    };
 
@@ -235,11 +234,12 @@ const AddEditHouseBottomLeft = props => {
          <div className={classes.AddEditHouseLeftContainer}>
             <div className={classes.AddEditHouseLeftBody}>
                <div className={classes.LeftDateContainer}>
+
                   <Datepicker 
                      newLabel="Available from" 
                      handleChange={changeDate}
                      date={props.data[0]}
-                     minDate={moment().format('yyyy-MM-DD')}
+                     disableDay={disableSameDate}
                   />
                   <Datepicker 
                      newLabel="Available until"

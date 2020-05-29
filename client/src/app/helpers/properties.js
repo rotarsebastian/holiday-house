@@ -141,16 +141,15 @@ export const createProperty = async(addPropertyData) => {
     }
 };
 
-export const editProperty = async(id) => {
+export const editProperty = async(id, editPropertyData) => {
     try {
         const options = {
             method: 'PATCH',
             credentials: 'include',
             headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({})
+                'Accept': '*/*',
+            },
+          body: editPropertyData
         };
         const response = await fetch(endpoint + '/' + id, options);
         const data = await response.json();

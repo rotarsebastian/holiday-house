@@ -6,15 +6,17 @@ import YesNoModal from '../YesNoModal/YesNoModal';
 import Datepicker from '../Datepicker/Datepicker';
 import moment from 'moment';
 
-const PropertyCard = (props) => {
+const ReservationCard = (props) => {
     const { id, type, title, photos, price, from_date, to_date } = props.reservation;
     const daysReserved = moment(to_date).diff(moment(from_date), 'days');
     const totalPrice = price * daysReserved;
 
+    const [ buttonIsDisabled, setButtonIsDisabled ] = useState(true);
     const [ showDialog, setShowDialog ] = useState(false);
-    const [ from, setFrom ] = useState(moment(from_date));
-    const [ to, setTo ] = useState(moment(to_date));
-    const [ minDateTo, setMinDateTo ] = useState(moment().add(1, 'days').format('yyyy-MM-DD'));
+    const [ from, setFrom ] = useState(from_date);
+    const [ to, setTo ] = useState(to_date);
+    const [ minDateTo, setMinDateTo ] = useState(moment(from_date).add(1, 'days').format('yyyy-MM-DD'));
+    const [ disableSameDate, setDisableSameDate ] = useState(moment(to_date).format('yyyy-MM-DD'));
 
     const handleAnswer = (e, answer, id) => {
         e.stopPropagation();
@@ -30,20 +32,23 @@ const PropertyCard = (props) => {
 
     const changeDate = (newDate, label) => {
         const date = moment(newDate).format('yyyy-MM-DD');
+        setButtonIsDisabled(false);
      
-        if (label === "From") {
+        if (label === 'From') {
            setFrom(date);
            if(moment(to).isBefore(date, 'day')) setTo(moment(date).add(1, 'days').format('yyyy-MM-DD'));
            setMinDateTo(moment(date).add(1, 'days').format('yyyy-MM-DD'));
-        }
-        else setTo(date);
-     };
+        } else {
+            setTo(date);
+            setDisableSameDate(moment(date).format('yyyy-MM-DD'));
+        } 
+    };
+
     const saveChanges = e => {
         e.stopPropagation();
-        console.log('saved');
+        setButtonIsDisabled(true);
+        props.edit(id, from, to);
     }
-
-    
 
     return (
         <div className={classes.CardContainer}>
@@ -53,47 +58,51 @@ const PropertyCard = (props) => {
 
             <div className={classes.PropertyDetails}>
                 <div className={classes.Type}>{type}</div>
-                    
-                    <React.Fragment>
-                        <span className={classes.Icon} onClick={e => openModal(e)}>
-                            <FontAwesomeIcon icon={faTrashAlt} size="2x" /> 
-                        </span>
-                        <YesNoModal 
-                            sendAnswer={handleAnswer} 
-                            id={id}
-                            open={showDialog} 
-                            close={() => setShowDialog(!showDialog)} 
-                            from={'Delete reservation'}  
-                        /> 
-                    </React.Fragment>  
-
+                    <span className={classes.Icon} onClick={e => openModal(e)}>
+                        <FontAwesomeIcon icon={faTrashAlt} size="2x" /> 
+                    </span>
+                    <YesNoModal 
+                        sendAnswer={handleAnswer} 
+                        id={id}
+                        open={showDialog} 
+                        close={() => setShowDialog(!showDialog)} 
+                        from={'Delete reservation'}  
+                    /> 
             <div className={classes.PropertyTitle}>{title}</div>
             <div className={classes.Datepicker}>
                 <div className={classes.DatepickerContainer}>
-                  <Datepicker 
-                     newLabel="From" 
-                     handleChange={changeDate}
-                     minDate={moment().format('yyyy-MM-DD')}
-                     date={from_date}
-                     from={'Reservation card'}
+                  <Datepicker
+                    id={id} 
+                    newLabel='From' 
+                    handleChange={changeDate}
+                    date={from}
+                    disableDay={disableSameDate}
+                    from={'Reservation card'}
                    />
                </div>   
                <div className={classes.DatepickerContainer}>
                   <Datepicker 
-                     newLabel="To"
-                     handleChange={changeDate}
-                     minDate={minDateTo}
-                     date={to_date}
-                     from={'Reservation card'}
+                    id={id} 
+                    newLabel='To'
+                    handleChange={changeDate}
+                    minDate={minDateTo}
+                    date={to}
+                    from={'Reservation card'}
                />
                </div> 
             </div>
             <div className={classes.Price}>Total: {totalPrice} DKK</div>
-            <button className={classes.Button} onClick={e => saveChanges(e)}>Save</button>
+            <button 
+                disabled={buttonIsDisabled} 
+                className={`${classes.Button} ${buttonIsDisabled ? classes.Disabled : ''}`}
+                onClick={e => saveChanges(e)}
+                >
+                    Save
+            </button>
                  
             </div>
         </div>
     )
 };
 
-export default PropertyCard;
+export default ReservationCard;

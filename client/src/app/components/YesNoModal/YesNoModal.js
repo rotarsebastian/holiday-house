@@ -24,22 +24,26 @@ const YesNoModal = (props) => {
     props.close();
   }
 
-  const [ showPage, setShowPage ] = useState(props.from);
+  const [ showPage ] = useState(props.from);
 
+  let modalFor;
 
-  if (showPage === 'Delete property') {
-    return (
-      <div>
-        <Dialog
+  if (showPage === 'Delete profile') modalFor = 'profile';
+  else if (showPage === 'Delete reservation') modalFor = 'reservation';
+  else if (showPage === 'Delete property') modalFor = 'property';
+
+  return (
+    <div>
+      <Dialog
         open={props.open}
         onClose={e => closeModal(e)}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
-        >
-        <DialogTitle id="alert-dialog-title">{"Delete your property"}</DialogTitle>
+      >
+        <DialogTitle id="alert-dialog-title">Delete your {modalFor}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Are you sure you want to delete your property?
+            Are you sure you want to delete your {modalFor}?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -52,65 +56,7 @@ const YesNoModal = (props) => {
         </DialogActions>
       </Dialog>
     </div>
-    );
-    
-  } 
-  if (showPage === 'Delete profile') {
-    return(
-      <div>
-         <Dialog
-          open={props.open}
-          onClose={e => closeModal(e)}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">{"Delete your profile"}</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Are you sure you want to delete your profile?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={e => props.sendAnswer(e, "Yes")} color="primary">
-              Yes
-            </Button>
-            <Button onClick={e => props.sendAnswer(e, "No")} color="primary" autoFocus>
-              No
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    );
-  }
-
-  if (showPage === 'Delete reservation') {
-    return(
-      <div>
-         <Dialog
-          open={props.open}
-          onClose={e => closeModal(e)}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">{"Delete your reservation"}</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Are you sure you want to delete your reservation?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={e => props.sendAnswer(e, "Yes")} color="primary">
-              Yes
-            </Button>
-            <Button onClick={e => props.sendAnswer(e, "No")} color="primary" autoFocus>
-              No
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    );
-  }
-
+  );
 };
 
 export default YesNoModal;

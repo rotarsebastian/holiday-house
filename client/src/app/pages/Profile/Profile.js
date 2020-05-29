@@ -4,9 +4,10 @@ import ProfileCard from './../../components/ProfileCard/ProfileCard'
 import PropertyCard from './../../components/PropertyCard/PropertyCard'
 import ReservationCard from  './../../components/ReservationCard/ReservationCard'
 import { getUserProperties, deleteProperty }  from './../../helpers/properties';
-import { getUserReservations, deleteReservation} from './../../helpers/reservations'
+import { getUserReservations, deleteReservation, editReservation} from './../../helpers/reservations'
 import { useStoreValue } from 'react-context-hook';
 import { useHistory } from 'react-router-dom';
+import toastr from 'toastr';
 
 const Profile = props => {
     const history = useHistory();
@@ -19,14 +20,12 @@ const Profile = props => {
         const fetchProperties = async() => {
             if(user_data) {
                 const properties = await getUserProperties(user_data.id, 0);
-                // console.log(properties)
                 setProperties(properties.data);
             }
         }
         const fetchReservations = async() => {
             if(user_data) {
                 const reservations = await getUserReservations(0);
-                console.log(reservations)
                 setReservations(reservations.data);
             }
         }
@@ -37,7 +36,6 @@ const Profile = props => {
     const openPropertyPage = id => history.push(`/property/${id}`);
 
     const handleDeleteProperty = async(id) => {
-        console.log(id);
 
         const result = await deleteProperty(id);
         if(result.status === 1) {
@@ -47,9 +45,9 @@ const Profile = props => {
             setProperties(newProperties);
         }  
     }
+    
     const handleDeleteReservation = async(id) => {
-        console.log(id);
-
+        
         const result = await deleteReservation(id);
         if(result.status === 1) {
             const newReservations = [...reservations];
@@ -58,7 +56,30 @@ const Profile = props => {
             setReservations(newReservations);
         }  
     }
-    
+    const handleEditReservation = async(id, from, to) => {
+
+        const newReservations = [...reservations];
+        const updatedReservation = newReservations.findIndex(el => el.id === id);
+
+        const requestObject = [
+            { "type": "from_date", "val": from },
+            { "type": "to_date", "val": to },
+            { "type": "persons_count", "val": reservations[updatedReservation].persons_count }
+        ];
+
+        const result = await editReservation(id, requestObject);
+        if(result.status === 1) {
+            if(updatedReservation >= 0) {
+                const newReservation = {...newReservations[updatedReservation]};
+                newReservation.from_date = from;
+                newReservation.to_date = to;
+                newReservations[updatedReservation] = newReservation;
+                setReservations(newReservations);
+                toastr.success('Reservation edited successfully!')
+            } 
+        } else toastr.error(result.message);
+    }
+
     return (
         <React.Fragment>
             <div className={classes.ProfileContainer}>
@@ -84,7 +105,7 @@ const Profile = props => {
                         { reservations.map(reservation => {
                             return (
                                 <div className={classes.ReservationCard} key={reservation.id}>
-                                    <ReservationCard reservation={reservation} click={openPropertyPage} delete={handleDeleteReservation} />
+                                    <ReservationCard reservation={reservation} click={openPropertyPage} delete={handleDeleteReservation} edit={handleEditReservation} />
                                 </div>
                             )
                         })}

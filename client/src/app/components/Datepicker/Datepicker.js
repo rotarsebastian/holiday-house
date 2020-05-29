@@ -4,7 +4,7 @@ import  { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/picke
 import './Datepicker.css';
 import moment from 'moment';
 
-const Datepicker = ({ newLabel, handleChange, page, date, minDate, disableDay }) => {
+const Datepicker = ({ newLabel, handleChange, page, date, minDate, disableDay, id }) => {
 
    const handleDateChange = date => {
       handleChange(date, newLabel);
@@ -21,15 +21,15 @@ const Datepicker = ({ newLabel, handleChange, page, date, minDate, disableDay })
 
    let datePickerSearch;
 
-   if(newLabel === 'Check in') {
+   if(newLabel === 'Check in' || newLabel === 'Available from') {
       datePickerSearch = 
       <KeyboardDatePicker
          disableToolbar
          variant="inline"
          format="yyyy-MM-dd"
-         disablePast="true"
+         disablePast={minDate !== undefined ? true : false}
          margin="normal"
-         minDate={minDate}
+         minDate={minDate !== undefined ? minDate : moment().subtract(30, 'year').format('yyyy-MM-DD')}
          id={"date-picker-inline" + newLabel}
          label={newLabel}
          shouldDisableDate={disableSameDate}
@@ -39,7 +39,7 @@ const Datepicker = ({ newLabel, handleChange, page, date, minDate, disableDay })
             'aria-label': 'change date',
          }}
       />
-   } else if(newLabel === 'Check out') {
+   } else if(newLabel === 'Check out' || newLabel === 'Available until' || newLabel === 'To') {
       datePickerSearch = 
       <KeyboardDatePicker
          disableToolbar
@@ -48,8 +48,25 @@ const Datepicker = ({ newLabel, handleChange, page, date, minDate, disableDay })
          disablePast="true"
          margin="normal"
          minDate={minDate}
-         id={"date-picker-inline" + newLabel}
+         id={"date-picker-inline" + newLabel + id}
          label={newLabel}
+         value={date}
+         onChange={handleDateChange}
+         KeyboardButtonProps={{
+            'aria-label': 'change date',
+         }}
+      />
+   } else if(newLabel === 'From') {
+      datePickerSearch = 
+      <KeyboardDatePicker
+         disableToolbar
+         variant="inline"
+         format="yyyy-MM-dd"
+         disablePast="true"
+         margin="normal"
+         id={"date-picker-inline" + newLabel + id}
+         label={newLabel}
+         shouldDisableDate={disableSameDate}
          value={date}
          onChange={handleDateChange}
          KeyboardButtonProps={{
@@ -66,7 +83,7 @@ const Datepicker = ({ newLabel, handleChange, page, date, minDate, disableDay })
                disableToolbar
                variant="inline"
                format="yyyy-MM-dd"
-               maxDate={moment().subtract(18, 'year')}
+               maxDate={moment().subtract(18, 'year').format('yyyy-MM-DD')}
                margin="normal"
                id={"date-picker-inline" + newLabel}
                label={newLabel}

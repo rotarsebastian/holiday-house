@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import classes from "./PropertyCard.module.css";
@@ -8,6 +9,8 @@ import { useStore } from 'react-context-hook';
 const PropertyCard = props => {
 
     const homeClass = props.from === 'Home' ? ` ${classes.Home}` : '';
+
+    const history = useHistory();
     
     const [ showDialog, setShowDialog ] = useState(false);
 
@@ -29,7 +32,7 @@ const PropertyCard = props => {
 
     const goToEditProperty = e => {
         e.stopPropagation();
-        console.log('go to edit page');
+        history.push(`/handleproperty/${props.property.id}`);
     }
 
     const mouseEnterCard = () => {
