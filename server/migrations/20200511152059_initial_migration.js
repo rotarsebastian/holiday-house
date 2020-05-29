@@ -36,7 +36,7 @@ exports.up = function(knex) {
 
         .createTable('facilities', table => {
             table.increments('id').primary()
-            table.string('facilities_list').notNullable()
+            table.string('facilities_list', 1000).notNullable()
             table.integer('property_id').unsigned().notNullable()
             table.foreign('property_id').references('id').inTable('properties').onDelete('CASCADE').onUpdate('CASCADE')
         })
