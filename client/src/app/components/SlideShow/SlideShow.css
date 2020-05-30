@@ -25,6 +25,7 @@
   width: 100%;
   border-radius: var(--radius) ;
   object-fit: cover;
+  height: 30rem;
 }
 
 .SlideMainContainer .react-slideshow-container .nav:first-of-type {
