@@ -135,7 +135,12 @@ const AuthModal = props => {
                   onChange={e => setLastName(e.target.value)} 
                />
             </div>
-            <Datepicker date={user_birthdate} newLabel="Birthdate" page="Sign up" handleChange={changeDate} />
+            <Datepicker 
+               date={user_birthdate} 
+               newLabel="Birthdate" 
+               page="Sign up" 
+               handleChange={changeDate} 
+            />
          </React.Fragment>
       );
 
@@ -365,7 +370,15 @@ const AuthModal = props => {
                            undefined
                      }
                         
-                     <SubmitButton variant="contained" onClick={() => submitForm()}>{loadingButton ? <ClipLoader size={18} color={'#fff'} /> : showPage}</SubmitButton>
+                     <SubmitButton variant="contained" onClick={() => submitForm()}>
+                        {
+                           loadingButton 
+                           ?
+                           <ClipLoader size={18} color={'#fff'} /> 
+                           :
+                           showPage
+                        }
+                     </SubmitButton>
 
                      {
                         switchModalButtons ? switchModalButtons : undefined

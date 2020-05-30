@@ -22,7 +22,7 @@ const ProfileCard = (props) => {
    useEffect(() => {
       if(props.user) {
          const birthday = props.user.birthdate;
-         const birthdate = birthday.split('-')[2] +"/"+ birthday.split('-')[1] +"/"+ birthday.split('-')[0];
+         const birthdate = `${birthday.split('-')[2].slice(0, -14)}/${birthday.split('-')[1]}/${birthday.split('-')[0]}`;
          const created_at =  props.user.created_at;
          const newCreatedAt = created_at.slice(0, -20);
          setUserBirthdate(birthdate);

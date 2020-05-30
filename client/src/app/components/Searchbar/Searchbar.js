@@ -179,7 +179,7 @@ const SearchbarComponents = props => {
    
       if (label === "Check in") {
          setFrom(date);
-         if(moment(to).isBefore(date, 'day')) setTo(moment(date).add(1, 'days').format('yyyy-MM-DD'));
+         if(moment(to).isSameOrBefore(date, 'day')) setTo(moment(date).add(1, 'days').format('yyyy-MM-DD'));
          setMinDateTo(moment(date).add(1, 'days').format('yyyy-MM-DD'));
       }
       else { 

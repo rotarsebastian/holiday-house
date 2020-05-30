@@ -13,10 +13,9 @@ const ReservationCard = (props) => {
 
     const [ buttonIsDisabled, setButtonIsDisabled ] = useState(true);
     const [ showDialog, setShowDialog ] = useState(false);
-    const [ from, setFrom ] = useState(from_date);
-    const [ to, setTo ] = useState(to_date);
+    const [ from, setFrom ] = useState(moment(from_date).format('yyyy-MM-DD'));
+    const [ to, setTo ] = useState(moment(to_date).format('yyyy-MM-DD'));
     const [ minDateTo, setMinDateTo ] = useState(moment(from_date).add(1, 'days').format('yyyy-MM-DD'));
-    const [ disableSameDate, setDisableSameDate ] = useState(moment(to_date).format('yyyy-MM-DD'));
 
     const handleAnswer = (e, answer, id) => {
         e.stopPropagation();
@@ -36,12 +35,9 @@ const ReservationCard = (props) => {
      
         if (label === 'From') {
            setFrom(date);
-           if(moment(to).isBefore(date, 'day')) setTo(moment(date).add(1, 'days').format('yyyy-MM-DD'));
+           if(moment(to).isSameOrBefore(date, 'day')) setTo(moment(date).add(1, 'days').format('yyyy-MM-DD'));
            setMinDateTo(moment(date).add(1, 'days').format('yyyy-MM-DD'));
-        } else {
-            setTo(date);
-            setDisableSameDate(moment(date).format('yyyy-MM-DD'));
-        } 
+        } else setTo(date);
     };
 
     const saveChanges = e => {
@@ -76,7 +72,6 @@ const ReservationCard = (props) => {
                     newLabel='From' 
                     handleChange={changeDate}
                     date={from}
-                    disableDay={disableSameDate}
                     from={'Reservation card'}
                    />
                </div>   

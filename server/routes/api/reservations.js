@@ -6,7 +6,7 @@ const User = require(__dirname + '/../../models/User');
 const Reservation = require(__dirname + '/../../models/Reservation');
 const Property = require(__dirname + '/../../models/Property');
 const moment = require('moment');
-const { ref } = require('objection');
+const { ref, fn } = require('objection');
 
 // ====================== GET USER RESERVATION ======================
 router.get('/:id', isAuthenticated, async(req, res) => {
@@ -47,6 +47,7 @@ router.get('/', isAuthenticated, async(req, res) => {
             .select('properties.photos', 'properties.price', 'properties.type', 'properties.title', 'reservations.*')
             .join('reservations', 'properties.id', 'reservations.property_id')
             .where('reservations.reserved_by', req.session.user.id)
+            .where('reservations.to_date', '>=' , fn.now())
  
         // ====================== EVERYTHING OK ======================
         return res.json({ status: 1, message: 'Reservations retrieved successfully!', data: reservations });

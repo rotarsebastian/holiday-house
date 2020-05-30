@@ -51,6 +51,7 @@ const PropertiesResults = props => {
             else {
                 const popSearchObj = { city, from, to, guests, maxPrice, minPrice, types };
                 setPopulateSearch(popSearchObj);
+                console.log(res.properties)
                 setProperties(res.properties);
                 setNewProperties(res.properties.length)
             }

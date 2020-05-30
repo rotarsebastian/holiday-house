@@ -289,7 +289,7 @@ const AddProperty = props => {
                     </div>
                     <div className="SecondRow">
                         <div>
-                            <AddEditHouseBottomLeft data={bottomLeftData} setData={setLeftData} />
+                            <AddEditHouseBottomLeft data={bottomLeftData} setData={setLeftData} edit={props.from ? true : false} />
                         </div>
                         { props.from && bottomRightData.length > 0
                             ? 

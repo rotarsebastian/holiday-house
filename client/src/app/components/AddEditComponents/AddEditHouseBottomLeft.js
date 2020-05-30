@@ -188,10 +188,7 @@ const BathroomsTextField = withStyles({
 const AddEditHouseBottomLeft = props => {
    
    // ====================== DATES ======================
-   // const [ from, setFrom ] = useState(props.data[0]);
-   // const [ to, setTo ] = useState(props.data[1]);
    const [ minDateTo, setMinDateTo ] = useState(moment().add(1, 'days').format('yyyy-MM-DD'));
-   const [ disableSameDate, setDisableSameDate ] = useState(moment().subtract(1, 'day').format('yyyy-MM-DD'));
    
    const changeDate = (newDate, newLabel) => {
       const date = moment(newDate).format('yyyy-MM-DD');
@@ -200,7 +197,7 @@ const AddEditHouseBottomLeft = props => {
          const newData = [ ...props.data ];
          newData[0] = date;
 
-         if(moment(newData[1]).isBefore(date, 'day')) newData[1]= moment(date).add(1, 'days').format('yyyy-MM-DD');
+         if(moment(newData[1]).isSameOrBefore(date, 'day')) newData[1]= moment(date).add(1, 'days').format('yyyy-MM-DD');
 
          props.setData(newData)
 
@@ -209,7 +206,6 @@ const AddEditHouseBottomLeft = props => {
          const newData = [ ...props.data ];
          newData[1] = date;
          props.setData(newData);
-         setDisableSameDate(moment(date).format('yyyy-MM-DD'));
       }
    };
 
@@ -226,7 +222,6 @@ const AddEditHouseBottomLeft = props => {
       props.setData(newData);
    };
 
-
    const typesOptions = ["Entire place", "Private room", "Shared room"];
       
    return (
@@ -236,10 +231,10 @@ const AddEditHouseBottomLeft = props => {
                <div className={classes.LeftDateContainer}>
 
                   <Datepicker 
-                     newLabel="Available from" 
+                     newLabel={'Available from'} 
                      handleChange={changeDate}
+                     isEditPage={props.edit ? true : false}
                      date={props.data[0]}
-                     disableDay={disableSameDate}
                   />
                   <Datepicker 
                      newLabel="Available until"
