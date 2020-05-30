@@ -51,7 +51,7 @@ const SubmitFormButton = withStyles({
           }
        },
     }
- })(Button);
+})(Button);
 
 const AddProperty = props => {
 
@@ -228,6 +228,9 @@ const AddProperty = props => {
             country: topData[5],
             postal_code: topData[3],
         }
+
+        if(!props.from && files.length < 1) return toastr.warning('You need to upload at least one image!');
+        if(props.from && files.length < 1 && oldImages.length < 1 ) return toastr.warning('You need to upload at least one image!');
 
         // ====================== VALIDATION ======================
         const addPropertyData = [

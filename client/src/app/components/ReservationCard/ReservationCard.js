@@ -52,7 +52,7 @@ const ReservationCard = (props) => {
     }
 
     return (
-        <div className={classes.CardContainer}>
+        <div className={classes.CardContainer} onClick={() => props.click(id)}>
             <div className={classes.PropertyImageContainer}>
                 <img src={'https://holidayhouse1.s3.amazonaws.com/' + photos[0] } className={classes.PropertyImage} alt={photos[0]} onLoad={setImgLoaded} />
             </div>
