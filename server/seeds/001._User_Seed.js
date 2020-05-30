@@ -308,22 +308,8 @@ exports.seed = knex => {
       to_date: '2020-08-11', 
       persons_count: 3, 
       reserved_by: 1,
-      property_id: 8
-    },
-    { 
-      from_date: '2021-07-11', 
-      to_date: '2021-08-11', 
-      persons_count: 3, 
-      reserved_by: 4,
-      property_id: 6
-    },
-    { 
-      from_date: '2020-08-21', 
-      to_date: '2020-08-29', 
-      persons_count: 6, 
-      reserved_by: 2,
-      property_id: 9
-    },
+      property_id: 4
+    }
   ];
 
   // ====================== DELETE CURRENT ENTRIES AND ADD NEW DATA ======================

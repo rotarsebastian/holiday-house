@@ -7,8 +7,8 @@ import Datepicker from '../Datepicker/Datepicker';
 import moment from 'moment';
 import { useStore } from 'react-context-hook';
 
-const ReservationCard = (props) => {
-    const { id, type, title, photos, price, from_date, to_date } = props.reservation;
+const ReservationCard = props => {
+    const { id, type, title, photos, price, from_date, to_date, property_id } = props.reservation;
     const daysReserved = moment(to_date).diff(moment(from_date), 'days');
     const totalPrice = price * daysReserved;
 
@@ -52,7 +52,7 @@ const ReservationCard = (props) => {
     }
 
     return (
-        <div className={classes.CardContainer} onClick={() => props.click(id)}>
+        <div className={classes.CardContainer} onClick={() => props.click(property_id)}>
             <div className={classes.PropertyImageContainer}>
                 <img src={'https://holidayhouse1.s3.amazonaws.com/' + photos[0] } className={classes.PropertyImage} alt={photos[0]} onLoad={setImgLoaded} />
             </div>
