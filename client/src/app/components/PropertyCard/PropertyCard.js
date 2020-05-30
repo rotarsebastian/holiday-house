@@ -14,9 +14,9 @@ const PropertyCard = props => {
     
     const [ showDialog, setShowDialog ] = useState(false);
 
-    const [ countLoadedProperties, setCountLoadedProperties ] = useStore('countLoadedProperties');
+    const [ countLoadedImages, setCountLoadedImages ] = useStore('countLoadedImages');
 
-    const setImgLoaded = () => setCountLoadedProperties(countLoadedProperties + 1);
+    const setImgLoaded = () => setCountLoadedImages(countLoadedImages + 1);
 
     const handleAnswer = (e, answer, id) => {
         e.stopPropagation();

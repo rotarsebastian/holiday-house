@@ -5,33 +5,34 @@ import PropertyCard from './../../components/PropertyCard/PropertyCard'
 import ReservationCard from  './../../components/ReservationCard/ReservationCard'
 import { getUserProperties, deleteProperty }  from './../../helpers/properties';
 import { getUserReservations, deleteReservation, editReservation} from './../../helpers/reservations'
-import { useStoreValue } from 'react-context-hook';
+import { useStoreValue, useStore } from 'react-context-hook';
 import { useHistory } from 'react-router-dom';
 import toastr from 'toastr';
+import ClipLoader from 'react-spinners/ClipLoader';
 
-const Profile = props => {
+const Profile = () => {
     const history = useHistory();
     const user_data = useStoreValue('user');
-    const [properties, setProperties] = useState([]);
-    const [reservations, setReservations] = useState([]);
+    const [ properties, setProperties ] = useState(undefined);
+    const [ reservations, setReservations ] = useState(undefined);
+    const [ showPage, setShowPage ] = useState('0');    
+
+    const [ countLoadedImages, setCountLoadedImages ] = useStore('countLoadedImages');
 
     useEffect(() => {
         document.querySelector('body').classList.add('profile');
-        const fetchProperties = async() => {
+        const fetchData = async() => {
             if(user_data) {
                 const properties = await getUserProperties(user_data.id, 0);
-                setProperties(properties.data);
-            }
-        }
-        const fetchReservations = async() => {
-            if(user_data) {
                 const reservations = await getUserReservations(0);
+
+                setProperties(properties.data);
                 setReservations(reservations.data);
             }
         }
-        fetchProperties();
-        fetchReservations();
-    }, [user_data]) // component didmount - []  || componentWillUpdate - [yourDependency]
+
+        fetchData();
+    }, [user_data])
 
     const openPropertyPage = id => history.push(`/property/${id}`);
 
@@ -80,9 +81,23 @@ const Profile = props => {
         } else toastr.error(result.message);
     }
 
+    if(properties === undefined || reservations === undefined) return <div className="loading"><ClipLoader size={50} color={'#e83251'} /></div>;
+
+    if(
+        showPage !== '1' && 
+        properties && 
+        reservations && 
+        countLoadedImages === properties.length + reservations.length
+    ) {
+        setTimeout(() => setCountLoadedImages(0), 500); 
+        setShowPage('1');
+    } 
+
     return (
         <React.Fragment>
-            <div className={classes.ProfileContainer}>
+            <div className="loading"><ClipLoader size={50} color={'#E4215B'} loading={showPage === '1' ? false : true}/></div>
+
+            <div className={classes.ProfileContainer} style={{ opacity: showPage }}>
                 <div className={classes.ProfileCard}>
                     <ProfileCard user={user_data ? user_data : undefined}/>
                 </div>

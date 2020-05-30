@@ -17,14 +17,14 @@ const Home = props => {
     const history = useHistory();
     const location = useLocation();
 
-    const [setShowModal] = useSetAndDelete('showModal');
-    const [setRedirectTo] = useSetAndDelete('redirectTo');
-    const [setChangeKey] = useSetAndDelete('changeKey');
+    const [ setShowModal ] = useSetAndDelete('showModal');
+    const [ setRedirectTo ] = useSetAndDelete('redirectTo');
+    const [ setChangeKey ] = useSetAndDelete('changeKey');
+    const [ showPage, setShowPage ] = useState('0');    
 
     const [ recommendedProperties, setProperties ] = useState(undefined);
 
-    // eslint-disable-next-line
-    const [ countLoadedProperties, setCountLoadedProperties ] = useStore('countLoadedProperties');
+    const [ countLoadedImages, setCountLoadedImages ] = useStore('countLoadedImages');
 
     useEffect(() => {
 
@@ -89,12 +89,18 @@ const Home = props => {
         history.push(`/propertiesresults${queryString}`);
     }
 
-    setTimeout(() => setCountLoadedProperties(0), 500); 
-
     if(recommendedProperties === undefined) return <div className="loading"><ClipLoader size={50} color={'#e83251'} /></div>;
+
+    if(showPage !== '1' && recommendedProperties && countLoadedImages === recommendedProperties.length) {
+        setTimeout(() => setCountLoadedImages(0), 500); 
+        setShowPage('1');
+    } 
 
     return (
         <React.Fragment>
+            <div className="loading"><ClipLoader size={50} color={'#E4215B'} loading={showPage === '1' ? false : true}/></div>
+
+            <div style={{ opacity: showPage }}>
                 <Searchbar clickSearch={handleSearch} />
 
                 <div className="homeContainer">
@@ -105,6 +111,7 @@ const Home = props => {
                         })}                                   
                     </div>
                 </div>
+            </div>
         </React.Fragment>
     )
 }

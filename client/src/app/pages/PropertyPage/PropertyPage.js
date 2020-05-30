@@ -5,11 +5,15 @@ import PropertyDetails from '../../components/PropertyDetails/PropertyDetails'
 import { getOneProperty }  from './../../helpers/properties';
 import toastr from 'toastr';
 import ClipLoader from 'react-spinners/ClipLoader';
+import { useStore } from 'react-context-hook';
 
-const Property = props => {
+const Property = () => {
     
     // const user_data = useStoreValue('user');
     const [property, setProperty] = useState(undefined);
+    const [ showPage, setShowPage ] = useState('0'); 
+    
+    const [ countLoadedImages, setCountLoadedImages ] = useStore('countLoadedImages');
     
     useEffect(() => {
         const id = window.location.pathname.split('/')[2];
@@ -28,51 +32,59 @@ const Property = props => {
 
     if(property === undefined) return <div className="loading"><ClipLoader size={50} color={'#e83251'} /></div>
 
+    if(showPage !== '1' && property && countLoadedImages === property.photos.length) {
+        setTimeout(() => setCountLoadedImages(0), 500); 
+        setShowPage('1');
+    } 
+
     const { description } = property;
     const facilities = property.facilities !== null ? JSON.parse(property.facilities.facilities_list) : undefined;
 
     return (
         <React.Fragment>
-            <div className={classes.PropertyTopContainer}>
-                <SlideShow photos={property.photos} />
-                <PropertyDetails property={property} />
-            </div>
+            <div className="loading"><ClipLoader size={50} color={'#E4215B'} loading={showPage === '1' ? false : true}/></div>
 
-            <div className={classes.PropertyBottomContainer}>
-                <div>
-                    <div className={classes.PropertyAttrTitle}>Description</div>
-                    <div className={classes.PropertyAttrText}>{capitalize(description)}</div>
+            <div style={{ opacity: showPage }}>
+                <div className={classes.PropertyTopContainer}>
+                    <SlideShow photos={property.photos} />
+                    <PropertyDetails property={property} />
                 </div>
 
-                {
-                    facilities 
-                    ? 
+                <div className={classes.PropertyBottomContainer}>
                     <div>
-                        <div  className={classes.PropertyAttrTitle}>Facilities</div>
-                        <div className={classes.PropertyAttrText}>
-                            {
-                                facilities.map((facility, index) => {
-                                    return (
-                                        <div key={index}>
-                                            { facility.icon.slice(-4) !== '.svg' 
-                                                ? 
-                                                <i className={'fas fa-' + facility.icon}></i> 
-                                                : 
-                                                <img className={classes.Icon} src={'https://holidayhouse1.s3.amazonaws.com/icons/' + facility.icon} alt={facility.icon} />
-                                            }
-                                            <div>{ facility.name }</div>
-                                        </div>
-                                    )
-                                })
-                            }
-                        </div>
+                        <div className={classes.PropertyAttrTitle}>Description</div>
+                        <div className={classes.PropertyAttrText}>{capitalize(description)}</div>
                     </div>
-                    : 
-                    undefined
-                }
 
+                    {
+                        facilities 
+                        ? 
+                        <div>
+                            <div  className={classes.PropertyAttrTitle}>Facilities</div>
+                            <div className={classes.PropertyAttrText}>
+                                {
+                                    facilities.map((facility, index) => {
+                                        return (
+                                            <div key={index}>
+                                                { facility.icon.slice(-4) !== '.svg' 
+                                                    ? 
+                                                    <i className={'fas fa-' + facility.icon}></i> 
+                                                    : 
+                                                    <img className={classes.Icon} src={'https://holidayhouse1.s3.amazonaws.com/icons/' + facility.icon} alt={facility.icon} />
+                                                }
+                                                <div>{ facility.name }</div>
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
+                        </div>
+                        : 
+                        undefined
+                    }
+
+                </div>
             </div>
-
         </React.Fragment>
     )
 }

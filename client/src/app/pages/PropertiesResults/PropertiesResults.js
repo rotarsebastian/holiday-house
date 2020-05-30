@@ -30,7 +30,7 @@ const PropertiesResults = props => {
     const [ highlightProperty, setHighlightProperty ] = useState(undefined);
 
     const mapContainer = useRef(null);
-    const [ countLoadedProperties, setCountLoadedProperties ] = useStore('countLoadedProperties');
+    const [ countLoadedImages, setCountLoadedImages ] = useStore('countLoadedImages');
 
     useEffect(() => {
         const fetchProperties = async() => {
@@ -210,8 +210,8 @@ const PropertiesResults = props => {
         else mapContainer.current.querySelector(`.markerContainer.marker-${id}`).classList.add('active');
     }
 
-    if(showPage !== '1' && properties && countLoadedProperties === newProperties) {
-        setTimeout(() => setCountLoadedProperties(0), 500); 
+    if(showPage !== '1' && properties && countLoadedImages === newProperties) {
+        setTimeout(() => setCountLoadedImages(0), 500); 
         setShowPage('1');
     } 
 

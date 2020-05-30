@@ -7,7 +7,7 @@ const auth = {
   showModal: undefined,
   redirectTo: undefined,
   changeKey: undefined,
-  countLoadedProperties: 0
+  countLoadedImages: 0
 }
 
 export const login = async(loginData) => {

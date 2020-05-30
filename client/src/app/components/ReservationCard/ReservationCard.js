@@ -5,6 +5,7 @@ import classes from "./ReservationCard.module.css";
 import YesNoModal from '../YesNoModal/YesNoModal';
 import Datepicker from '../Datepicker/Datepicker';
 import moment from 'moment';
+import { useStore } from 'react-context-hook';
 
 const ReservationCard = (props) => {
     const { id, type, title, photos, price, from_date, to_date } = props.reservation;
@@ -16,6 +17,10 @@ const ReservationCard = (props) => {
     const [ from, setFrom ] = useState(moment(from_date).format('yyyy-MM-DD'));
     const [ to, setTo ] = useState(moment(to_date).format('yyyy-MM-DD'));
     const [ minDateTo, setMinDateTo ] = useState(moment(from_date).add(1, 'days').format('yyyy-MM-DD'));
+
+    const [ countLoadedImages, setCountLoadedImages ] = useStore('countLoadedImages');
+
+    const setImgLoaded = () => setCountLoadedImages(countLoadedImages + 1);
 
     const handleAnswer = (e, answer, id) => {
         e.stopPropagation();
@@ -49,7 +54,7 @@ const ReservationCard = (props) => {
     return (
         <div className={classes.CardContainer}>
             <div className={classes.PropertyImageContainer}>
-                <img src={'https://holidayhouse1.s3.amazonaws.com/' + photos[0] } className={classes.PropertyImage} alt={photos[0]}  />
+                <img src={'https://holidayhouse1.s3.amazonaws.com/' + photos[0] } className={classes.PropertyImage} alt={photos[0]} onLoad={setImgLoaded} />
             </div>
 
             <div className={classes.PropertyDetails}>

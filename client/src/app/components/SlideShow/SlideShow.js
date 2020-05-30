@@ -1,42 +1,50 @@
-import React, { useState } from "react";
+import React from "react";
 import "./SlideShow.css";
 import { Fade } from 'react-slideshow-image';
-// import { useStore } from 'react-context-hook';
+import { useStore } from 'react-context-hook';
 
-// const fadeImages = [
-//     './../../assets/img/LMM-Cover-Images-2.jpg',
-//     './../../assets/img/LMM-Cover-Images-2.jpg',
-//     './../../assets/img/LMM-Cover-Images-2.jpg'
-//   ];
+const imgPath = 'https://holidayhouse1.s3.amazonaws.com/';
 
 const fadeProperties = {
   duration: 5000,
   transitionDuration: 500,
   infinite: true,
   indicators: true,
+  arrows: true,
   pauseOnHover: true,
+  autoplay: false
 }
 
 const Slideshow = props => {
 
-  // const [ countLoadedProperties, setCountLoadedProperties ] = useStore('countLoadedProperties');
+  const [ countLoadedImages, setCountLoadedImages ] = useStore('countLoadedImages');
 
-  const [ imgPath ] = useState('https://holidayhouse1.s3.amazonaws.com/');
+  const setImgLoaded = () => setCountLoadedImages(countLoadedImages + 1);
   const { photos } = props;
 
   return (
     <div className={"SlideMainContainer"}>
-      <Fade { ...fadeProperties }>
+      {
+        photos.length === 1
+        ?
+        <div className={"EachFade"}>
+          <div className={"ImageContainer"}>
+            <img src={imgPath + photos[0]} alt={photos[0]} onLoad={setImgLoaded} />
+          </div>
+        </div>
+        :
+        <Fade { ...fadeProperties }>
         { photos.map(photo => {
             return (
               <div className={"EachFade"} key={photo}>
                 <div className={"ImageContainer"}>
-                  <img src={imgPath + photo} alt={photo} />
+                  <img src={imgPath + photo} alt={photo} onLoad={setImgLoaded} />
                 </div>
               </div>
             )
         })}
       </Fade>
+      }
     </div>
   )
 };
