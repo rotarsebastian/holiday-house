@@ -22,7 +22,7 @@
 }
 
 .SlideMainContainer .EachFade .ImageContainer img {
-  width: 100%;
+  max-width: 99%;
   border-radius: var(--radius) ;
   object-fit: cover;
   height: 30rem;

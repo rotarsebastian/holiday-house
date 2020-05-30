@@ -51,7 +51,7 @@ router.get('/random/10', async(req, res) => {
             .select('id', 'title', 'beds', 'bathrooms', 'rooms', 'type', 'capacity', 'price', 'photos')
             .where('available_end', '>' , oneMonthOn)
             .orderBy(raw('random()'))
-            .limit(10)
+            .limit(5)
 
         // ====================== EVERYTHING OK ======================s
         return res.json({ status: 1, message: 'Properties retrieved successfully!', data: properties });
