@@ -4,7 +4,7 @@ import mapboxgl from 'mapbox-gl';
 import ClipLoader from 'react-spinners/ClipLoader';
 import Button from '@material-ui/core/Button';
 import DragAndDrop from '../../components/DragAndDrop/DragAndDrop';
-import './AddProperty.css';
+import './AddEditProperty.css';
 import { validateForm } from '../../helpers/validation';
 import AddEditHouseTop from '../../components/AddEditComponents/AddEditHouseTop'
 import AddEditHouseBottomLeft from '../../components/AddEditComponents/AddEditHouseBottomLeft';
@@ -18,7 +18,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useHistory } from 'react-router-dom';
 
-const AddPropertyButton = withStyles({
+const SubmitFormButton = withStyles({
     root: {
        width: '30%',
        height: '56px',
@@ -283,8 +283,9 @@ const AddProperty = props => {
                             <AddEditHouseTop data={topData} setData={setData} />
                         </div>
                         <div className="MapContainer">
-                            <h3>Pick your address: *</h3>
+                            <h3 className="PickAddressText">Pick your home address on the map: *</h3>
                             <div ref={addPropertyMap} className="addPropertyMap"></div>
+                            <p className="PickAddressTip">Tip: <span>Add the marker close to your home main entrance</span></p>
                         </div>
                     </div>
                     <div className="SecondRow">
@@ -347,9 +348,18 @@ const AddProperty = props => {
                     </div>
                     
                     <div className="FourthRow">
-                        <AddPropertyButton
-                        variant="contained"
-                        onClick={submitForm}> {loadingButton ? <ClipLoader size={18} color={'#fff'} /> : buttonName}</AddPropertyButton>
+                        <SubmitFormButton
+                            variant="contained"
+                            onClick={submitForm}
+                        > 
+                        { 
+                            loadingButton 
+                            ? 
+                            <ClipLoader size={18} color={'#fff'} /> 
+                            :
+                            buttonName 
+                        }
+                        </SubmitFormButton>
                     </div>
                 </div>
         </React.Fragment>

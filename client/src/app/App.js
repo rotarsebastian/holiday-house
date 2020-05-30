@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import Home from './pages/Home/Home';
-import AddProperty from './pages/AddProperty/AddProperty';
+import AddEditProperty from './pages/AddEditProperty/AddEditProperty';
 import Profile from './pages/Profile/Profile'
 import PropertiesResults from './pages/PropertiesResults/PropertiesResults';
 import toastr from 'toastr';
@@ -56,8 +56,8 @@ const App = () => {
           <Switch>
             <Route exact path='/' component={props => <Home {...props} />} />
             <Route path='/propertiesresults' component={props => <PropertiesResults {...props} />} />
-            <PrivateRoute exact path='/handleproperty' component={props => <AddProperty {...props} />} />
-            <PrivateRoute exact path='/handleproperty/:id' component={props => <AddProperty from={'Edit'} {...props} />} />
+            <PrivateRoute exact path='/handleproperty' component={props => <AddEditProperty {...props} />} />
+            <PrivateRoute exact path='/handleproperty/:id' component={props => <AddEditProperty from={'Edit'} {...props} />} />
             <PrivateRoute path='/profile' component={props => <Profile {...props}/>} />
             <Route path='/property/:id' component={props => <Property {...props} />} />
           </Switch>

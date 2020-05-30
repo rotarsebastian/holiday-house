@@ -107,9 +107,10 @@ router.get('/user/:id', isAuthenticated, async(req, res) => {
             .where('available_start', '<' , fn.now())
             .andWhere('available_end', '>' , fn.now())
             .limit(10)
+            .orderBy('price', 'desc')
             .offset(offset)
             :
-            await User.relatedQuery('properties').for(user).select().limit(10).offset(offset)
+            await User.relatedQuery('properties').for(user).select().limit(10).orderBy('price', 'desc').offset(offset)
 
         // ====================== EVERYTHING OK ======================s
         return res.json({ status: 1, message: 'Properties retrieved successfully!', data: properties });

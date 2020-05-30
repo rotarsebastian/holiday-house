@@ -48,6 +48,7 @@ router.get('/', isAuthenticated, async(req, res) => {
             .join('reservations', 'properties.id', 'reservations.property_id')
             .where('reservations.reserved_by', req.session.user.id)
             .where('reservations.to_date', '>=' , fn.now())
+            .orderBy('reservations.to_date')
  
         // ====================== EVERYTHING OK ======================
         return res.json({ status: 1, message: 'Reservations retrieved successfully!', data: reservations });

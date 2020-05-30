@@ -62,14 +62,14 @@
 }
 
 .AddPropertyContainer .FourthRow {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     display: flex;
     justify-content: center;
 }
 
 h1.AddPropertyTitle {
     color: #e4215b;
-    padding-bottom: .4em;
+    padding-bottom: 1.25rem;
 }
 .AddPropertyContainer .FirstRow .MapContainer {
     width: 50%;
@@ -121,4 +121,21 @@ h1.AddPropertyTitle {
 
 .ThumbsContainer .CloseButton {
     width: .5rem !important;
+}
+
+.MapContainer .PickAddressText {
+    color: var(--color-title);
+    margin-bottom: .5rem;
+}
+
+.MapContainer .PickAddressTip {
+    color: var(--color-title);
+    margin-bottom: .5rem;
+    font-size: .85rem;
+    margin-top: .4rem;
+    text-align: center;
+}
+
+.MapContainer .PickAddressTip span {
+    color: var(--grey);
 }
