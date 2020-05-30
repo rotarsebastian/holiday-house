@@ -21,9 +21,9 @@ const PropertiesResults = props => {
     // const [ offset, setOffset ] = useState(0);    
 
     const [ map, setMap ] = useState(undefined);    
-    const [ lng, setLng ] = useState(12.5718);    
-    const [ lat, setLat ] = useState(55.6466);    
-    const [ zoom, setZoom ] = useState(10.48);    
+    const [ lng ] = useState(12.5718);    
+    const [ lat ] = useState(55.6466);    
+    const [ zoom ] = useState(10.48);    
     const [ currentMarkers ] = useState([]);    
     const [ isLoading, setIsLoading ] = useState(true);
     const [ populateSearch, setPopulateSearch ] = useState(undefined);
@@ -80,19 +80,9 @@ const PropertiesResults = props => {
                 setMap(map);
                 map.resize();
                 setIsLoading(false);
+
                 // add markers to map
                 addMarkers(map);
-            });
-        
-            map.on('move', () => {
-                setLng(map.getCenter().lng.toFixed(4));
-                setLat(map.getCenter().lat.toFixed(4));
-                setZoom(map.getZoom().toFixed(2));
-            });
-
-            map.on('zoom', () => {
-                // if(Math.round(zoom * 10) / 10 < 3.5) hideMarkers();
-                // else showMarkers(map);
             });
         };
 
