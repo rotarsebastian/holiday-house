@@ -9,8 +9,7 @@ import { useStore } from 'react-context-hook';
 
 const Property = () => {
     
-    // const user_data = useStoreValue('user');
-    const [property, setProperty] = useState(undefined);
+    const [ property, setProperty ] = useState(undefined);
     const [ showPage, setShowPage ] = useState('0'); 
     
     const [ countLoadedImages, setCountLoadedImages ] = useStore('countLoadedImages');
@@ -66,12 +65,11 @@ const Property = () => {
                                     facilities.map((facility, index) => {
                                         return (
                                             <div key={index}>
-                                                { facility.icon.slice(-4) !== '.svg' 
-                                                    ? 
-                                                    <i className={'fas fa-' + facility.icon}></i> 
-                                                    : 
-                                                    <img className={classes.Icon} src={'https://holidayhouse1.s3.amazonaws.com/icons/' + facility.icon} alt={facility.icon} />
-                                                }
+                                                    <img 
+                                                        className={classes.Icon} 
+                                                        src={'https://holidayhouse1.s3.amazonaws.com/icons/' + facility.icon} 
+                                                        alt={facility.icon} 
+                                                    />
                                                 <div>{ facility.name }</div>
                                             </div>
                                         )

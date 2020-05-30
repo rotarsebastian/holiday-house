@@ -70,9 +70,9 @@ const PropertyDetails = props => {
         if(user_data) {
             if(from && to && guests) {
                 const requestData = [
-                    { "type": "from_date", "val": from },
-                    { "type": "to_date", "val": to },
-                    { "type": "persons_count", "val": parseInt(guests) }
+                    { type: "from_date", "val": from },
+                    { type: "to_date", "val": to },
+                    { type: "persons_count", "val": parseInt(guests) }
                 ];
                 const response = await createReservation(id, requestData);
                 if(response.status === 1){
@@ -81,7 +81,8 @@ const PropertyDetails = props => {
                 } else toastr.error(response.message);
     
             } else {
-                history.push(`/propertiesresults?from=${moment(available_start).format('yyyy-MM-DD')}&to=${moment(available_start).add(1, 'days').format('yyyy-MM-DD')}&guests=1&city=${encodeURIComponent(address.city)}`);
+                const setSearchDay = moment(available_start).isBefore(moment(), 'day') ? moment().format('yyyy-MM-DD') : moment(available_start).format('yyyy-MM-DD');
+                history.push(`/propertiesresults?from=${setSearchDay}&to=${moment(setSearchDay).add(1, 'days').format('yyyy-MM-DD')}&guests=1&city=${encodeURIComponent(address.city)}`);
             }
         } else setShowModal('Log in');
     }
