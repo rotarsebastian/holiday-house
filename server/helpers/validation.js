@@ -54,11 +54,11 @@ const validateInput = (type, value) => {
         case 'country':
             return value.length >= 4 && value.length <= 56 && /^[\p{L} .'-]+$/u.test(value);
         case 'city':
-            return value.length >= 2 && value.length <= 50 && /^[\p{L} .'-]+$/u.test(value);
+            return value.length >= 2 && value.length <= 90 && /^[\p{L} .'-]+$/u.test(value);
         case 'property_address':
             return value.length >= 6 && value.length <= 100;
         case 'postal_code':
-            return /^[0-9]{4}$/.test(value);
+            return value.length >= 2 && value.length <= 20;
 
         // ====================== RESERVATION VALIDATION ======================
         case 'from_date':
