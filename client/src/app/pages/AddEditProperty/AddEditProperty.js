@@ -77,8 +77,6 @@ const AddProperty = props => {
     const [bottomRightData, setBottomRightData] = useState([]);
 
     useEffect(() => {
-        // ===================== FOR DEVELOPMENT =====================
-        // mapboxgl.accessToken = process.env.REACT_APP_MAP;
         mapboxgl.accessToken = ak('map');
 
         const populateForm = async(id) => {

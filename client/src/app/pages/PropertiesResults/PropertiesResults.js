@@ -21,8 +21,8 @@ const PropertiesResults = props => {
     // const [ offset, setOffset ] = useState(0);    
 
     const [ map, setMap ] = useState(undefined);    
-    const [ lng ] = useState(12.5718);    
-    const [ lat ] = useState(55.6466);    
+    const [ lng, setLng ] = useState(undefined);    
+    const [ lat, setLat ] = useState(undefined);    
     const [ zoom ] = useState(10.48);    
     const [ currentMarkers ] = useState([]);    
     const [ isLoading, setIsLoading ] = useState(true);
@@ -42,6 +42,7 @@ const PropertiesResults = props => {
             const guests = searchParams.get('guests'); 
             const maxPrice = searchParams.get('maxprice'); 
             const minPrice = searchParams.get('minprice'); 
+            const coordinates = searchParams.get('coordinates'); 
             const types = location.search.split('&').filter(el => el.includes('types[]'));
 
             const res = await getProperties(from, to, parseInt(guests), city, 0, minPrice, maxPrice, types);
@@ -50,9 +51,20 @@ const PropertiesResults = props => {
             }
             else {
                 const popSearchObj = { city, from, to, guests, maxPrice, minPrice, types };
+
                 setPopulateSearch(popSearchObj);
                 setProperties(res.properties);
-                setNewProperties(res.properties.length)
+                setNewProperties(res.properties.length);
+                if(coordinates) {
+                    setLng(coordinates.split(',')[0]);
+                    setLat(coordinates.split(',')[1]);
+                } else if (res.coordinates){
+                    setLng(res.coordinates[0]);
+                    setLat(res.coordinates[1]);
+                } else {
+                    setLng(12.5718);    
+                    setLat(55.6466);   
+                }
             }
         }
 
@@ -87,7 +99,7 @@ const PropertiesResults = props => {
         };
 
         if(properties === undefined) fetchProperties();
-        if (!map && properties) initializeMap();
+        if (!map && properties && lng && lat) initializeMap();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [map, lat, lng, zoom, currentMarkers, location, properties, history]);
@@ -187,6 +199,7 @@ const PropertiesResults = props => {
         
         setNewProperties(newProperties);
         setProperties(result.properties);
+        map.flyTo({ center: [ result.coordinates[0], result.coordinates[1] ] });
         setShowPage('0');
         hideMarkers();
         addMarkers(map, result.properties);

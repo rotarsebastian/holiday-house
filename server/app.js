@@ -50,9 +50,6 @@ app.use(
 // ====================== ADD ROUTES ======================
 app.use('/api', routes);
 
-// ====================== TEST ROUTE ======================
-app.get('/test', (req, res) => res.status(200).json({ status: 1, message: 'Test works!', code: 200 }));
-
 // ====================== CREATE SERVER ======================
 const PORT = process.env.PORT || serverPORT;
 app.listen(PORT, err => err ? console.log('Server ERROR...') : console.log('Server listening on port: ' + PORT));

@@ -64,7 +64,7 @@ const PropertyDetails = props => {
 
     const capitalize = text => text.charAt(0).toUpperCase() + text.slice(1);
     
-    const { id, title, price, capacity, type, rooms, beds, bathrooms, address, first_name, last_name, user_id, available_start } = props.property;
+    const { id, title, price, capacity, type, rooms, beds, bathrooms, address, first_name, last_name, user_id, available_start, coordinates } = props.property;
 
     const handleCreateBooking = async(id) => {
         if(user_data) {
@@ -82,7 +82,7 @@ const PropertyDetails = props => {
     
             } else {
                 const setSearchDay = moment(available_start).isBefore(moment(), 'day') ? moment().format('yyyy-MM-DD') : moment(available_start).format('yyyy-MM-DD');
-                history.push(`/propertiesresults?from=${setSearchDay}&to=${moment(setSearchDay).add(1, 'days').format('yyyy-MM-DD')}&guests=1&city=${encodeURIComponent(address.city)}`);
+                history.push(`/propertiesresults?from=${setSearchDay}&to=${moment(setSearchDay).add(1, 'days').format('yyyy-MM-DD')}&guests=1&city=${encodeURIComponent(address.city)}&coordinates=${coordinates[0]},${coordinates[1]}`);
             }
         } else setShowModal('Log in');
     }
@@ -92,7 +92,11 @@ const PropertyDetails = props => {
     if(user_data && user_data.id !== user_id) {
         bookButton = (
             <React.Fragment>
-                <OrderButton onClick={() => handleCreateBooking(id)}><span className={classes.BookButtonText}>Book it</span></OrderButton>
+                <OrderButton onClick={() => handleCreateBooking(id)}>
+                    <span className={classes.BookButtonText}>
+                        {from && to && guests ? 'Book it' : 'Check dates'}
+                    </span>
+                </OrderButton>
                 <div>
                     <div className={classes.PropertyPrice}>{price} DKK<span className={classes.PropertyPriceNight}> / night</span></div>
                 </div>
@@ -108,6 +112,8 @@ const PropertyDetails = props => {
             </React.Fragment>
         )
     }
+
+    const nights = moment(to).diff(moment(from), 'days');
 
     return (
         <div className={classes.PropertyDetailsContainer}>
@@ -138,16 +144,22 @@ const PropertyDetails = props => {
                 </div>
             </div>
 
-            <div className={classes.PropertyPriceTotal}>
-                <FontAwesomeIcon icon={faCoins} style={{ marginRight: '.75rem' }} />
-                Price for {7} nights: 
-                <span className={classes.PriceTotalAmount}>{7*999} DKK</span>
-            </div>
+            {
+                from && to && guests 
+                ? 
+                <div className={classes.PropertyPriceTotal}>
+                    <FontAwesomeIcon icon={faCoins} style={{ marginRight: '.75rem' }} />
+                    Price for {nights} {nights > 1 ? 'nights' : 'night'}: 
+                    <span className={classes.PriceTotalAmount}>{nights * price} DKK</span>
+                </div>
+                : 
+                undefined
+            }
 
             <div className={classes.PropertyDiscount}>
                 <FontAwesomeIcon icon={faTags} style={{ marginRight: '.5rem' }} />
-                Discount for more than {15} nights: 
-                <span className={classes.PriceTotalAmount}>{15}%</span>
+                Discount for more than 15 nights: 
+                <span className={classes.PriceTotalAmount}>15%</span>
             </div>
 
             <div className={classes.PropertyOrderContainer} >

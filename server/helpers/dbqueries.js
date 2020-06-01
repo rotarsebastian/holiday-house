@@ -1,6 +1,7 @@
 const User = require(__dirname + '/../models/User');
 const Property = require(__dirname + '/../models/Property');
 const { removeImages } = require(__dirname + '/handleImages');
+const { geolocate } = require(__dirname + '/geolocate');
 const { ref, raw } = require('objection');
 
 // ====================== EDIT USER ======================
@@ -36,7 +37,7 @@ const editUser = async(form, id) => {
     }
 }
 
-// ====================== GET USER PROPERTIES ======================
+// ====================== GET PROPERTIES ======================
 const getPropertiesWithFilters = async(offset, city, from, to, guests, types, minPrice, maxPrice) => {
     let properties;
     let min = minPrice ? minPrice : 0;
@@ -79,7 +80,11 @@ const getPropertiesWithFilters = async(offset, city, from, to, guests, types, mi
             .limit(10)
             .offset(offset)      
     }
-    return properties;
+
+    let coordinates;
+    const responseGeo = await geolocate(city.toLowerCase());
+    if(responseGeo.status === 1) coordinates = responseGeo.coordinates;
+    return { properties, coordinates };
 }
 
 // ====================== EDIT PROPERTY ======================

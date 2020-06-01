@@ -145,10 +145,10 @@ router.get('/', async(req, res) => {
         if(minprice && (!Number.isInteger(Number(minprice)) || Number(minprice) < 0)) return res.json({ status: 0, message: 'Min price should be a number', code: 404 });
         if(maxprice && (!Number.isInteger(Number(maxprice)) || Number(maxprice) > 99999)) return res.json({ status: 0, message: 'Max price should be a number or is too big', code: 404 });
 
-        const properties = await getPropertiesWithFilters(offset, city, from, to, guests, types, minprice, maxprice);
+        const responseData = await getPropertiesWithFilters(offset, city, from, to, guests, types, minprice, maxprice);
 
-        if(!properties) res.json({ status: 0, message: 'Error getting properties from the db!'});
-        return res.status(200).json({ status: 1, properties, code: 200 });
+        if(!responseData) res.json({ status: 0, message: 'Error getting properties from the db!'});
+        return res.status(200).json({ status: 1, properties: responseData.properties, coordinates: responseData.coordinates, code: 200 });
     } catch(e) {
         console.log(e);
         return res.json({ status: 0, message: 'Error returning properties!'});

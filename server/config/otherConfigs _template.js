@@ -4,5 +4,6 @@ module.exports = {
     AWS_Secret_Key: 'otherwise I have to pay :(',
     serverPORT: 5555,
     usersEndpoint: 'http://localhost:5555/api/users',
-    clientEndpoint: 'http://localhost:3000'
+    clientEndpoint: 'http://localhost:3000',
+    mapKey: 'map key here'
 };
