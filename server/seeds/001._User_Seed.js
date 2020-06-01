@@ -293,12 +293,64 @@ exports.seed = knex => {
 
   const facilities = [
     { 
-      facilities_list: '[{"name":"WiFi","icon":"wifi.svg"},{"name":"Kitchen","icon":"kitchen.svg"},{"name":"Parking","icon":"parking.svg"}]',
+      facilities_list: '[{"name":"Essentials","icon":"essentials.svg"},{"name":"Air conditioning","icon":"air-conditioning.svg"},{"name":"WiFi","icon":"wifi.svg"},{"name":"Kitchen","icon":"kitchen.svg"},{"name":"Hair dryer","icon":"hair-dryer.svg"},{"name":"Closet/Drawers","icon":"closets.svg"},{"name":"Fireplace","icon":"fireplace.svg"},{"name":"Parking","icon":"parking.svg"}]',
       property_id: 1
     },
     { 
-      facilities_list: '[{"name":"WiFi","icon":"wifi.svg"},{"name":"Iron","icon":"iron.svg"}]',
+      facilities_list: '[{"name":"Essentials","icon":"essentials.svg"},{"name":"Closet/Drawers","icon":"closets.svg"},{"name":"Kitchen","icon":"kitchen.svg"},{"name":"Heat","icon":"heat.svg"},{"name":"WiFi","icon":"wifi.svg"},{"name":"Shampoo","icon":"shampoo.svg"},{"name":"Workspace","icon":"workspace.svg"},{"name":"Breakfast","icon":"breakfast.svg"},{"name":"TV","icon":"tv.svg"},{"name":"Iron","icon":"iron.svg"}]',
       property_id: 2
+    },
+    { 
+      facilities_list: '[{"name":"Essentials","icon":"essentials.svg"},{"name":"Kid-Friendly","icon":"kid-friendly.svg"},{"name":"Air conditioning","icon":"air-conditioning.svg"},{"name":"Heat","icon":"heat.svg"},{"name":"WiFi","icon":"wifi.svg"},{"name":"Fireplace","icon":"fireplace.svg"},{"name":"Workspace","icon":"workspace.svg"},{"name":"Closet/Drawers","icon":"closets.svg"},{"name":"Parking","icon":"parking.svg"},{"name":"Iron","icon":"iron.svg"}]',
+      property_id: 3
+    },
+    { 
+      facilities_list: '[{"name":"WiFi","icon":"wifi.svg"},{"name":"Air conditioning","icon":"air-conditioning.svg"},{"name":"Parking","icon":"parking.svg"},{"name":"Hair dryer","icon":"hair-dryer.svg"},{"name":"TV","icon":"tv.svg"},{"name":"Hair dryer","icon":"hair-dryer.svg"},{"name":"Breakfast","icon":"breakfast.svg"},{"name":"Shampoo","icon":"shampoo.svg"}]',
+      property_id: 4
+    },
+    { 
+      facilities_list: '[{"name":"Essentials","icon":"essentials.svg"},{"name":"Kid-Friendly","icon":"kid-friendly.svg"},{"name":"Closet/Drawers","icon":"closets.svg"},{"name":"Kitchen","icon":"kitchen.svg"},{"name":"Shampoo","icon":"shampoo.svg"},{"name":"Heat","icon":"heat.svg"},{"name":"Fireplace","icon":"fireplace.svg"},{"name":"WiFi","icon":"wifi.svg"},{"name":"Workspace","icon":"workspace.svg"},{"name":"Iron","icon":"iron.svg"}]',
+      property_id: 5
+    },
+    { 
+      facilities_list: '[{"name":"WiFi","icon":"wifi.svg"},{"name":"Kitchen","icon":"kitchen.svg"},{"name":"Parking","icon":"parking.svg"},{"name":"Hair dryer","icon":"hair-dryer.svg"},{"name":"Workspace","icon":"workspace.svg"},{"name":"Air conditioning","icon":"air-conditioning.svg"},{"name":"Breakfast","icon":"breakfast.svg"},{"name":"TV","icon":"tv.svg"},{"name":"Iron","icon":"iron.svg"}]',
+      property_id: 6
+    },
+    { 
+      facilities_list: '[{"name":"Essentials","icon":"essentials.svg"},{"name":"Closet/Drawers","icon":"closets.svg"},{"name":"Parking","icon":"parking.svg"},{"name":"Shampoo","icon":"shampoo.svg"},{"name":"Air conditioning","icon":"air-conditioning.svg"},{"name":"TV","icon":"tv.svg"},{"name":"Heat","icon":"heat.svg"},{"name":"Breakfast","icon":"breakfast.svg"},{"name":"WiFi","icon":"wifi.svg"},{"name":"Iron","icon":"iron.svg"}]',
+      property_id: 7
+    },
+    { 
+      facilities_list: '[{"name":"Essentials","icon":"essentials.svg"},{"name":"Kid-Friendly","icon":"kid-friendly.svg"},{"name":"Closet/Drawers","icon":"closets.svg"},{"name":"Hair dryer","icon":"hair-dryer.svg"},{"name":"Parking","icon":"parking.svg"},{"name":"Heat","icon":"heat.svg"},{"name":"Fireplace","icon":"fireplace.svg"},{"name":"Workspace","icon":"workspace.svg"},{"name":"WiFi","icon":"wifi.svg"},{"name":"Iron","icon":"iron.svg"}]',
+      property_id: 8
+    },
+    { 
+      facilities_list: '[{"name":"Essentials","icon":"essentials.svg"},{"name":"Kitchen","icon":"kitchen.svg"},{"name":"Air conditioning","icon":"air-conditioning.svg"},{"name":"WiFi","icon":"wifi.svg"},{"name":"TV","icon":"tv.svg"},{"name":"Breakfast","icon":"breakfast.svg"},{"name":"Iron","icon":"iron.svg"}]',
+      property_id: 9
+    },
+    { 
+      facilities_list: '[{"name":"WiFi","icon":"wifi.svg"},{"name":"Kid-Friendly","icon":"kid-friendly.svg"},{"name":"Closet/Drawers","icon":"closets.svg"},{"name":"Parking","icon":"parking.svg"},{"name":"Shampoo","icon":"shampoo.svg"},{"name":"Heat","icon":"heat.svg"},{"name":"Workspace","icon":"workspace.svg"},{"name":"TV","icon":"tv.svg"},{"name":"Iron","icon":"iron.svg"}]',
+      property_id: 10
+    },
+    { 
+      facilities_list: '[{"name":"Essentials","icon":"essentials.svg"},{"name":"Kitchen","icon":"kitchen.svg"},{"name":"Air conditioning","icon":"air-conditioning.svg"},{"name":"Hair dryer","icon":"hair-dryer.svg"},{"name":"Heat","icon":"heat.svg"},{"name":"WiFi","icon":"wifi.svg"},{"name":"Fireplace","icon":"fireplace.svg"},{"name":"Iron","icon":"iron.svg"}]',
+      property_id: 11
+    },
+    { 
+      facilities_list: '[{"name":"WiFi","icon":"wifi.svg"},{"name":"Closet/Drawers","icon":"closets.svg"},{"name":"Parking","icon":"parking.svg"},{"name":"Air conditioning","icon":"air-conditioning.svg"},{"name":"Shampoo","icon":"shampoo.svg"},{"name":"Breakfast","icon":"breakfast.svg"},{"name":"Heat","icon":"heat.svg"},{"name":"Iron","icon":"iron.svg"}]',
+      property_id: 12
+    },
+    { 
+      facilities_list: '[{"name":"Essentials","icon":"essentials.svg"},{"name":"Kid-Friendly","icon":"kid-friendly.svg"},{"name":"Kitchen","icon":"kitchen.svg"},{"name":"Hair dryer","icon":"hair-dryer.svg"},{"name":"Parking","icon":"parking.svg"},{"name":"Workspace","icon":"workspace.svg"},{"name":"WiFi","icon":"wifi.svg"},{"name":"TV","icon":"tv.svg"},{"name":"Iron","icon":"iron.svg"}]',
+      property_id: 13
+    },
+    { 
+      facilities_list: '[{"name":"Essentials","icon":"essentials.svg"},{"name":"Closet/Drawers","icon":"closets.svg"},{"name":"Air conditioning","icon":"air-conditioning.svg"},{"name":"Heat","icon":"heat.svg"},{"name":"WiFi","icon":"wifi.svg"},{"name":"Breakfast","icon":"breakfast.svg"},{"name":"Fireplace","icon":"fireplace.svg"},{"name":"Iron","icon":"iron.svg"}]',
+      property_id: 14
+    },
+    { 
+      facilities_list: '[{"name":"Essentials","icon":"essentials.svg"},{"name":"Kid-Friendly","icon":"kid-friendly.svg"},{"name":"Hair dryer","icon":"hair-dryer.svg"},{"name":"Closet/Drawers","icon":"closets.svg"},{"name":"Shampoo","icon":"shampoo.svg"},{"name":"Breakfast","icon":"breakfast.svg"},{"name":"Kitchen","icon":"kitchen.svg"},{"name":"Fireplace","icon":"fireplace.svg"},{"name":"Parking","icon":"parking.svg"},{"name":"Workspace","icon":"workspace.svg"},{"name":"Air conditioning","icon":"air-conditioning.svg"},{"name":"TV","icon":"tv.svg"},{"name":"Heat","icon":"heat.svg"},{"name":"WiFi","icon":"wifi.svg"},{"name":"Iron","icon":"iron.svg"}]',
+      property_id: 15
     },
   ];
 
