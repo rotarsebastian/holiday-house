@@ -60,8 +60,8 @@ const AddProperty = props => {
     const [ propertyID, setPropertyID ] = useState(undefined);
     
     const [ map, setMap ] = useState(null);    
-    const [ lng, setLng ] = useState(12.5937767);    
-    const [ lat, setLat ] = useState(55.657091699999995);    
+    const [ lng, setLng ] = useState(12.5718);    
+    const [ lat, setLat ] = useState(55.6466);  
     const [ zoom ] = useState(15);    
     const [ currentMarker ] = useState([]);    
     // eslint-disable-next-line
@@ -123,9 +123,7 @@ const AddProperty = props => {
                 const coords = await populateForm(props.match.params.id);
                 addMap(coords[0], coords[1]);
             }
-            else if ('geolocation' in navigator) { 
-                navigator.geolocation.getCurrentPosition(position => addMap(position.coords.longitude, position.coords.latitude)) 
-            } else addMap();
+            else addMap();
         };
 
         const addMap = (longitude, latitude) => {
@@ -144,24 +142,25 @@ const AddProperty = props => {
                 const layersToRemove = ['country-label', 'state-label', 'settlement-label'];
                 layersToRemove.forEach(layer => map.removeLayer(layer));
 
-                map.addControl(new mapboxgl.GeolocateControl({
+                const geolocate = new mapboxgl.GeolocateControl({
                     positionOptions: {
                         enableHighAccuracy: true,
                         timeout: 1800 /* 1.8 sec */
                     },
+                    fitBoundsOptions: {
+                        maxZoom: 30
+                    },
                     trackUserLocation: true,
                     showAccuracyCircle: false,
                     showUserLocation: false,
-                    
-                })); 
-                
-                setTimeout(() => {
-                    if(addPropertyMap.current) {
-                        addPropertyMap.current.querySelector('.mapboxgl-ctrl-geolocate').addEventListener('click', () => {
-                            setTimeout(() => addMarker(undefined, map, lng, lat), 2001);
-                        });
-                    }
-                }, 500);
+                }); 
+
+                map.addControl(geolocate);
+
+                geolocate.on('geolocate', data => {
+                    const { longitude, latitude } = data.coords;
+                    addMarker(undefined, map, longitude, latitude);
+                });
                 
                 const markerHTML = document.createElement('div');
                 markerHTML.className = 'markerPick';
@@ -181,26 +180,7 @@ const AddProperty = props => {
             map.on('click', e => addMarker(e, map));
             
         }
-
-        const addMarker = (e, map, lng, lat) => {
-            let long = lng ? lng : e.lngLat.lng;
-            let lati = lat ? lat : e.lngLat.lat;
-            clearMarker();
-
-            const markerHTML = document.createElement('div');
-            markerHTML.className = 'markerPick';
-            const marker = new mapboxgl.Marker(markerHTML)
-                .setLngLat([ long, lati ])
-                .addTo(map)
-
-            map.flyTo({ center: [ long, lati ] });
     
-            currentMarker.push(marker);
-            setCurrentMarkerCoords([ long, lati ]);
-        }
-    
-        const clearMarker = () => currentMarker.forEach(marker => marker.remove())
-
         if (!map) initPage();
 
         // return () => clearTimeout(timeout);
@@ -217,6 +197,25 @@ const AddProperty = props => {
     const showMap = isLoading ? '0' : '1';
 
     const capitalize = text => text.charAt(0).toUpperCase() + text.slice(1);
+
+    const clearMarker = () => currentMarker.forEach(marker => marker.remove())
+
+    const addMarker = (e, map, lng, lat) => {
+        let long = lng ? lng : e.lngLat.lng;
+        let lati = lat ? lat : e.lngLat.lat;
+        clearMarker();
+
+        const markerHTML = document.createElement('div');
+        markerHTML.className = 'markerPick';
+        const marker = new mapboxgl.Marker(markerHTML)
+            .setLngLat([ long, lati ])
+            .addTo(map)
+
+        map.flyTo({ center: [ long, lati ] });
+
+        currentMarker.push(marker);
+        setCurrentMarkerCoords([ long, lati ]);
+    }
 
     const submitForm = async() => {
 
@@ -271,6 +270,19 @@ const AddProperty = props => {
     }
 
     const removeOldImage = image => setOldImages(oldImages.filter(img => img !== image));
+
+    const fillAddressData = place => {
+        const newData = [ ...topData ];
+
+        newData[2] = place.place_name;
+        newData[3] = place.context[0].text;
+        newData[4] = place.context[1].text;
+        newData[5] = place.context[3].text;
+        
+        setTopData(newData);
+
+        addMarker(undefined, map, place.geometry.coordinates[0], place.geometry.coordinates[1]);
+    }
     
     const buttonName = props.from ? 'Save Changes' : 'Add property';
     
@@ -281,7 +293,7 @@ const AddProperty = props => {
                 <div className="AddPropertyContainer" style={{ opacity: showMap }}>
                     <div className="FirstRow">
                         <div>
-                            <AddEditHouseTop data={topData} setData={setData} />
+                            <AddEditHouseTop data={topData} setData={setData} onSetAddress={fillAddressData} />
                         </div>
                         <div className="MapContainer">
                             <h3 className="PickAddressText">Pick your home address on the map: *</h3>

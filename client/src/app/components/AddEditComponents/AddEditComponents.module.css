@@ -138,5 +138,46 @@ input[type=number]::-webkit-outer-spin-button {
    fill: #E4215B !important;
 }
 
+.AddEditHouseTopContainer .AddressContainer {
+   position: relative;
+}
+
+.AddEditHouseTopContainer .AddressResults {
+   position: absolute;
+   top: 3.9rem;
+   left: 0;
+   width: 100%;
+   z-index: 100;
+   background-color: #fff;
+   box-shadow: 0px 4px 7px 1px rgba(0, 0, 0, 0.08);
+   border-radius: 6px;
+   border-top-left-radius: 0;
+   border-top-right-radius: 0;
+   overflow: hidden;
+   border: 2px solid var(--color-title);
+   border-top: 1px solid #2222220a;
+}
+
+.AddEditHouseTopContainer .AddressResult {
+   color: var(--grey);
+   font-size: 1rem;
+   z-index: 100;
+   margin: 0 14px;
+   padding: 18.5px;
+   cursor: pointer;
+   border-bottom: 1px solid #2222220a;
+   transition: .3s;
+}
+
+.AddEditHouseTopContainer .AddressResult:hover {
+   background-color: #2222220a;
+   margin: 0;
+   padding: 18.5px 14px;
+}
+
+.AddEditHouseTopContainer .AddressResult:last-of-type {
+   border-bottom: none;
+}
+
 
 

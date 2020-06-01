@@ -52,9 +52,9 @@ const validateInput = (type, value) => {
         case 'photos':
             return typeof value === 'string' && isJSON(value)
         case 'country':
-            return value.length >= 4 && value.length <= 56 && /^[a-zA-Z\s]*$/.test(value);
+            return value.length >= 4 && value.length <= 56 && /^[\p{L} .'-]+$/u.test(value);
         case 'city':
-            return value.length >= 2 && value.length <= 50 && /^[a-zA-Z\s]*$/.test(value);
+            return value.length >= 2 && value.length <= 50 && /^[\p{L} .'-]+$/u.test(value);
         case 'property_address':
             return value.length >= 6 && value.length <= 100;
         case 'postal_code':

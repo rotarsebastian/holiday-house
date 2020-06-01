@@ -33,7 +33,7 @@ const upload = multer({
             cb(null, { fieldName: 'TESTING_METADATA' });
         },
         key: function (req, file, cb) {
-            cb(null, uuid() + '.jpeg')
+            cb(null, `properties/${uuid()}.jpeg`)
         }
     })
 });

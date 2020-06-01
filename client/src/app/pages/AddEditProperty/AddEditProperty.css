@@ -21,20 +21,6 @@
     box-shadow: none;
 }
 
-
-.AddPropertyContainer .mapboxgl-ctrl button.mapboxgl-ctrl-geolocate .mapboxgl-ctrl-icon::before {
-    content: "Locate me";
-    position: absolute;
-    top: 0;
-    left: -5rem;
-    height: 1.6rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: .9rem;
-    font-family: 'Quicksand SemiBold';
-}
-
 .AddPropertyContainer .addPropertyMap {
     width: 100%;
     height: 35vh;

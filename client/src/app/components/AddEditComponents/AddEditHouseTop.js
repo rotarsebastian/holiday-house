@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useState, useCallback } from 'react';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
 import classes from './AddEditComponents.module.css';
 import countries from '../../assets/countries';
-// import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown';
+import { geolocate } from '../../helpers/geolocate';
+import { debounce } from 'lodash';
+// import toastr from 'toastr';
 
 const TitleTextField = withStyles({
    root: {
@@ -151,12 +153,28 @@ const CountryTextField = withStyles({
 
 const AddEditHouseTop = props => {
 
+   const [ addressResults, setAddressResults ] = useState([]);
+
+   const handler = useCallback(debounce(text => handleSearchRequest(text), 400), []);
+
+   const handleSearchRequest = async(address) => {
+      const response = await geolocate(address);
+      if(response.status === 1) setAddressResults(response.features);
+      // else toastr.error('Cannot find your street!')
+   }
+
    const setNewData = (e, type) => {
       const newData = [ ...props.data ];
 
       if(type === 'title') newData[0] = e.target.value;
       if(type === 'description') newData[1] = e.target.value;
-      if(type === 'address') newData[2] = e.target.value;
+      if(type === 'address') { 
+         newData[2] = e.target.value;
+
+         if(e.target.value.length > 2) {
+            handler(e.target.value);
+         }
+      }
       if(type === 'postalcode') newData[3] = e.target.value;
       if(type === 'city') newData[4] = e.target.value;
       if(type === 'country') newData[5] = e.target.value;
@@ -164,7 +182,14 @@ const AddEditHouseTop = props => {
       props.setData(newData);
    };
 
+   const handleAddressBlur = () => {
+      setTimeout(() => setAddressResults([]), 100);
+   }
 
+   const handleChooseAddress = e => {
+      const placeData = addressResults.find(place => place.place_name === e.target.innerHTML);
+      props.onSetAddress(placeData);
+   }
 
    return (
       <React.Fragment>
@@ -195,17 +220,33 @@ const AddEditHouseTop = props => {
                      onChange={e => setNewData(e, 'description')}
                   />
                </div>  
-               <div>
+               <div className={classes.AddressContainer}>
                   <AddressTextField 
                      id="outlined-required-address" 
-                     label="Address" 
+                     label="Street and number" 
                      type="text" 
                      required={true}
                      placeholder="Where is it?" 
                      variant="outlined" 
                      value={props.data[2]}
                      onChange={e => setNewData(e, 'address')}
+                     onBlur={() => handleAddressBlur()}
                   />
+                  {
+                     addressResults.length > 0
+                     ?
+                     <div className={classes.AddressResults}>
+                        {
+                           addressResults.map((address, index) => {
+                              return (
+                                 <div key={index} onClick={handleChooseAddress} className={classes.AddressResult}>{address.place_name}</div>
+                              )
+                           })
+                        }
+                     </div>
+                     :
+                     undefined
+                  }
                </div>      
                <div>
                   <PostalTextField 
