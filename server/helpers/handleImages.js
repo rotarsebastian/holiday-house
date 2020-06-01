@@ -7,7 +7,7 @@ const { uuid } = require('uuidv4');
 aws.config.update({
     secretAccessKey: process.env.secretAWS || AWS_Secret_Key,
     accessKeyId: process.env.accessAWS || AWS_Access_Key,
-    region: 'us-east-1'
+    region: 'eu-north-1'
 });
 
 const s3 = new aws.S3();
