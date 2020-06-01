@@ -277,8 +277,6 @@ const AuthModal = props => {
          const isFormValid = validateForm(changePassData);
          if(!isFormValid.formIsValid) return toastr.error(`Invalid ${isFormValid.invalids.join(', ')}`);
 
-         console.log(key)
-
          if(key) changePassData.push({ key });
             else return toastr.error('Unauthorized!');
 

@@ -134,7 +134,6 @@ const editProperty = async(form, id, oldPhotos, newPhotos, facilitiesID) => {
     
     // ====================== HANDLE ERROR ======================  
     } catch(e) {
-        console.log(e)
         return { status: 0, message: 'Error configuring request!', code: 404 };
     }
 }

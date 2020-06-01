@@ -6,18 +6,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-// const [showDialog, setShowDialog] = useState(false);
-
-// const handleAnswer = answer => {
-//   console.log(answer)
-//   setShowDialog(false)
-// }
-
-/* <button variant="outlined" color="primary" onClick={() => setShowDialog(true)}>
-  Delete your profile
-</button>
-<YesNoModal sendAnswer={handleAnswer} open={showDialog} close={() => setShowDialog(!showDialog)} /> */
-
 const YesNoModal = (props) => {
   const closeModal = e => {
     e.stopPropagation();

@@ -150,7 +150,6 @@ router.get('/', async(req, res) => {
         if(!responseData) res.json({ status: 0, message: 'Error getting properties from the db!'});
         return res.status(200).json({ status: 1, properties: responseData.properties, coordinates: responseData.coordinates, code: 200 });
     } catch(e) {
-        console.log(e);
         return res.json({ status: 0, message: 'Error returning properties!'});
     }
 });

@@ -3,7 +3,7 @@ import "./SlideShow.css";
 import { Fade } from 'react-slideshow-image';
 import { useStore } from 'react-context-hook';
 
-const imgPath = 'https://holidayhouse1.s3.amazonaws.com/';
+const imgPath = 'https://holidayhouse1.s3.amazonaws.com/properties/';
 
 const fadeProperties = {
   duration: 5000,

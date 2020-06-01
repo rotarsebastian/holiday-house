@@ -333,7 +333,7 @@ const AddProperty = props => {
                                                 <FontAwesomeIcon className="CloseButton" icon={faTimes} />
                                             </span>
                                             <div className="ThumbInner">
-                                                <img src={'https://holidayhouse1.s3.amazonaws.com/' + image} alt={'thumb-img'} />
+                                                <img src={'https://holidayhouse1.s3.amazonaws.com/properties/' + image} alt={'thumb-img'} />
                                             </div>
                                         </div>
                                     )

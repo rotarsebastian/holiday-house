@@ -158,7 +158,6 @@ const SearchbarComponents = props => {
                         setMaxPrice(parseInt(props.populateSearch[prop]));
                         break;
                      default:
-                        console.log(`No prop called ${prop}`);
                         break;
                   }
                }
@@ -232,7 +231,6 @@ const SearchbarComponents = props => {
          const newTypes = [ ...types ];
          newTypes.splice(typeIndex, 1);
          setTypes(newTypes);
-         console.log(newTypes)
       } else setTypes([ ...types, type ]);
    }
 

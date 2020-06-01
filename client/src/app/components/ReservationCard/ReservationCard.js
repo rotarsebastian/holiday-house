@@ -24,7 +24,6 @@ const ReservationCard = props => {
 
     const handleAnswer = (e, answer, id) => {
         e.stopPropagation();
-        console.log(answer)
         if(answer === 'Yes') props.delete(id)
         setShowDialog(false)
     }
@@ -54,7 +53,7 @@ const ReservationCard = props => {
     return (
         <div className={classes.CardContainer} onClick={() => props.click(property_id)}>
             <div className={classes.PropertyImageContainer}>
-                <img src={'https://holidayhouse1.s3.amazonaws.com/' + photos[0] } className={classes.PropertyImage} alt={photos[0]} onLoad={setImgLoaded} />
+                <img src={'https://holidayhouse1.s3.amazonaws.com/properties/' + photos[0] } className={classes.PropertyImage} alt={photos[0]} onLoad={setImgLoaded} />
             </div>
 
             <div className={classes.PropertyDetails}>

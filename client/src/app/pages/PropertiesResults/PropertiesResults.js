@@ -159,7 +159,7 @@ const PropertiesResults = props => {
         const popUpTitle = document.createElement('div');
         const popUpPrice = document.createElement('div');
 
-        popUpImage.setAttribute('src', `https://holidayhouse1.s3.amazonaws.com/${property.photos[0]}`);
+        popUpImage.setAttribute('src', `https://holidayhouse1.s3.amazonaws.com/properties/${property.photos[0]}`);
         popUpImage.setAttribute('alt', 'house-img');
         popUpImage.className = 'PopupImage';
         popUpType.textContent = property.type;
