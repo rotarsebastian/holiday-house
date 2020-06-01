@@ -133,7 +133,7 @@ exports.seed = knex => {
       title: 'Cozy and spacious room', 
       description: "The apartment has a large, private roof terrace attached, where you can spend many wonderful hours in good company, or alone with a good book and a cup of coffee in the sun. ",
       available_start: '2020-09-01', 
-      available_end: '2021-12-11', 
+      available_end: '2021-10-01', 
       capacity: 2, 
       price: 599,
       type: 'Private room', 
@@ -277,7 +277,7 @@ exports.seed = knex => {
       title: 'Luxurious 3 room apartment', 
       description: "2 bedroom, 2.5 bathroom duplex situated on the third and fourth floor with gorgeous ocean views from the balcony. This building is one of the newer buildings in oceana complex. Only the second building from the ocean. The unit faces east. The first floor features 2 big bedrooms and 2 full bathrooms.",
       available_start: '2020-05-01', 
-      available_end: '2021-03-01', 
+      available_end: '2022-05-01', 
       capacity: 5, 
       price: 2499,
       type: 'Entire place', 
@@ -361,6 +361,76 @@ exports.seed = knex => {
       persons_count: 3, 
       reserved_by: 1,
       property_id: 4
+    },
+    { 
+      from_date: '2020-10-11', 
+      to_date: '2020-10-15', 
+      persons_count: 2, 
+      reserved_by: 1,
+      property_id: 6
+    },
+    { 
+      from_date: '2020-04-18', 
+      to_date: '2020-04-28', 
+      persons_count: 4, 
+      reserved_by: 1,
+      property_id: 9
+    },
+    { 
+      from_date: '2020-07-20', 
+      to_date: '2020-10-19', 
+      persons_count: 3, 
+      reserved_by: 2,
+      property_id: 10
+    },
+    { 
+      from_date: '2021-10-01', 
+      to_date: '2022-02-01', 
+      persons_count: 4, 
+      reserved_by: 2,
+      property_id: 15
+    },
+    { 
+      from_date: '2020-09-11', 
+      to_date: '2021-08-11', 
+      persons_count: 2, 
+      reserved_by: 3,
+      property_id: 13
+    },
+    { 
+      from_date: '2020-07-13', 
+      to_date: '2021-08-10', 
+      persons_count: 4, 
+      reserved_by: 3,
+      property_id: 3
+    },
+    { 
+      from_date: '2021-07-11', 
+      to_date: '2022-08-02', 
+      persons_count: 2, 
+      reserved_by: 4,
+      property_id: 1
+    },
+    { 
+      from_date: '2020-04-01', 
+      to_date: '2020-05-01', 
+      persons_count: 3, 
+      reserved_by: 4,
+      property_id: 8
+    },
+    { 
+      from_date: '2020-10-04', 
+      to_date: '2020-11-02', 
+      persons_count: 2, 
+      reserved_by: 5,
+      property_id: 11
+    },
+    { 
+      from_date: '2020-08-30', 
+      to_date: '2020-09-30', 
+      persons_count: 4, 
+      reserved_by: 5,
+      property_id: 2
     }
   ];
 
