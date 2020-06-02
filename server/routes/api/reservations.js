@@ -2,11 +2,10 @@
 const router = require('express').Router();
 const { isAuthenticated } = require(__dirname + '/../../helpers/auth');
 const { handleInitialFormCheck } = require(__dirname + '/../../helpers/requestCheck');
-const User = require(__dirname + '/../../models/User');
 const Reservation = require(__dirname + '/../../models/Reservation');
 const Property = require(__dirname + '/../../models/Property');
 const moment = require('moment');
-const { ref, fn } = require('objection');
+const { fn } = require('objection');
 
 // ====================== GET USER RESERVATION ======================
 router.get('/:id', isAuthenticated, async(req, res) => {
