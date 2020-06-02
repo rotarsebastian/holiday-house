@@ -1,4 +1,4 @@
-const endpoint = 'http://localhost:5555/api/users';
+const endpoint = 'http://ec2-13-48-148-107.eu-north-1.compute.amazonaws.com:5555/api/users';
 
 const auth = {
   isAuthenticated: undefined,
