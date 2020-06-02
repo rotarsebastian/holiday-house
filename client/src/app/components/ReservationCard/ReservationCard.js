@@ -42,7 +42,7 @@ const ReservationCard = props => {
            if(moment(to).isSameOrBefore(date, 'day')) setTo(moment(date).add(1, 'days').format('yyyy-MM-DD'));
            setMinDateTo(moment(date).add(1, 'days').format('yyyy-MM-DD'));
         } else setTo(date);
-    };
+    }
 
     const saveChanges = e => {
         e.stopPropagation();
@@ -51,8 +51,8 @@ const ReservationCard = props => {
     }
 
     return (
-        <div className={classes.CardContainer} onClick={() => props.click(property_id)}>
-            <div className={classes.PropertyImageContainer}>
+        <div className={classes.CardContainer}>
+            <div className={classes.PropertyImageContainer} onClick={() => props.click(property_id)}>
                 <img src={'https://holidayhouse1.s3.amazonaws.com/properties/' + photos[0] } className={classes.PropertyImage} alt={photos[0]} onLoad={setImgLoaded} />
             </div>
 
@@ -77,7 +77,7 @@ const ReservationCard = props => {
                     handleChange={changeDate}
                     date={from}
                     from={'Reservation card'}
-                   />
+                />
                </div>   
                <div className={classes.DatepickerContainer}>
                   <Datepicker 
