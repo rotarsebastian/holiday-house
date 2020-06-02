@@ -32,7 +32,7 @@ const Home = props => {
         
         if(props.location.state !== undefined && props.location.state !== null) {
             const { pathname } = props.location.state.from;
-            setRedirectTo(pathname) 
+            setRedirectTo(pathname);
             setShowModal('Log in');
             history.replace('', null);
         }
@@ -63,11 +63,11 @@ const Home = props => {
             if(recommendedProperties === undefined) {
                 const response = await getRecommendedProperties();
                 if(response.status === 1) setProperties(response.data);
-                else toastr.error('Something went wrong!');
+                // else toastr.error('Something went wrong!');
             }
         }
         
-        fetchProperty();
+        if(recommendedProperties === undefined) fetchProperty();
 
         return () => document.querySelector('body').classList.remove('home');
 
