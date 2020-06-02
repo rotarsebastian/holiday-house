@@ -10,6 +10,8 @@ const KnexStore = require('connect-session-knex')(session);
 const { sessionKey, serverPORT, clientEndpoint } = require(__dirname + '/config/otherConfigs');
 const routes = require(__dirname + '/routes/routes'); 
 
+const client = process.env.CLIENT || clientEndpoint;
+
 // ====================== MIDDLEWARE ======================
 app.use(express.urlencoded({ extended: false })); // parse application/x-www-form-urlencoded
 app.use(express.json()); // parse application/json
@@ -19,7 +21,7 @@ app.use(helmet());
 
 // ====================== CORS HEADERS ======================
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', clientEndpoint);
+    res.header('Access-Control-Allow-Origin', client);
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE, PATCH');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     res.header('Access-Control-Allow-Credentials', 'true');
