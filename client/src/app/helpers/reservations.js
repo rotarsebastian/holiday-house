@@ -79,7 +79,7 @@ export const createReservation = async(id, reservationData) => {
     }
 };
 
-export const editReservation = async(id, property_id, editData) => { 
+export const editReservation = async(id, editData) => { 
     try {
         const options = {
             method: 'PATCH',
@@ -90,7 +90,7 @@ export const editReservation = async(id, property_id, editData) => {
           },
           body: JSON.stringify(editData)
         };
-        const response = await fetch(reservationsEndpoint + `/${id}/${property_id}`, options);
+        const response = await fetch(reservationsEndpoint + `/${id}`, options);
         const data = await response.json();
         return data;
     }

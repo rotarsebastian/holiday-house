@@ -57,7 +57,7 @@ const Profile = () => {
             setReservations(newReservations);
         }  
     }
-    const handleEditReservation = async(id, from, to, property_id) => {
+    const handleEditReservation = async(id, from, to) => {
 
         const newReservations = [...reservations];
         const updatedReservation = newReservations.findIndex(el => el.id === id);
@@ -68,7 +68,7 @@ const Profile = () => {
             { type: "persons_count", "val": reservations[updatedReservation].persons_count }
         ];
 
-        const result = await editReservation(id, property_id, requestObject);
+        const result = await editReservation(id, requestObject);
         if(result.status === 1) {
             if(updatedReservation >= 0) {
                 const newReservation = { ...newReservations[updatedReservation] };

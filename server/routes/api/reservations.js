@@ -186,7 +186,7 @@ router.patch('/:id', isAuthenticated, async(req, res) => {
         // ====================== CHECK IF THE PROPERTY IS AVAILABLE AT CHOSEN DATES ======================
         const property = await Property.query()
             .select('id', 'capacity')
-            .where({ id })
+            .where({ id: reservationDB.property_id })
             .andWhere('available_start', '<=' , from_date)
             .andWhere('available_end', '>=' , to_date)
 
