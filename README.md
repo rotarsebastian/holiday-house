@@ -12,7 +12,8 @@ all of these services - we recommend you visit our hosted version instead, and r
 ## If you want to launch it on your machine anyways
 
 1. Unzip the compressed zip file.
-2. Set up the config file in the server folder, based on the template you have for each file.
+2. Set up the config file in the `server/config` folder, based on the template you have for each file.
+3. Set up the configFile in the `client/src/app/assets` folder, based on the template you have for the file.
 3. In your terminal, open the project folder and navigate to both the server and client folders. Run `npm install` in both of them.
 4. Run these commands in this order: `npm run migrate:rollback` - `npm run migrate:latest` - `npm run seed:run`.
 5. Start your server by running `node app.js` in the server folder.
