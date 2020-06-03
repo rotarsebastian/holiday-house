@@ -47,7 +47,7 @@ const ReservationCard = props => {
     const saveChanges = e => {
         e.stopPropagation();
         setButtonIsDisabled(true);
-        props.edit(id, from, to);
+        props.edit(property_id, from, to);
     }
 
     return (
