@@ -1,4 +1,6 @@
-const endpoint = 'http://ec2-13-48-148-107.eu-north-1.compute.amazonaws.com:5555/api/properties';
+import { endpoint } from './auth';
+
+const properitesEndpoint = endpoint + '/properties';
 
 const auth = {
     isAuthenticated: false,
@@ -15,7 +17,7 @@ export const getOneProperty = async(id) => {
             'Content-Type': 'application/json'
           }
         };
-        const response = await fetch(endpoint + '/' + id, options);
+        const response = await fetch(properitesEndpoint + '/' + id, options);
         const data = await response.json();
         return data;
     }
@@ -33,7 +35,7 @@ export const getRecommendedProperties = async() => {
             'Content-Type': 'application/json'
           }
         };
-        const response = await fetch(endpoint + '/random/10', options);
+        const response = await fetch(properitesEndpoint + '/random/10', options);
         const data = await response.json();
         return data;
     }
@@ -51,7 +53,7 @@ export const getUserProperties = async(id, offset) => {
             'Content-Type': 'application/json'
           }
         };
-        const response = await fetch(endpoint + '/user/' + id + `?offset=${offset}`, options);
+        const response = await fetch(properitesEndpoint + '/user/' + id + `?offset=${offset}`, options);
         const data = await response.json();
         return data;
     }
@@ -77,7 +79,7 @@ export const getProperties = async(from, to, guests, city, offset, minprice, max
             'Content-Type': 'application/json'
           }
         };
-        const response = await fetch(endpoint + requestString, options);
+        const response = await fetch(properitesEndpoint + requestString, options);
         const data = await response.json();
         return data;
     }
@@ -96,7 +98,7 @@ export const deleteProperty = async(id) => {
             'Content-Type': 'application/json'
           }
         };
-        const response = await fetch(endpoint + '/' + id, options);
+        const response = await fetch(properitesEndpoint + '/' + id, options);
         const data = await response.json();
         return data;
     }
@@ -113,7 +115,7 @@ export const citySearch = async(city) => {
                 'Content-Type': 'application/json'
             }
         };
-        const response = await fetch(endpoint + `/city/search?city=${city}`, options);
+        const response = await fetch(properitesEndpoint + `/city/search?city=${city}`, options);
         const data = await response.json();
         return data;
     }
@@ -132,7 +134,7 @@ export const createProperty = async(addPropertyData) => {
             },
             body: addPropertyData
         };
-        const response = await fetch(endpoint, options);
+        const response = await fetch(properitesEndpoint, options);
         const data = await response.json();
         return data;
     }
@@ -151,7 +153,7 @@ export const editProperty = async(id, editPropertyData) => {
             },
           body: editPropertyData
         };
-        const response = await fetch(endpoint + '/' + id, options);
+        const response = await fetch(properitesEndpoint + '/' + id, options);
         const data = await response.json();
         return data;
     }

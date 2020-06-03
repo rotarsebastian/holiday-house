@@ -57,21 +57,21 @@ const Profile = () => {
             setReservations(newReservations);
         }  
     }
-    const handleEditReservation = async(id, from, to) => {
+    const handleEditReservation = async(id, from, to, property_id) => {
 
         const newReservations = [...reservations];
         const updatedReservation = newReservations.findIndex(el => el.id === id);
 
         const requestObject = [
-            { "type": "from_date", "val": from },
-            { "type": "to_date", "val": to },
-            { "type": "persons_count", "val": reservations[updatedReservation].persons_count }
+            { type: "from_date", "val": from },
+            { type: "to_date", "val": to },
+            { type: "persons_count", "val": reservations[updatedReservation].persons_count }
         ];
 
-        const result = await editReservation(id, requestObject);
+        const result = await editReservation(id, property_id, requestObject);
         if(result.status === 1) {
             if(updatedReservation >= 0) {
-                const newReservation = {...newReservations[updatedReservation]};
+                const newReservation = { ...newReservations[updatedReservation] };
                 newReservation.from_date = from;
                 newReservation.to_date = to;
                 newReservations[updatedReservation] = newReservation;

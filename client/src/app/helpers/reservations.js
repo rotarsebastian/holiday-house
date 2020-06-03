@@ -1,4 +1,6 @@
-const endpoint = 'http://ec2-13-48-148-107.eu-north-1.compute.amazonaws.com:5555/api/reservations';
+import { endpoint } from './auth';
+
+const reservationsEndpoint = endpoint + '/reservations';
 
 export const getUserReservation = async(id) => {
     try {
@@ -10,7 +12,7 @@ export const getUserReservation = async(id) => {
           },
           body: JSON.stringify({})
         };
-        const response = await fetch(endpoint + '/' + id, options);
+        const response = await fetch(reservationsEndpoint + '/' + id, options);
         const data = await response.json();
         return data;
     }
@@ -28,7 +30,7 @@ export const getUserReservations = async(offset) => {
             'Content-Type': 'application/json'
           }
         };
-        const response = await fetch(endpoint + '?offset=' + offset, options);
+        const response = await fetch(reservationsEndpoint + '?offset=' + offset, options);
         const data = await response.json();
         return data;
     }
@@ -48,7 +50,7 @@ export const deleteReservation = async(id) => {
           },
           body: JSON.stringify({})
         };
-        const response = await fetch(endpoint + '/' + id, options);
+        const response = await fetch(reservationsEndpoint + '/' + id, options);
         const data = await response.json();
         return data;
     }
@@ -68,7 +70,7 @@ export const createReservation = async(id, reservationData) => {
           },
           body: JSON.stringify(reservationData)
         };
-        const response = await fetch(endpoint + '/' + id, options);
+        const response = await fetch(reservationsEndpoint + '/' + id, options);
         const data = await response.json();
         return data;
     }
@@ -77,7 +79,7 @@ export const createReservation = async(id, reservationData) => {
     }
 };
 
-export const editReservation = async(id, editData) => { 
+export const editReservation = async(id, property_id, editData) => { 
     try {
         const options = {
             method: 'PATCH',
@@ -88,7 +90,7 @@ export const editReservation = async(id, editData) => {
           },
           body: JSON.stringify(editData)
         };
-        const response = await fetch(endpoint + '/' + id, options);
+        const response = await fetch(reservationsEndpoint + `/${id}/${property_id}`, options);
         const data = await response.json();
         return data;
     }

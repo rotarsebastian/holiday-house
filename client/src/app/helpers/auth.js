@@ -1,4 +1,7 @@
-const endpoint = 'http://ec2-13-48-148-107.eu-north-1.compute.amazonaws.com:5555/api/users';
+// export const endpoint = 'http://ec2-13-48-148-107.eu-north-1.compute.amazonaws.com:5555/api/';
+export const endpoint = 'http://localhost:5555/api/';
+
+const usersEndpoint = endpoint + '/users';
 
 const auth = {
   isAuthenticated: undefined,
@@ -21,7 +24,7 @@ export const login = async(loginData) => {
           },
           body: JSON.stringify(loginData)
         };
-        const response = await fetch(endpoint + '/login', options);
+        const response = await fetch(usersEndpoint + '/login', options);
         const data = await response.json();
         return data;
     }
@@ -39,7 +42,7 @@ export const checkAuth = async() => {
             'Content-Type': 'application/json'
           }
         };
-        const response = await fetch(endpoint + '/checkauth', options);
+        const response = await fetch(usersEndpoint + '/checkauth', options);
         const data = await response.json();
         return data;
     }
@@ -58,7 +61,7 @@ export const logout = async() => {
           'Content-Type': 'application/json'
         }
       };
-      const response = await fetch(endpoint + '/logout', options);
+      const response = await fetch(usersEndpoint + '/logout', options);
       const data = await response.json();
       return data;
     }
@@ -77,7 +80,7 @@ export const recoverOrResendValidation = async(email) => {
         },
         body: JSON.stringify(email)
       };
-      const response = await fetch(endpoint + '/recover', options);
+      const response = await fetch(usersEndpoint + '/recover', options);
       const data = await response.json();
       return data;
     }
@@ -96,7 +99,7 @@ export const register = async(registerData) => {
           },
           body: JSON.stringify(registerData)
         };
-        const response = await fetch(endpoint + '/register', options);
+        const response = await fetch(usersEndpoint + '/register', options);
         const data = await response.json();
         return data;
     }
@@ -115,7 +118,7 @@ export const changePassword = async(changePassData) => {
           },
           body: JSON.stringify(changePassData)
         };
-        const response = await fetch(endpoint + '/resetpass', options);
+        const response = await fetch(usersEndpoint + '/resetpass', options);
         const data = await response.json();
         return data;
     }
@@ -134,7 +137,7 @@ export const deleteUser = async() => {
             'Content-Type': 'application/json'
           }
         };
-        const response = await fetch(endpoint, options);
+        const response = await fetch(usersEndpoint, options);
         const data = await response.json();
         return data;
     }
@@ -152,7 +155,7 @@ export const getSpecificUser = async(id) => {
             'Content-Type': 'application/json'
           }
         };
-        const response = await fetch(endpoint + '/user/' + id, options);
+        const response = await fetch(usersEndpoint + '/user/' + id, options);
         const data = await response.json();
         return data;
     }
