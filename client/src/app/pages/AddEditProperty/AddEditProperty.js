@@ -275,9 +275,9 @@ const AddProperty = props => {
         const newData = [ ...topData ];
 
         newData[2] = place.place_name;
-        newData[3] = place.context[0].text;
-        newData[4] = place.context[1].text;
-        newData[5] = place.context[3].text;
+        if(place.context && place.context[0]) newData[3] = place.context[0].text;
+        if(place.context && place.context[1]) newData[4] = place.context[1].text;
+        if(place.context && place.context[3]) newData[5] = place.context[3].text;
         
         setTopData(newData);
 
