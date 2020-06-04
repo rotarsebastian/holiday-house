@@ -1,8 +1,8 @@
 // ====================== PRODUCTION ======================
-export const endpoint = 'http://ec2-13-48-148-107.eu-north-1.compute.amazonaws.com:5555/api';
+// export const endpoint = 'http://ec2-13-48-148-107.eu-north-1.compute.amazonaws.com:5555/api';
 
 // ====================== DEVELOPMENT ======================
-// export const endpoint = 'http://localhost:5555/api';
+export const endpoint = 'http://localhost:5555/api';
 
 const usersEndpoint = endpoint + '/users';
 
