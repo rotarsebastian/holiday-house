@@ -208,7 +208,6 @@ const SearchbarComponents = props => {
 
          if(e.target.value.length > 1) {
             handler(e.target.value);
-            console.log(searchResults);
             if(parseInt(guests) > 0 && searchResults.length === 0) setDisabled(false);
             else setDisabled(true);
          }
