@@ -29,7 +29,7 @@ import Property from './pages/PropertyPage/PropertyPage'
 
 const App = () => {
   toastr.options = toastrSetup;
-  const [isAuthenticated, setIsAuthenticated] = useStore('isAuthenticated', undefined);
+  const [ isAuthenticated, setIsAuthenticated ] = useStore('isAuthenticated', undefined);
   const setUser = useSetStoreValue('user');
 
   useEffect(() => {

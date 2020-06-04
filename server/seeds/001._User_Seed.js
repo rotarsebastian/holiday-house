@@ -92,7 +92,7 @@ exports.seed = knex => {
       rooms: 3,
       beds: 3,
       bathrooms: 1,
-      address: '{"property_address":"richard Mortensens Vej 70C, st. tv.","city":"copenhagen s","country":"denmark","postal_code":"2300"}',
+      address: '{"property_address":"richard Mortensens Vej 70C, st. tv.","city":"copenhagen","country":"denmark","postal_code":"2300"}',
       photos: '["property3-1.jpeg","property3-2.jpeg","property3-3.jpeg","property3-4.jpeg","property3-5.jpeg"]',
       coordinates: '[12.570226, 55.618328]',
       user_id: 1
@@ -124,7 +124,7 @@ exports.seed = knex => {
       rooms: 3,
       beds: 3,
       bathrooms: 1,
-      address: '{"property_address":"strada Vasile Lupu 63","city":"cluj Napoca","country":"romania","postal_code":"400000"}',
+      address: '{"property_address":"strada Vasile Lupu 63","city":"cluj napoca","country":"romania","postal_code":"400000"}',
       photos: '["property5-1.jpeg","property5-2.jpeg","property5-3.jpeg","property5-4.jpeg"]',
       coordinates: '[23.614898, 46.767511]',
       user_id: 2

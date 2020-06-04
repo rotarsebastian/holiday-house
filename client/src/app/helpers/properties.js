@@ -62,7 +62,7 @@ export const getUserProperties = async(id, offset) => {
     }
 };
 
-export const getProperties = async(from, to, guests, city, offset, minprice, maxprice, types) => {
+export const getProperties = async(from, to, guests, city, offset, minprice, maxprice, types, user_id) => {
     let requestString = `?from=${from}&to=${to}&guests=${guests}&city=${city}&offset=${offset}`;
 
     if( minprice && maxprice ) {
@@ -71,6 +71,8 @@ export const getProperties = async(from, to, guests, city, offset, minprice, max
     }
 
     if( types ) types.map(type => requestString += `&${type}`);
+
+    if( user_id ) requestString += `&user=${user_id}`;
 
     try {
         const options = {

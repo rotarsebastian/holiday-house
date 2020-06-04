@@ -13,6 +13,7 @@ import Datepicker from '../Datepicker/Datepicker';
 import moment from 'moment';
 import { debounce } from 'lodash';
 import { citySearch } from './../../helpers/properties';
+import toastr from 'toastr';
 
 const CityTextField = withStyles({
    root: {
@@ -28,6 +29,9 @@ const CityTextField = withStyles({
          color: '#E4215B',
       },
       '& .MuiOutlinedInput-root': {
+         '& .MuiOutlinedInput-input': {
+            textTransform: 'capitalize'
+         },
          '& .PrivateNotchedOutline-root-60':{
             borderWidth: '0px',
             fontSize: '0.9rem',
@@ -204,7 +208,8 @@ const SearchbarComponents = props => {
 
          if(e.target.value.length > 1) {
             handler(e.target.value);
-            if(parseInt(guests) > 0) setDisabled(false);
+            if(parseInt(guests) > 0 && searchResults === 0) setDisabled(false);
+            else setDisabled(true);
          }
          else {
             setDisabled(true);
@@ -216,6 +221,7 @@ const SearchbarComponents = props => {
 
    const handleClickOnResult = result => {
       setCity(result);
+      if(parseInt(guests) > 0) setDisabled(false);
       setSearchResults([]);
    }
 
@@ -235,9 +241,10 @@ const SearchbarComponents = props => {
    }
 
    const handleClickSearchButton = () => {
+      if(searchResults.length > 0) return toastr.warning('Please select a city first!');
       setDisabled(true);
       setTimeout(() => setDisabled(false), 500);
-      props.clickSearch(city, from, to, guests, minPrice, maxPrice, types)
+      props.clickSearch(city, from, to, guests, minPrice, maxPrice, types);
    }
 
    const changeBorder = searchResults.length > 0 ? ' ChangeBorder' : '';

@@ -38,14 +38,20 @@ const editUser = async(form, id) => {
 }
 
 // ====================== GET PROPERTIES ======================
-const getPropertiesWithFilters = async(offset, city, from, to, guests, types, minPrice, maxPrice) => {
+const getPropertiesWithFilters = async(loggedUser, offset, city, from, to, guests, types, minPrice, maxPrice) => {
     let properties;
     let min = minPrice ? minPrice : 0;
     let max = maxPrice ? maxPrice : 99999;
     if(!types) {
         properties = await Property.query()
             .select('id', 'title', 'beds', 'bathrooms', 'rooms', 'type', 'capacity', 'price', 'photos', 'coordinates')
-            .where(ref('address:city').castText(), '=', city.toLowerCase())
+            .where(builder => {
+                if(loggedUser){
+                    builder
+                      .where('user_id', '<>', loggedUser)
+                }
+            })
+            .where(ref('address:city').castText(), 'ilike', `%${city.toLowerCase()}%`)
             .andWhere('available_start', '<=' , from)
             .andWhere('available_end', '>=' , to)
             .andWhere('capacity', '>=' , guests)
@@ -56,7 +62,13 @@ const getPropertiesWithFilters = async(offset, city, from, to, guests, types, mi
     } else {
         properties = await Property.query()
             .select('id', 'title', 'beds', 'bathrooms', 'rooms', 'type', 'capacity', 'price', 'photos', 'coordinates')
-            .andWhere(ref('address:city').castText(), '=', city.toLowerCase())
+            .where(builder => {
+                if(loggedUser){
+                    builder
+                      .where('user_id', '<>', loggedUser)
+                }
+            })
+            .where(ref('address:city').castText(), 'ilike', `%${city.toLowerCase()}%`)
             .andWhere('available_start', '<=' , from)
             .andWhere('available_end', '>=' , to)
             .andWhere('capacity', '>=' , guests)

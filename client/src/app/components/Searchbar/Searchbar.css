@@ -73,6 +73,7 @@ input[type=number]::-webkit-outer-spin-button {
    cursor: pointer;
    border-bottom: 1px solid #2222220a;
    transition: .3s;
+   text-transform: capitalize;
 }
 
 .SearchResults .Result:hover {

@@ -123,7 +123,7 @@ router.get('/user/:id', isAuthenticated, async(req, res) => {
 // ====================== GET PROPERTIES ======================
 router.get('/', async(req, res) => {
     try {
-        const { offset, city, from, to, guests, types, minprice, maxprice } = req.query;
+        const { offset, city, from, to, guests, types, minprice, maxprice, user } = req.query;
         if(!offset || !city || !from || !to || !guests) return res.json({ status: 0, message: 'Invalid request'});
 
         if(!Number.isInteger(Number(guests))) return res.json({ status: 0, message: 'Guests should be a number', code: 404 });
@@ -145,7 +145,8 @@ router.get('/', async(req, res) => {
         if(minprice && (!Number.isInteger(Number(minprice)) || Number(minprice) < 0)) return res.json({ status: 0, message: 'Min price should be a number', code: 404 });
         if(maxprice && (!Number.isInteger(Number(maxprice)) || Number(maxprice) > 99999)) return res.json({ status: 0, message: 'Max price should be a number or is too big', code: 404 });
 
-        const responseData = await getPropertiesWithFilters(offset, city, from, to, guests, types, minprice, maxprice);
+        const loggedUserId = user ? user : undefined;
+        const responseData = await getPropertiesWithFilters(loggedUserId, offset, city, from, to, guests, types, minprice, maxprice);
 
         if(!responseData) res.json({ status: 0, message: 'Error getting properties from the db!'});
         return res.status(200).json({ status: 1, properties: responseData.properties, coordinates: responseData.coordinates, code: 200 });

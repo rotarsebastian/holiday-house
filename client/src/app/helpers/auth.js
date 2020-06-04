@@ -8,6 +8,7 @@ const usersEndpoint = endpoint + '/users';
 
 const auth = {
   isAuthenticated: undefined,
+  userId: undefined,
   user: undefined,
 
   showModal: undefined,

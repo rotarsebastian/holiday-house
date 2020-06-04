@@ -7,8 +7,7 @@ import './PropertiesResults.css';
 import { getProperties }  from './../../helpers/properties';
 import Searchbar from '../../components/Searchbar/Searchbar';
 import PropertyCard from './../../components/PropertyCard/PropertyCard';
-import { useStore } from 'react-context-hook';
-// import toastr from 'toastr';
+import { useStore, useStoreValue } from 'react-context-hook';
 
 const PropertiesResults = props => {
 
@@ -31,6 +30,7 @@ const PropertiesResults = props => {
 
     const mapContainer = useRef(null);
     const [ countLoadedImages, setCountLoadedImages ] = useStore('countLoadedImages');
+    const user_data = useStoreValue('user');
 
     useEffect(() => {
         const fetchProperties = async() => {
@@ -189,9 +189,11 @@ const PropertiesResults = props => {
         let queryString = `?from=${from}&to=${to}&guests=${guests}&city=${city}&minprice=${minPrice}&maxprice=${maxPrice}`; 
 
         if(types.length > 0 ) { 
-            result = await getProperties(from, to, guests, city, 0, minPrice, maxPrice, parsedTypes);
+            result = user_data ? await getProperties(from, to, guests, city, 0, minPrice, maxPrice, parsedTypes, user_data.id) : 
+                await getProperties(from, to, guests, city, 0, minPrice, maxPrice, parsedTypes);
             parsedTypes.map(type => queryString += `&${type}`);
-        } else result = await getProperties(from, to, guests, city, 0, minPrice, maxPrice);
+        } else result = user_data ? await getProperties(from, to, guests, city, 0, minPrice, maxPrice, undefined, user_data.id) : 
+            await getProperties(from, to, guests, city, 0, minPrice, maxPrice);
 
         const popSearchObj = { city, from, to, guests, maxPrice, minPrice, types };
 
