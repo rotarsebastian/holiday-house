@@ -201,7 +201,7 @@ const SearchbarComponents = props => {
          if(e.target.value === '') setGuests('');
          else setGuests(parseInt(e.target.value));
 
-         if(city.length > 0 && parseInt(e.target.value) > 0) setDisabled(false);
+         if(city.length > 0 && searchResults === 0 && parseInt(e.target.value) > 0) setDisabled(false);
          else setDisabled(true);
       } else {
          setCity(e.target.value);
