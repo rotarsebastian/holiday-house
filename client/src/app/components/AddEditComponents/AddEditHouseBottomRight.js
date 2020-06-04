@@ -24,8 +24,8 @@ const AddEditBottomRight = props => {
    const [ facilities, setFacilities ] = useState(props.populate !== undefined ? props.populate : []);
 
    const handleCheckboxes = facility => {
-      const facilityObject = { name: `${facility}.svg`, icon: facility.toLowerCase() };
-      const facilityIndex = facilities.findIndex(el => el.name === `${facility}.svg`);
+      const facilityObject = { name: facility, icon: `${facility.toLowerCase()}.svg` };
+      const facilityIndex = facilities.findIndex(el => el.name === facility);
       if (facilityIndex >= 0) {
          const newFacilities = [...facilities];
          newFacilities.splice(facilityIndex, 1);
@@ -50,7 +50,7 @@ const AddEditBottomRight = props => {
                               <div key={facility}>
                                  <StyledFormControlLabel
                                  control={<Checkbox color="primary" name={facility} 
-                                 checked={facilities.findIndex(el => el.name === `${facility}.svg`) >= 0 ? true : false} onChange={() => handleCheckboxes(facility)}  />}
+                                 checked={facilities.findIndex(el => el.name === facility) >= 0 ? true : false} onChange={() => handleCheckboxes(facility)}  />}
                                  label={facility}
                                  />
                               </div>
@@ -66,7 +66,7 @@ const AddEditBottomRight = props => {
                               <div key={facility}>
                                  <StyledFormControlLabel
                                  control={<Checkbox color="primary" name={facility} 
-                                 checked={facilities.findIndex(el => el.name === `${facility}.svg`) >= 0 ? true : false} onChange={() => handleCheckboxes(facility)}  />}
+                                 checked={facilities.findIndex(el => el.name === facility) >= 0 ? true : false} onChange={() => handleCheckboxes(facility)}  />}
                                  label={facility}
                                  />
                               </div>
@@ -82,7 +82,7 @@ const AddEditBottomRight = props => {
                               <div key={facility}>
                                  <StyledFormControlLabel
                                  control={<Checkbox color="primary" name={facility} 
-                                 checked={facilities.findIndex(el => el.name === `${facility}.svg`) >= 0 ? true : false} onChange={() => handleCheckboxes(facility)}  />}
+                                 checked={facilities.findIndex(el => el.name === facility) >= 0 ? true : false} onChange={() => handleCheckboxes(facility)}  />}
                                  label={facility}
                                  />
                               </div>

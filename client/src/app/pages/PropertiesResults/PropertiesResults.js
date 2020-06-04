@@ -103,7 +103,7 @@ const PropertiesResults = props => {
         if (!map && properties && lng && lat) initializeMap();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [map, lat, lng, zoom, currentMarkers, location, properties, history]);
+    }, [map, lat, lng, zoom, currentMarkers, location, properties, history, user_data]);
 
     const addMarkers = (map, newProperties) => {
         const showProperties = newProperties ? newProperties : properties;

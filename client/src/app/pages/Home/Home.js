@@ -72,7 +72,7 @@ const Home = props => {
 
         return () => document.querySelector('body').classList.remove('home');
 
-    }, [props.location.state, setRedirectTo, setShowModal, history, location, setChangeKey, recommendedProperties]); 
+    }, [props.location.state, setRedirectTo, setShowModal, history, location, setChangeKey, recommendedProperties, user_data]); 
 
     const showProperty = id => history.push(`/property/${id}`);
 
