@@ -201,14 +201,15 @@ const SearchbarComponents = props => {
          if(e.target.value === '') setGuests('');
          else setGuests(parseInt(e.target.value));
 
-         if(city.length > 0 && searchResults === 0 && parseInt(e.target.value) > 0) setDisabled(false);
+         if(city.length > 0 && searchResults.length === 0 && parseInt(e.target.value) > 0) setDisabled(false);
          else setDisabled(true);
       } else {
          setCity(e.target.value);
 
          if(e.target.value.length > 1) {
             handler(e.target.value);
-            if(parseInt(guests) > 0 && searchResults === 0) setDisabled(false);
+            console.log(searchResults);
+            if(parseInt(guests) > 0 && searchResults.length === 0) setDisabled(false);
             else setDisabled(true);
          }
          else {
