@@ -10,7 +10,7 @@ import toastr from 'toastr';
 import ClipLoader from 'react-spinners/ClipLoader';
 import { getRecommendedProperties }  from './../../helpers/properties';
 import { validateForm }  from './../../helpers/validation';
-import { useStore } from 'react-context-hook';
+import { useStore, useStoreValue } from 'react-context-hook';
 
 const Home = props => {
 
@@ -25,6 +25,7 @@ const Home = props => {
     const [ recommendedProperties, setProperties ] = useState(undefined);
 
     const [ countLoadedImages, setCountLoadedImages ] = useStore('countLoadedImages');
+    const user_data = useStoreValue('user');
 
     useEffect(() => {
 
@@ -59,15 +60,15 @@ const Home = props => {
             setShowModal('Change password');
         }
         
-        const fetchProperty = async() => {
+        const fetchRecoms = async() => {
             if(recommendedProperties === undefined) {
-                const response = await getRecommendedProperties();
+                const response = user_data ? await getRecommendedProperties(user_data.id) : await getRecommendedProperties();
                 if(response.status === 1) setProperties(response.data);
                 // else toastr.error('Something went wrong!');
             }
         }
         
-        if(recommendedProperties === undefined) fetchProperty();
+        if(recommendedProperties === undefined) fetchRecoms();
 
         return () => document.querySelector('body').classList.remove('home');
 

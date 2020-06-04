@@ -26,7 +26,10 @@ export const getOneProperty = async(id) => {
     }
 };
 
-export const getRecommendedProperties = async() => {
+export const getRecommendedProperties = async(id) => {
+
+    const userLogged = id ? `?id=${id}` : '';
+
     try {
         const options = {
           credentials: 'include',
@@ -35,7 +38,7 @@ export const getRecommendedProperties = async() => {
             'Content-Type': 'application/json'
           }
         };
-        const response = await fetch(properitesEndpoint + '/random/10', options);
+        const response = await fetch(properitesEndpoint + '/random/10' + userLogged, options);
         const data = await response.json();
         return data;
     }

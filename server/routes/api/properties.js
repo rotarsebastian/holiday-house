@@ -43,13 +43,22 @@ router.get('/city/search', async(req, res) => {
 // ====================== GET RANDOM PROPERTIES ======================
 router.get('/random/10', async(req, res) => {
     try {
-        // ====================== CHECK IF IS DATES ARE VALID ======================
+        // ====================== GET THE USER ID ======================
+        const { id } = req.query;
+
+        // ====================== GET NEXT 4 MONTHS PROPERTIES ======================
         const oneMonthOn = moment().add(120, 'days').format('YYYY-MM-DD');
 
         // ====================== GET PROPERTIES ======================
         const properties = await Property.query()
             .select('id', 'title', 'beds', 'bathrooms', 'rooms', 'type', 'capacity', 'price', 'photos')
             .where('available_end', '>' , oneMonthOn)
+            .where(builder => {
+                if(id){
+                    builder
+                      .where('user_id', '<>', id)
+                }
+            })
             .orderBy(raw('random()'))
             .limit(5)
 
