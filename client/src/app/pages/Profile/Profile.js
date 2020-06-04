@@ -44,6 +44,7 @@ const Profile = () => {
             const indexDeleted = newProperties.findIndex(property => property.id === id);
             newProperties.splice(indexDeleted, 1);
             setProperties(newProperties);
+            toastr.success('Property deleted successfully!');
         }  
     }
     
@@ -55,6 +56,7 @@ const Profile = () => {
             const indexDeleted = newReservations.findIndex(reservation => reservation.id === id);
             newReservations.splice(indexDeleted, 1);
             setReservations(newReservations);
+            toastr.success('Reservation deleted successfully!');
         }  
     }
     const handleEditReservation = async(id, from, to) => {
