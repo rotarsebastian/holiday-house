@@ -45,7 +45,8 @@ const PropertiesResults = props => {
             const coordinates = searchParams.get('coordinates'); 
             const types = location.search.split('&').filter(el => el.includes('types[]'));
 
-            const res = await getProperties(from, to, parseInt(guests), city, 0, minPrice, maxPrice, types);
+            const res = user_data ? await getProperties(from, to, parseInt(guests), city, 0, minPrice, maxPrice, types, user_data.id)
+                : await getProperties(from, to, parseInt(guests), city, 0, minPrice, maxPrice, types);
             if(res.status !== 1) {
                 history.push('/');
             }
