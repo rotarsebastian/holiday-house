@@ -184,6 +184,7 @@ const BathroomsTextField = withStyles({
    },
 })(TextField);
 
+const typesOptions = ["Entire place", "Private room", "Shared room"];
 
 const AddEditHouseBottomLeft = props => {
    
@@ -221,9 +222,7 @@ const AddEditHouseBottomLeft = props => {
 
       props.setData(newData);
    };
-
-   const typesOptions = ["Entire place", "Private room", "Shared room"];
-      
+ 
    return (
       <React.Fragment>
          <div className={classes.AddEditHouseLeftContainer}>

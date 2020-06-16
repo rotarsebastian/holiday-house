@@ -6,7 +6,6 @@ import classes from './AddEditComponents.module.css';
 import countries from '../../assets/countries';
 import { geolocate } from '../../helpers/geolocate';
 import { debounce } from 'lodash';
-// import toastr from 'toastr';
 
 const TitleTextField = withStyles({
    root: {
@@ -160,7 +159,6 @@ const AddEditHouseTop = props => {
    const handleSearchRequest = async(address) => {
       const response = await geolocate(address);
       if(response.status === 1) setAddressResults(response.features);
-      // else toastr.error('Cannot find your street!')
    }
 
    const setNewData = (e, type) => {
@@ -182,9 +180,7 @@ const AddEditHouseTop = props => {
       props.setData(newData);
    };
 
-   const handleAddressBlur = () => {
-      setTimeout(() => setAddressResults([]), 100);
-   }
+   const handleAddressBlur = () => setTimeout(() => setAddressResults([]), 100);
 
    const handleChooseAddress = e => {
       const placeData = addressResults.find(place => place.place_name === e.target.innerHTML);

@@ -62,7 +62,7 @@ router.get('/random/10', async(req, res) => {
             .orderBy(raw('random()'))
             .limit(5)
 
-        // ====================== EVERYTHING OK ======================s
+        // ====================== EVERYTHING OK ======================
         return res.json({ status: 1, message: 'Properties retrieved successfully!', data: properties });
 
     } catch (err) {

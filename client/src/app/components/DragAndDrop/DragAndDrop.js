@@ -38,9 +38,10 @@ const rejectStyle = {
 };
 
 const DragAndDrop = props => {
-  // const [files, setFiles] = useState([]);
+  // ====================== STATE ======================
   const [hover, setHover] = useState(false);
 
+  // ====================== INITIATE DROPZONE ======================
   const {
     getRootProps,
     getInputProps,
@@ -74,9 +75,7 @@ const DragAndDrop = props => {
     }
   });
 
-  const toggleHover = () => {
-    setHover(!hover);
-  }
+  const toggleHover = () => setHover(!hover);
 
   const removeImage = index => {
     const newFiles = [ ...props.files ];
@@ -144,6 +143,7 @@ const DragAndDrop = props => {
 
   return (
     <div className='container'>
+
       <div { ...getRootProps({ style }) } onClick={open} onMouseEnter={toggleHover} onMouseLeave={toggleHover} >
         <input { ...getInputProps() } />
         <p style={onHoverText} className={classes.DragInfo}>Click or Drag &amp; drop images</p>
@@ -151,6 +151,7 @@ const DragAndDrop = props => {
         <p style={onHoverText} className={classes.AcceptedFiles}>Accepted types: JPEG, JPG, PNG, SVG</p>
         <p style={onHoverText} className={classes.MaxFiles}>(max. 10 images)</p>
       </div>
+
       <span className={classes.ThumbsContainer}>
         {thumbs}
         {
@@ -161,7 +162,7 @@ const DragAndDrop = props => {
           undefined
         }
       </span>
-      
+
     </div>
   );
 }

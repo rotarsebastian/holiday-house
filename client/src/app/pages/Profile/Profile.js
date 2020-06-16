@@ -59,6 +59,7 @@ const Profile = () => {
             toastr.success('Reservation deleted successfully!');
         }  
     }
+    
     const handleEditReservation = async(id, from, to) => {
 
         const newReservations = [...reservations];
